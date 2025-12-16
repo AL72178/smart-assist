@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!--=============== CSS ===============-->
+    <link rel="stylesheet" href="assets/css/styles.css" />
+
+    <title>Quick Assist 2.0</title>
+  </head>
+
+  <body>
+    <!--=============== NAVBAR ===============-->
+    <header class="header" id="header">
+      <nav class="nav container">
+        <a href="#" class="nav__logo">Smart Assist</a>
+        <div class="nav__menu" id="nav-menu">
+          <!-- MENU-SECTIONS -->
+          <ul class="nav__list">
+            <!-- Date Gap -->
+            <li class="nav__item">
+              <a href="#date-gap" class="nav__link active-link">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="nav__icon"
+                  width="24"
+                  height="24"
+                  fill="currentColor"
+                  viewBox="0 0 24 24">
+                  <path
+                    d="m19,2H5c-1.1,0-2,.9-2,2v16c0,1.1.9,2,2,2h14c1.1,0,2-.9,2-2V4c0-1.1-.9-2-2-2ZM5,20V4h14v16s-14,0-14,0Z"></path>
+                  <path d="M7 12H9V14H7z"></path>
+                  <path d="M7 16H9V18H7z"></path>
+                  <path d="M11 12H13V14H11z"></path>
+                  <path d="M7 6H17V10H7z"></path>
+                  <path d="M11 16H13V18H11z"></path>
+                  <path d="M15 12H17V18H15z"></path>
+                </svg>
+                <span class="nav__name"> Date Gap </span>
+              </a>
+            </li>
+            <!-- Julian Convert -->
+            <li class="nav__item">
+              <a href="#julian-convert" class="nav__link">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="nav__icon"
+                  width="24"
+                  height="24"
+                  fill="currentColor"
+                  viewBox="0 0 24 24">
+                  <path
+                    d="m19,4h-2v-2h-2v2h-6v-2h-2v2h-2c-1.1,0-2,.9-2,2v14c0,1.1.9,2,2,2h14c1.1,0,2-.9,2-2V6c0-1.1-.9-2-2-2ZM5,20v-12h14v-2,14s-14,0-14,0Z"></path>
+                  <path
+                    d="m15.67,12.36l-.42-.73c-.18-.31-.57-.41-.88-.23l-.34.2c-.29-.25-.62-.44-.97-.57v-.39c0-.35-.29-.64-.64-.64h-.84c-.35,0-.64.29-.64.64v.39c-.35.13-.68.32-.97.57l-.34-.2c-.31-.18-.7-.07-.88.23l-.42.73c-.18.31-.07.7.23.88l.33.19c-.04.19-.05.38-.05.57s.02.38.05.57l-.33.19c-.31.18-.41.57-.23.88l.42.73c.18.3.57.41.88.23l.34-.2c.29.25.62.44.97.57v.39c0,.35.29.64.64.64h.84c.35,0,.64-.29.64-.64v-.39c.35-.13.68-.32.97-.57l.34.2c.31.18.7.07.88-.23l.42-.73c.18-.31.07-.7-.23-.88l-.33-.19c.04-.19.05-.38.05-.57s-.02-.38-.05-.57l.33-.19c.31-.18.41-.57.23-.88Zm-3.67,3.18c-.84,0-1.55-.71-1.55-1.55s.71-1.55,1.55-1.55,1.55.71,1.55,1.55-.71,1.55-1.55,1.55Z"></path>
+                </svg>
+                <span class="nav__name"> Julian Convert </span>
+              </a>
+            </li>
+            <!-- Log Assist -->
+            <li class="nav__item">
+              <a href="#log-assist" class="nav__link">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="nav__icon"
+                  width="24"
+                  height="24"
+                  fill="currentColor"
+                  viewBox="0 0 24 24">
+                  <path d="M5 21h14c1.1 0 2-.9 2-2v-7h-2v7H5V5h7V3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2"></path>
+                  <path
+                    d="M7 13v3c0 .55.45 1 1 1h3c.27 0 .52-.11.71-.29l9-9a.996.996 0 0 0 0-1.41l-3-3a.996.996 0 0 0-1.41 0l-9.01 8.99A1 1 0 0 0 7 13m10-7.59L18.59 7 17.5 8.09 15.91 6.5zm-8 8 5.5-5.5 1.59 1.59-5.5 5.5H9z"></path>
+                </svg>
+                <span class="nav__name"> Log Assist </span>
+              </a>
+            </li>
+            <!-- Letter Break -->
+            <li class="nav__item">
+              <a href="#letter-break" class="nav__link">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="nav__icon"
+                  width="24"
+                  height="24"
+                  fill="currentColor"
+                  viewBox="0 0 24 24">
+                  <path
+                    d="m21.51,5.14l-5-3c-.45-.27-1.02-.15-1.33.27L2.19,20.41c-.26.36-.25.86.03,1.21.19.24.48.38.78.38.13,0,.26-.03.39-.08l9.5-4c.16-.07.3-.17.4-.31l8.5-11c.17-.23.24-.52.19-.8-.05-.28-.22-.53-.47-.67Zm-9.65,11.04l-5.97,2.51,5.84-8.09,3.03,1.82-2.9,3.75Zm4.13-5.35l-3.09-1.85,3.36-4.65,3.25,1.95-3.52,4.56Z"></path>
+                </svg>
+                <span class="nav__name"> Letter Break </span>
+              </a>
+            </li>
+            <!-- Todo Note -->
+            <li class="nav__item">
+              <a href="#todo-list" class="nav__link">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="nav__icon"
+                  width="24"
+                  height="24"
+                  fill="currentColor"
+                  viewBox="0 0 24 24">
+                  <path
+                    d="m19,3H5c-1.1,0-2,.9-2,2v14c0,1.1.9,2,2,2h8c.13,0,.26-.03.38-.08.12-.05.23-.12.33-.22l7-7c.09-.09.15-.19.2-.29.01-.03.02-.06.03-.09.03-.08.05-.17.05-.26,0-.02.01-.04.01-.06V5c0-1.1-.9-2-2-2Zm-14,2h14v7h-6c-.55,0-1,.45-1,1v6h-7V5Z"></path>
+                </svg>
+                <span class="nav__name"> Todo Note </span>
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div class="nav__buttons">
+          <!-- Theme Button -->
+          <div class="change-theme" id="theme-button">
+            <!-- Moon Icon (Visible by default in light mode) -->
+            <svg xmlns="http://www.w3.org/2000/svg" class="nav__icon theme-icon-moon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+              <path d="m12.2,22c4.53,0,8.45-2.91,9.76-7.24.11-.35.01-.74-.25-1-.26-.26-.64-.36-1-.25-.78.23-1.58.35-2.38.35-4.52,0-8.2-3.68-8.2-8.2,0-.8.12-1.6.35-2.38.11-.35.01-.74-.25-1s-.64-.36-1-.25C4.91,3.35,2,7.28,2,11.8c0,5.62,4.57,10.2,10.2,10.2ZM8.18,4.65c-.03.34-.05.68-.05,1.02,0,5.62,4.57,10.2,10.2,10.2.34,0,.68-.02,1.02-.05-1.42,2.56-4.12,4.18-7.15,4.18-4.52,0-8.2-3.68-8.2-8.2,0-3.03,1.63-5.73,4.18-7.15Z"></path>
+            </svg>
+            <!-- Sun Icon (Hidden by default in light mode) -->
+            <svg xmlns="http://www.w3.org/2000/svg" class="nav__icon theme-icon-sun" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" style="display: none;">
+              <path d="M12 17.01c2.76 0 5.01-2.25 5.01-5.01S14.76 6.99 12 6.99 6.99 9.24 6.99 12s2.25 5.01 5.01 5.01M12 9c1.66 0 3.01 1.35 3.01 3.01s-1.35 3.01-3.01 3.01-3.01-1.35-3.01-3.01S10.34 9 12 9M13 19h-2v3h2v-3M13 2h-2v3h2V2M2 11h3v2H2zM19 11h3v2h-3zM4.22 18.36l.71.71.71.71 1.06-1.06 1.06-1.06-.71-.71-.71-.71-1.06 1.06zM19.78 5.64l-.71-.71-.71-.71-1.06 1.06-1.06 1.06.71.71.71.71 1.06-1.06zM7.76 6.34 6.7 5.28 5.64 4.22l-.71.71-.71.71L5.28 6.7l1.06 1.06.71-.71zM16.24 17.66l1.06 1.06 1.06 1.06.71-.71.71-.71-1.06-1.06-1.06-1.06-.71.71z"></path>
+            </svg>
+          </div>
+          <div class="logo"><span>SA</span></div>
+        </div>
+      </nav>
+    </header>
+
+    <!--=============== MAIN ===============-->
+
+    <main>
+      <!-------------- HOME -------------->
+      <section class="container section section__height active-section" id="date-gap">
+        <h2 class="section__title">Date Gap</h2>
+
+        <div class="container-dategap">
+          <div class="form-label boxdate">
+            <form action="javascript:void(0)">
+              <label for="from">From Date (MM-DD-YYYY):</label>
+              <input type="date" id="from" required />
+              <label for="to">To Date (MM-DD-YYYY):</label>
+              <input type="date" id="to" required />
+              <br />
+              <div class="btn-container">
+                <button type="button" id="calcBtn" class="btn-primary">Calculate</button>
+                <button type="button" id="resetBtn" class="btn-secondary">Reset</button>
+              </div>
+            </form>
+            <p id="result"></p>
+          </div>
+        </div>
+      </section>
+
+      <!-------------- ABOUT -------------->
+      <section class="container section section__height" id="julian-convert">
+        <h2 class="section__title">Julian Convert</h2>
+      </section>
+
+      <!-------------- SKILLS -------------->
+      <section class="container section section__height" id="log-assist">
+        <h2 class="section__title">Log Assist</h2>
+      </section>
+
+      <!-------------- PORTFOLIO -------------->
+      <section class="container section section__height" id="letter-break">
+        <h2 class="section__title">Letter Break</h2>
+      </section>
+
+      <!-------------- CONTACTME -------------->
+      <section class="container section section__height" id="todo-list">
+        <h2 class="section__title">Todo Note</h2>
+      </section>
+    </main>
+
+    <!--=============== MAIN JS ===============-->
+    <script src="assets/js/theme.js"></script>
+    <script src="assets/js/main.js"></script>
+  </body>
+</html>
