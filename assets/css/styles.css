@@ -143,35 +143,21 @@ img {
   align-items: center;
 }
 
-.logo {
-  width: 36px;
-  height: 36px;
-  background: linear-gradient(135deg, var(--first-color), var(--first-color-alt));
-  border-radius: 10px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  box-shadow: 0 4px 10px hsla(var(--hue), var(--sat), 40%, 0.3);
-  transition: .3s;
-}
-
-.logo span {
-  color: #fff;
-  font-size: 1rem;
-  font-weight: 700;
-  line-height: 1;
-  padding: 0;
-  letter-spacing: -0.5px;
-}
-
-.logo:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 12px hsla(var(--hue), var(--sat), 40%, 0.4);
-}
+/* .logo styles removed */
 
 .nav__logo {
   color: var(--title-color);
-  font-weight: 600;
+  font-weight: 800;
+  font-size: 1.25rem;
+  display: inline-block;
+  background: linear-gradient(to right, hsla(var(--hue), var(--sat), 40%, 0.4), hsla(var(--hue), var(--sat), 40%, 0.1));
+  padding: 0 0.25rem;
+  border-radius: 0.25rem;
+  transition: 0.3s;
+}
+
+.nav__logo:hover {
+  background: linear-gradient(to right, hsla(var(--hue), var(--sat), 40%, 0.6), hsla(var(--hue), var(--sat), 40%, 0.2));
 }
 
 @media screen and (max-width: 767px) {
@@ -333,7 +319,15 @@ img {
   font-weight: 600;
 }
 
-.boxdate input[type="date"] {
+
+
+.boxdate input[type="date"]:focus,
+.boxdate input[type="number"]:focus {
+  border-color: var(--first-color);
+}
+
+.boxdate input[type="date"],
+.boxdate input[type="number"] {
   width: 100%;
   background: var(--body-color);
   border: 1px solid var(--text-color);
@@ -345,10 +339,6 @@ img {
   font-size: var(--normal-font-size);
   outline: none;
   transition: .3s;
-}
-
-.boxdate input[type="date"]:focus {
-  border-color: var(--first-color);
 }
 
 .btn-container {
@@ -386,13 +376,7 @@ img {
   opacity: 0.8;
 }
 
-#result {
-  margin-top: 2rem;
-  text-align: center;
-  font-size: 1.1rem;
-  color: var(--title-color);
-  min-height: 1.5rem;
-}
+
 
 /* For large devices (overrides) */
 @media screen and (min-width: 1024px) {
@@ -401,3 +385,358 @@ img {
     margin-right: auto;
   }
 }
+
+/*=============== REFACTORING UTILITIES ===============*/
+.divider {
+  margin: 2rem 0;
+  border-top: 1px solid var(--text-color);
+  opacity: 0.2;
+}
+
+.result-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 2rem;
+}
+
+.result-text {
+  margin: 0;
+  font-size: 1.1rem;
+  color: var(--title-color);
+  min-height: 1.5rem;
+  text-align: center;
+}
+
+.btn-icon {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--title-color);
+  margin-left: 0.5rem; /* Preserving user request for padding/margin */
+  transition: .3s;
+  display: flex; /* Aligns SVG properly */
+}
+
+.btn-icon:hover {
+  color: var(--first-color);
+}
+
+.hidden {
+  display: none !important;
+}
+
+.text-error {
+  color: var(--first-color) !important;
+}
+
+/*=============== LOG ASSIST STYLES ===============*/
+.toggle-container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.mode-text {
+  color: var(--title-color);
+  font-weight: 600;
+}
+
+/* Switch */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 80px; /* Wider to fit text */
+  height: 34px;
+}
+
+.switch input { 
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--first-color-alt); 
+  transition: .4s;
+  border-radius: 34px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  transition: .4s;
+  border-radius: 50%;
+}
+
+input:checked + .slider {
+  background-color: var(--first-color);
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px var(--first-color);
+}
+
+input:checked + .slider:before {
+  transform: translateX(46px); /* 80 - 26 - 4 - 4 = 46 */
+}
+
+/* Mode Label inside Switch */
+#modeLabel {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #fff;
+  font-size: 0.75rem; 
+  font-weight: bold;
+  pointer-events: none;
+  transition: .4s;
+}
+
+/* Default Checked (CIW) -> Slider Right, Text Left */
+input:checked + .slider #modeLabel {
+  left: 10px;
+  right: auto;
+}
+
+/* Unchecked (WGS) -> Slider Left, Text Right */
+/* We need logic in JS to change text, but CSS needs to handle position based on checked state simply? */
+/* Wait, JS changes the text content. CSS just needs to position it in the empty space. */
+/* If Unchecked (Input not checked): Slider is Left. Empty space is Right. Text should be Right. */
+.slider #modeLabel {
+  right: 10px; 
+  left: auto;
+}
+
+/* Override for Checked: Slider is Right. Empty space is Left. Text should be Left. */
+input:checked + .slider #modeLabel {
+  left: 10px;
+  right: auto;
+}
+
+/* Input Grid */
+.inputs-row {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+@media screen and (min-width: 768px) {
+  .inputs-row {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-group label {
+  font-size: var(--normal-font-size);
+  color: var(--title-color);
+  font-weight: 600;
+}
+
+.form-group input, 
+.form-group textarea {
+  width: 100%;
+  background: var(--body-color);
+  border: 1px solid var(--text-color);
+  color: var(--text-color); /* Input text color */ 
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  font-family: var(--body-font);
+  font-size: var(--normal-font-size);
+  outline: none;
+  transition: .3s;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  border-color: var(--first-color);
+}
+
+.adjustment-note {
+  margin-bottom: 2rem;
+}
+
+/* Output Container */
+.output-container {
+  margin-top: 2rem;
+  background-color: transparent; 
+  border: 1px solid var(--text-color);
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+  position: relative;
+  min-height: 80px;
+  display: flex;
+  align-items: center;
+}
+
+#outputLog {
+  color: var(--title-color); 
+  font-family: 'Courier New', monospace; 
+  white-space: pre-wrap; /* Allow wrapping */
+  word-wrap: break-word; /* Break long words/underscores if needed */
+  margin: 0;
+  font-size: 0.9rem;
+  width: 100%; 
+  line-height: 1.5;
+  text-transform: uppercase;
+  padding-right: 3rem; 
+}
+
+/* Copy Button Log (Icon Style) */
+.copy-button-log {
+  position: sticky; /* Keep visible if scrolling? Or absolute? */
+  right: 0;
+  bottom: 0.5rem; /* Fallback */
+  /* Sticky might not work if parent isn't scrolling correctly, let's keep absolute but ensure it overrides content if needed or sits nicely */
+  position: absolute; 
+  bottom: 0.5rem;
+  right: 0.5rem;
+  background: var(--container-color); /* Background to hide text behind it */
+  border: 1px solid var(--text-color); /* Border to define it */
+  cursor: pointer;
+  color: var(--title-color);
+  transition: .3s;
+  padding: 0.5rem;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+}
+
+
+/*=============== TODO NOTE STYLES ===============*/
+.todo-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.todo-controls {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.todo-warning {
+  font-size: 0.875rem; /* Explicit size for better visibility */
+  color: var(--title-color); 
+  opacity: 1; 
+  margin-bottom: 2rem;
+  text-align: center;
+  font-weight: 500;
+}
+
+.notes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+  width: 100%;
+}
+
+.sticky-note {
+  background-color: #b9fff8; /* Classic Post-it Yellow */
+  color: #333; /* Dark text for contrast on yellow */
+  padding: 1.5rem;
+  min-height: 250px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  border-radius: 0; /* Sticky notes often square-ish, or slight rounded? Let's go slight rounded */
+  border-bottom-right-radius: 60px 5px; /* Fold effect attempt? Keep simple first or user suggestion: standard sticky */
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  transition: .3s;
+  animation: popIn 0.3s ease-out;
+}
+
+.sticky-note:hover {
+  transform: scale(1.02);
+  box-shadow: 0 10px 15px rgba(0,0,0,0.15);
+  z-index: 5;
+}
+
+@keyframes popIn {
+  from { opacity: 0; transform: scale(0.8); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.sticky-content {
+  flex-grow: 1;
+  width: 100%;
+  background: transparent;
+  border: none;
+  resize: none;
+  font-family: 'Comic Sans MS', 'Courier New', sans-serif; /* Playful font for stickies? or Keep body font */
+  font-family: var(--body-font);
+  font-size: 1rem;
+  line-height: 1.5;
+  outline: none;
+  color: #333;
+}
+
+.sticky-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  opacity: 0; /* Hide by default, show on hover */
+  transition: 0.2s;
+}
+
+.sticky-note:hover .sticky-actions {
+  opacity: 1;
+}
+
+.sticky-btn {
+  background: rgba(255,255,255,0.5);
+  border: none;
+  cursor: pointer;
+  padding: 0.4rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: .2s;
+  color: #333;
+}
+
+.sticky-btn:hover {
+  background: rgba(0,0,0,0.1);
+  transform: translateY(-2px);
+}
+
+.sticky-btn.delete:hover {
+  background: #ff6b6b;
+  color: white;
+}
+
+/* Dark Theme Adjustments for Notes? */
+/* Typically stickies stay yellow, but user might want dark mode stickies. */
+/* Let's keep them colored but adjust if needed. For now yellow is classic. */
+/* Maybe add variety of colors later. */
+
+
+
+

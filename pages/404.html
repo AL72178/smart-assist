@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Redirecting...</title>
+    <script>
+        // Redirect to the main page
+        // We can optionally preserve the path query if we wanted to support cleaner URLs later, 
+        // but for now, a hard redirect to index.html is the standard "catch-all" behavior.
+        // GitHub Pages will serve this file for any unknown path.
+        
+        // Construct the redirect URL. We assume the repo name is the base.
+        // If the user access /repo/foo, current logic sends to /repo/index.html
+        
+        var viewport = document.querySelector('meta[name="viewport"]');
+        if (viewport && content) {
+            // Keep viewport settings
+        }
+        
+        // Simple redirect
+        window.location.replace("./index.html");
+    </script>
+</head>
+<body>
+    <p>Redirecting to <a href="./index.html">Smart Assist</a>...</p>
+</body>
+</html>

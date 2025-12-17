@@ -121,7 +121,6 @@
               <path d="M12 17.01c2.76 0 5.01-2.25 5.01-5.01S14.76 6.99 12 6.99 6.99 9.24 6.99 12s2.25 5.01 5.01 5.01M12 9c1.66 0 3.01 1.35 3.01 3.01s-1.35 3.01-3.01 3.01-3.01-1.35-3.01-3.01S10.34 9 12 9M13 19h-2v3h2v-3M13 2h-2v3h2V2M2 11h3v2H2zM19 11h3v2h-3zM4.22 18.36l.71.71.71.71 1.06-1.06 1.06-1.06-.71-.71-.71-.71-1.06 1.06zM19.78 5.64l-.71-.71-.71-.71-1.06 1.06-1.06 1.06.71.71.71.71 1.06-1.06zM7.76 6.34 6.7 5.28 5.64 4.22l-.71.71-.71.71L5.28 6.7l1.06 1.06.71-.71zM16.24 17.66l1.06 1.06 1.06 1.06.71-.71.71-.71-1.06-1.06-1.06-1.06-.71.71z"></path>
             </svg>
           </div>
-          <div class="logo"><span>SA</span></div>
         </div>
       </nav>
     </header>
@@ -146,7 +145,7 @@
                 <button type="button" id="resetBtn" class="btn-secondary">Reset</button>
               </div>
             </form>
-            <p id="result"></p>
+            <p id="result" class="result-text"></p>
           </div>
         </div>
       </section>
@@ -154,11 +153,104 @@
       <!-------------- ABOUT -------------->
       <section class="container section section__height" id="julian-convert">
         <h2 class="section__title">Julian Convert</h2>
+
+        <div class="container-dategap"> 
+          <!-- Using container-dategap for centering, and boxdate for card styling to match Date Gap -->
+          <div class="form-label boxdate">
+              <label for="gregorianDate">Enter Gregorian Date (MM/DD/YYYY):</label>
+              <input type="date" id="gregorianDate">
+              
+              <div class="btn-container">
+                  <button type="button" id="btnConvertToJulian" class="btn-primary">Convert to Julian</button>
+              </div>
+
+              <div class="divider"></div>
+
+              <label for="julianDate">Enter Julian Date (YYDDD):</label>
+              <!-- Styles removed, handled by CSS -->
+              <input type="number" id="julianDate" placeholder="YYDDD">
+              
+              <div class="btn-container">
+                  <button type="button" id="btnConvertToGregorian" class="btn-primary">Convert to Grego</button>
+                  <button type="button" id="btnClearJulian" class="btn-secondary">Clear</button>
+              </div>
+
+              <div class="result-wrapper">
+                <p id="result-julian" class="result-text"></p>
+                <button type="button" id="btnCopyResult" class="btn-icon hidden" title="Copy to Clipboard">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M20 2H10c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2m0 12H10V4h10z"></path>
+                    <path d="M14 20H4V10h2V8H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2v-2h-2z"></path>
+                  </svg>
+                </button>
+              </div>
+          </div>
+        </div>
       </section>
 
       <!-------------- SKILLS -------------->
       <section class="container section section__height" id="log-assist">
         <h2 class="section__title">Log Assist</h2>
+
+        <div class="container-dategap">
+          <div class="form-label boxdate">
+            
+            <div class="toggle-container">
+              <span class="mode-text">Mode</span>
+              <label class="switch">
+                <input type="checkbox" id="modeToggle" checked>
+                <span class="slider round">
+                  <span id="modeLabel">CIW</span>
+                </span>
+              </label>
+            </div>
+
+            <!-- main container box-->
+            <div class="log-container">
+              <!-- Inputs Row -->
+              <div class="inputs-row">
+                <div class="form-group">
+                  <label for="req_id">Inquiry No.:</label>
+                  <input type="text" id="req_id" name="req_id">
+                </div>
+                <div class="form-group">
+                  <label for="arc">ARC Code:</label>
+                  <input type="text" id="arc" name="arc">
+                </div>
+                <div class="form-group">
+                  <label for="mlh">MLH:</label>
+                  <input type="text" id="mlh" name="mlh" placeholder="MM/DD/YYYY">
+                </div>
+              </div>
+
+              <!-- Note Section -->
+              <div class="note-section">
+                <div class="form-group adjustment-note">
+                  <label for="reason">Adjustment note:</label>
+                  <textarea id="reason" name="reason" rows="4">Adjustment made in claim as per </textarea>
+                </div>
+              </div>
+
+              <!-- Output section -->
+               <div class="output-container hidden">
+                  <pre id="outputLog"></pre>
+                  <button type="button" id="btnCopyLog" class="copy-button-log" title="Copy to Clipboard">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M20 2H10c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2m0 12H10V4h10z"></path>
+                      <path d="M14 20H4V10h2V8H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2v-2h-2z"></path>
+                    </svg>
+                  </button>
+                </div>
+
+              <!-- Buttons -->
+              <div class="btn-container">
+                <button id="completeLogButton" class="btn-primary">Complete Log</button>
+                <button id="resetLogButton" class="btn-secondary">Reset</button>
+              </div>
+              
+            </div>
+          </div>
+        </div>
       </section>
 
       <!-------------- PORTFOLIO -------------->
@@ -169,6 +261,26 @@
       <!-------------- CONTACTME -------------->
       <section class="container section section__height" id="todo-list">
         <h2 class="section__title">Todo Note</h2>
+
+        <div class="todo-container">
+          <!-- Controls -->
+          <div class="todo-controls">
+            <button id="addNoteBtn" class="btn-primary">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 24 24" style="vertical-align: middle; margin-right: 5px;">
+                <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+              </svg>
+              Create New Sticky
+            </button>
+            <button id="clearAllNotesBtn" class="btn-secondary">Delete All</button>
+          </div>
+          
+          <p class="todo-warning">Note: Content is saved in browser storage. Clearing history/cookies will delete these notes.</p>
+
+          <!-- Sticky Notes Grid -->
+          <div id="notes-grid" class="notes-grid">
+            <!-- Dynamic Notes will appear here -->
+          </div>
+        </div>
       </section>
     </main>
 
