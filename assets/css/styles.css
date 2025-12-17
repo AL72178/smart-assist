@@ -1,5 +1,5 @@
 /*=============== GOOGLE FONTS ===============*/
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap');
+@import url(./font.css);
 
 /*=============== VARIABLES CSS ===============*/
 :root {
@@ -16,7 +16,7 @@
   --container-color: #fff;
 
   /*========== Font and typography ==========*/
-  --body-font: 'Open Sans', sans-serif;
+  --body-font: "Archivo", sans-serif
   --h1-font-size: 1.5rem;
   --normal-font-size: 0.938rem;
   --tiny-font-size: 0.625rem;
@@ -25,6 +25,13 @@
   --z-tooltip: 10;
   --z-fixed: 100;
 
+  /*========== Specific Colors ==========*/
+  --footer-bg: #2F3032;
+  --sticky-note-bg: #b9fff8;
+  --danger-color: #ff4d4d;
+  --danger-hover: #ff6b6b;
+  --switch-bg-off: var(--first-color-alt);
+  --switch-bg-on: #202122;
 }
 
 /*========== Dark Theme Variables ==========*/
@@ -52,7 +59,6 @@ body.dark-theme {
 }
 
 html {
-  /* scroll-behavior: smooth;  <-- Removed since we are swapping tabs */
   scroll-padding-top: var(--header-height);
 }
 
@@ -62,18 +68,22 @@ body {
   font-size: var(--normal-font-size);
   background-color: var(--body-color);
   color: var(--text-color);
-  transition: .3s; /* Smooth theme transition */
+  transition: .3s;
+  overflow-x: hidden; 
 }
 
 /* Tabbed Layout Logic */
 .section {
-  display: none; /* Hidden by default */
-  padding: 6rem 0 2rem; /* Adjusted padding for fixed header */
+  display: none; 
+  padding: 6rem 0 2rem; 
   min-height: 100vh;
 }
 
 .section.active-section {
-  display: block; /* Visible when active */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   animation: fadeIn 0.4s ease;
 }
 
@@ -114,14 +124,15 @@ img {
 }
 
 .section__height {
-  height: 100vh;
+  min-height: 100vh;
 }
 
 /*=============== LAYOUT ===============*/
 .container {
-  max-width: 968px;
-  margin-left: 1rem;
-  margin-right: 1rem;
+  width: 100%;
+  max-width: 1024px; 
+  margin: 0 auto;
+  padding: 0 1rem;
 }
 
 /*=============== HEADER ===============*/
@@ -142,8 +153,6 @@ img {
   justify-content: space-between;
   align-items: center;
 }
-
-/* .logo styles removed */
 
 .nav__logo {
   color: var(--title-color);
@@ -259,15 +268,38 @@ img {
   }
 }
 
+body {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.section {
+    padding: 5rem 0 2rem; 
+}
+
+.section__height {
+    min-height: unset;
+}
+
+.section.active-section {
+    flex: 1;
+}
+
 @media screen and (min-width: 767px) {
-  body {
-    margin: 0;
-  }
   .section {
-    padding: 7rem 0 2rem;
+    padding: 5rem 0 0; 
   }
+
   .nav {
-    height: calc(var(--header-height) + 1.5rem); /* 4.5rem */
+    height: calc(var(--header-height) + 1.5rem); 
   }
   .nav__img {
     display: none;
@@ -311,6 +343,20 @@ img {
   transition: .3s;
 }
 
+/* Dark Theme Shadows */
+body.dark-theme .header,
+body.dark-theme .footer,
+body.dark-theme .boxdate {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.header.scroll-header {
+  box-shadow: 0 1px 12px hsla(var(--hue), var(--sat), 15%, 0.15);
+}
+body.dark-theme .header.scroll-header {
+  box-shadow: 0 1px 12px rgba(0, 0, 0, 0.4);
+}
+
 .boxdate label {
   display: block;
   font-size: var(--normal-font-size);
@@ -349,13 +395,18 @@ img {
 }
 
 .btn-primary, .btn-secondary {
-  padding: 0.75rem 2rem;
+  padding: 0.75rem 1.5rem; 
   border-radius: 0.5rem;
   border: none;
   font-size: var(--normal-font-size);
   font-weight: 600;
   cursor: pointer;
   transition: .3s;
+  white-space: nowrap; 
+  min-width: 140px; 
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .btn-primary {
@@ -368,7 +419,7 @@ img {
 }
 
 .btn-secondary {
-  background-color: var(--text-color); /* Neutral default */
+  background-color: var(--text-color); 
   color: var(--body-color);
 }
 
@@ -378,13 +429,7 @@ img {
 
 
 
-/* For large devices (overrides) */
-@media screen and (min-width: 1024px) {
-  .container {
-    margin-left: auto;
-    margin-right: auto;
-  }
-}
+
 
 /*=============== REFACTORING UTILITIES ===============*/
 .divider {
@@ -402,7 +447,7 @@ img {
 }
 
 .result-text {
-  margin: 0;
+  margin: 1.1rem;
   font-size: 1.1rem;
   color: var(--title-color);
   min-height: 1.5rem;
@@ -414,9 +459,9 @@ img {
   border: none;
   cursor: pointer;
   color: var(--title-color);
-  margin-left: 0.5rem; /* Preserving user request for padding/margin */
+  margin-left: 0.5rem; 
   transition: .3s;
-  display: flex; /* Aligns SVG properly */
+  display: flex; 
 }
 
 .btn-icon:hover {
@@ -432,24 +477,42 @@ img {
 }
 
 /*=============== LOG ASSIST STYLES ===============*/
+.btn-container {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1.5rem; 
+  width: 100%; 
+  flex-wrap: wrap; 
+}
+
+@media screen and (min-width: 450px) {
+    .btn-container {
+        flex-wrap: nowrap; 
+    }
+}
+
 .toggle-container {
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+ 
   gap: 1rem;
-  margin-bottom: 2rem;
+  margin-bottom: 0; 
+  margin-left: auto; 
 }
 
 .mode-text {
-  color: var(--title-color);
+  color: #fff; 
   font-weight: 600;
+  line-height: 1; 
+  margin-top: 2px;
 }
 
 /* Switch */
 .switch {
   position: relative;
   display: inline-block;
-  width: 80px; /* Wider to fit text */
+  width: 80px; 
   height: 34px;
 }
 
@@ -484,11 +547,11 @@ img {
 }
 
 input:checked + .slider {
-  background-color: var(--first-color);
+  background-color: #202122;
 }
 
 input:focus + .slider {
-  box-shadow: 0 0 1px var(--first-color);
+  box-shadow: 0 0 1px #202122;
 }
 
 input:checked + .slider:before {
@@ -513,16 +576,11 @@ input:checked + .slider #modeLabel {
   right: auto;
 }
 
-/* Unchecked (WGS) -> Slider Left, Text Right */
-/* We need logic in JS to change text, but CSS needs to handle position based on checked state simply? */
-/* Wait, JS changes the text content. CSS just needs to position it in the empty space. */
-/* If Unchecked (Input not checked): Slider is Left. Empty space is Right. Text should be Right. */
 .slider #modeLabel {
   right: 10px; 
   left: auto;
 }
 
-/* Override for Checked: Slider is Right. Empty space is Left. Text should be Left. */
 input:checked + .slider #modeLabel {
   left: 10px;
   right: auto;
@@ -559,7 +617,7 @@ input:checked + .slider #modeLabel {
   width: 100%;
   background: var(--body-color);
   border: 1px solid var(--text-color);
-  color: var(--text-color); /* Input text color */ 
+  color: var(--text-color); 
   padding: 0.75rem;
   border-radius: 0.5rem;
   font-family: var(--body-font);
@@ -593,8 +651,8 @@ input:checked + .slider #modeLabel {
 #outputLog {
   color: var(--title-color); 
   font-family: 'Courier New', monospace; 
-  white-space: pre-wrap; /* Allow wrapping */
-  word-wrap: break-word; /* Break long words/underscores if needed */
+  white-space: pre-wrap; 
+  word-wrap: break-word; 
   margin: 0;
   font-size: 0.9rem;
   width: 100%; 
@@ -603,17 +661,16 @@ input:checked + .slider #modeLabel {
   padding-right: 3rem; 
 }
 
-/* Copy Button Log (Icon Style) */
+
 .copy-button-log {
-  position: sticky; /* Keep visible if scrolling? Or absolute? */
+  position: sticky; 
   right: 0;
-  bottom: 0.5rem; /* Fallback */
-  /* Sticky might not work if parent isn't scrolling correctly, let's keep absolute but ensure it overrides content if needed or sits nicely */
+  bottom: 0.5rem;
   position: absolute; 
   bottom: 0.5rem;
   right: 0.5rem;
-  background: var(--container-color); /* Background to hide text behind it */
-  border: 1px solid var(--text-color); /* Border to define it */
+  background: var(--container-color); 
+  border: 1px solid var(--text-color); 
   cursor: pointer;
   color: var(--title-color);
   transition: .3s;
@@ -623,6 +680,90 @@ input:checked + .slider #modeLabel {
   justify-content: center;
   align-items: center;
   z-index: 10;
+}
+
+
+/*=============== LETTER BREAK STYLES ===============*/
+.textBoxContainer {
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.textBoxWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  animation: fadeIn 0.3s ease;
+  position: relative; 
+}
+
+.textBox {
+  width: 100%;
+  background: var(--body-color);
+  border: 1px solid var(--text-color);
+  color: var(--text-color);
+  padding: 0.75rem;
+  padding-right: 3rem;
+  border-radius: 0.5rem;
+  font-family: var(--body-font);
+  font-size: var(--normal-font-size);
+  outline: none;
+  resize: none;
+  min-height: 80px;
+}
+
+.textBox:focus {
+  border-color: var(--first-color);
+}
+
+.textBox--limit-exceeded {
+  border: 2px solid var(--danger-color) !important;
+}
+
+.lb-copy-btn {
+  position: absolute;
+  bottom: 0.5rem;
+  right: 0.5rem;
+  background: var(--container-color);
+  border: 1px solid var(--text-color);
+  color: var(--title-color);
+  cursor: pointer;
+  padding: 0.4rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: .3s;
+  z-index: 5;
+}
+
+.lb-copy-btn:hover {
+  color: var(--first-color);
+  background-color: var(--body-color);
+}
+
+.copied-msg {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background-color: var(--first-color);
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  z-index: 1000;
+  animation: slideIn 0.3s ease, fadeOut 0.3s ease 0.7s forwards;
+}
+
+@keyframes slideIn {
+  from { transform: translateX(100%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes fadeOut {
+  to { opacity: 0; pointer-events: none; }
 }
 
 
@@ -641,7 +782,7 @@ input:checked + .slider #modeLabel {
 }
 
 .todo-warning {
-  font-size: 0.875rem; /* Explicit size for better visibility */
+  font-size: 0.875rem;
   color: var(--title-color); 
   opacity: 1; 
   margin-bottom: 2rem;
@@ -651,19 +792,19 @@ input:checked + .slider #modeLabel {
 
 .notes-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   gap: 1.5rem;
   width: 100%;
 }
 
 .sticky-note {
-  background-color: #b9fff8; /* Classic Post-it Yellow */
-  color: #333; /* Dark text for contrast on yellow */
+  background-color: var(--sticky-note-bg);
+  color: #333;
   padding: 1.5rem;
   min-height: 250px;
   box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-  border-radius: 0; /* Sticky notes often square-ish, or slight rounded? Let's go slight rounded */
-  border-bottom-right-radius: 60px 5px; /* Fold effect attempt? Keep simple first or user suggestion: standard sticky */
+  border-radius: 0; 
+  border-bottom-right-radius: 60px 5px;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -682,18 +823,28 @@ input:checked + .slider #modeLabel {
   to { opacity: 1; transform: scale(1); }
 }
 
+/* Rich Text Content */
 .sticky-content {
   flex-grow: 1;
   width: 100%;
   background: transparent;
   border: none;
   resize: none;
-  font-family: 'Comic Sans MS', 'Courier New', sans-serif; /* Playful font for stickies? or Keep body font */
   font-family: var(--body-font);
   font-size: 1rem;
   line-height: 1.5;
   outline: none;
   color: #333;
+  white-space: pre-wrap; 
+  overflow-y: auto; 
+  cursor: text;
+}
+
+/* Placeholder for contenteditable */
+.sticky-content:empty:before {
+  content: attr(placeholder);
+  color: hsla(0, 0%, 20%, 0.5);
+  display: block; /* For Firefox */
 }
 
 .sticky-actions {
@@ -701,7 +852,7 @@ input:checked + .slider #modeLabel {
   justify-content: flex-end;
   gap: 0.5rem;
   margin-top: 1rem;
-  opacity: 0; /* Hide by default, show on hover */
+  opacity: 0; 
   transition: 0.2s;
 }
 
@@ -728,15 +879,121 @@ input:checked + .slider #modeLabel {
 }
 
 .sticky-btn.delete:hover {
-  background: #ff6b6b;
+  background: var(--danger-hover);
   color: white;
 }
 
-/* Dark Theme Adjustments for Notes? */
-/* Typically stickies stay yellow, but user might want dark mode stickies. */
-/* Let's keep them colored but adjust if needed. For now yellow is classic. */
-/* Maybe add variety of colors later. */
 
 
+/*=============== FOOTER ===============*/
+.footer {
+  background-color: var(--footer-bg);
+  padding: 1rem 0; /* Reduced height */
+  color: #fff;
+}
 
+.footer__container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 
+.footer__group {
+  display: flex;
+  align-items: center;
+}
+
+.footer__link,
+.footer__copy {
+  color: #fff;
+  font-size: 0.813rem; 
+  font-weight: 400;
+  text-decoration: none;
+}
+
+.dev-name {
+  font-weight: 700;
+  color: var(--first-color);
+}
+
+.footer__link:hover {
+  text-decoration: underline;
+  opacity: 0.8;
+}
+
+/*=============== MOBILE RESPONSIVENESS ADJUSTMENTS ===============*/
+@media screen and (max-width: 576px) {
+  .section {
+    padding: 1rem 0 2rem;
+  }
+  
+  .container {
+    margin-left: 1rem;
+    margin-right: 1rem;
+  }
+
+  .boxdate {
+    padding: 1.5rem;
+  }
+
+  .boxdate input[type="date"],
+  .boxdate input[type="number"] {
+    margin-bottom: 1.5rem;
+  }
+
+  .toggle-container {
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+  }
+
+  .inputs-row {
+     gap: 1rem;
+  }
+
+  #inputContainer .btn-container {
+    flex-direction: column; 
+    align-items: stretch;
+    margin-top: 1.5rem !important;
+  }
+  
+  #inputContainer .btn-container button {
+     width: 100%;
+  }
+
+  #letterBreakCharCount {
+     margin-bottom: 0.5rem;
+     display: block;
+     text-align: center;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  #inputContainer > div[style*="justify-content: space-between"] {
+    flex-direction: column;
+    align-items: stretch !important;
+    gap: 1rem;
+  }
+  
+  #inputContainer > div[style*="justify-content: space-between"] > div {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}
+
+/*=============== MOBILE FOOTER ADJUSTMENTS ===============*/
+@media screen and (max-width: 767px) {
+  .footer {
+    padding-bottom: 5rem; 
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .footer__container {
+    flex-direction: column;
+    gap: 0.5rem;
+    text-align: center;
+    padding-bottom: 1rem;
+  }
+}

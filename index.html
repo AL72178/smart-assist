@@ -3,11 +3,13 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="./assets/favicon.svg" type="image/x-icon" />
+    k
 
     <!--=============== CSS ===============-->
     <link rel="stylesheet" href="assets/css/styles.css" />
 
-    <title>Quick Assist 2.0</title>
+    <title>Smart Assist</title>
   </head>
 
   <body>
@@ -113,12 +115,27 @@
           <!-- Theme Button -->
           <div class="change-theme" id="theme-button">
             <!-- Moon Icon (Visible by default in light mode) -->
-            <svg xmlns="http://www.w3.org/2000/svg" class="nav__icon theme-icon-moon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-              <path d="m12.2,22c4.53,0,8.45-2.91,9.76-7.24.11-.35.01-.74-.25-1-.26-.26-.64-.36-1-.25-.78.23-1.58.35-2.38.35-4.52,0-8.2-3.68-8.2-8.2,0-.8.12-1.6.35-2.38.11-.35.01-.74-.25-1s-.64-.36-1-.25C4.91,3.35,2,7.28,2,11.8c0,5.62,4.57,10.2,10.2,10.2ZM8.18,4.65c-.03.34-.05.68-.05,1.02,0,5.62,4.57,10.2,10.2,10.2.34,0,.68-.02,1.02-.05-1.42,2.56-4.12,4.18-7.15,4.18-4.52,0-8.2-3.68-8.2-8.2,0-3.03,1.63-5.73,4.18-7.15Z"></path>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="nav__icon theme-icon-moon"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="currentColor">
+              <path
+                d="m12.2,22c4.53,0,8.45-2.91,9.76-7.24.11-.35.01-.74-.25-1-.26-.26-.64-.36-1-.25-.78.23-1.58.35-2.38.35-4.52,0-8.2-3.68-8.2-8.2,0-.8.12-1.6.35-2.38.11-.35.01-.74-.25-1s-.64-.36-1-.25C4.91,3.35,2,7.28,2,11.8c0,5.62,4.57,10.2,10.2,10.2ZM8.18,4.65c-.03.34-.05.68-.05,1.02,0,5.62,4.57,10.2,10.2,10.2.34,0,.68-.02,1.02-.05-1.42,2.56-4.12,4.18-7.15,4.18-4.52,0-8.2-3.68-8.2-8.2,0-3.03,1.63-5.73,4.18-7.15Z"></path>
             </svg>
             <!-- Sun Icon (Hidden by default in light mode) -->
-            <svg xmlns="http://www.w3.org/2000/svg" class="nav__icon theme-icon-sun" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" style="display: none;">
-              <path d="M12 17.01c2.76 0 5.01-2.25 5.01-5.01S14.76 6.99 12 6.99 6.99 9.24 6.99 12s2.25 5.01 5.01 5.01M12 9c1.66 0 3.01 1.35 3.01 3.01s-1.35 3.01-3.01 3.01-3.01-1.35-3.01-3.01S10.34 9 12 9M13 19h-2v3h2v-3M13 2h-2v3h2V2M2 11h3v2H2zM19 11h3v2h-3zM4.22 18.36l.71.71.71.71 1.06-1.06 1.06-1.06-.71-.71-.71-.71-1.06 1.06zM19.78 5.64l-.71-.71-.71-.71-1.06 1.06-1.06 1.06.71.71.71.71 1.06-1.06zM7.76 6.34 6.7 5.28 5.64 4.22l-.71.71-.71.71L5.28 6.7l1.06 1.06.71-.71zM16.24 17.66l1.06 1.06 1.06 1.06.71-.71.71-.71-1.06-1.06-1.06-1.06-.71.71z"></path>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="nav__icon theme-icon-sun"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              style="display: none">
+              <path
+                d="M12 17.01c2.76 0 5.01-2.25 5.01-5.01S14.76 6.99 12 6.99 6.99 9.24 6.99 12s2.25 5.01 5.01 5.01M12 9c1.66 0 3.01 1.35 3.01 3.01s-1.35 3.01-3.01 3.01-3.01-1.35-3.01-3.01S10.34 9 12 9M13 19h-2v3h2v-3M13 2h-2v3h2V2M2 11h3v2H2zM19 11h3v2h-3zM4.22 18.36l.71.71.71.71 1.06-1.06 1.06-1.06-.71-.71-.71-.71-1.06 1.06zM19.78 5.64l-.71-.71-.71-.71-1.06 1.06-1.06 1.06.71.71.71.71 1.06-1.06zM7.76 6.34 6.7 5.28 5.64 4.22l-.71.71-.71.71L5.28 6.7l1.06 1.06.71-.71zM16.24 17.66l1.06 1.06 1.06 1.06.71-.71.71-.71-1.06-1.06-1.06-1.06-.71.71z"></path>
             </svg>
           </div>
         </div>
@@ -128,7 +145,7 @@
     <!--=============== MAIN ===============-->
 
     <main>
-      <!-------------- HOME -------------->
+      <!-------------- Date Gap -------------->
       <section class="container section section__height active-section" id="date-gap">
         <h2 class="section__title">Date Gap</h2>
 
@@ -150,76 +167,64 @@
         </div>
       </section>
 
-      <!-------------- ABOUT -------------->
+      <!-------------- Julian Convert -------------->
       <section class="container section section__height" id="julian-convert">
         <h2 class="section__title">Julian Convert</h2>
 
-        <div class="container-dategap"> 
-          <!-- Using container-dategap for centering, and boxdate for card styling to match Date Gap -->
+        <div class="container-dategap">
           <div class="form-label boxdate">
-              <label for="gregorianDate">Enter Gregorian Date (MM/DD/YYYY):</label>
-              <input type="date" id="gregorianDate">
-              
-              <div class="btn-container">
-                  <button type="button" id="btnConvertToJulian" class="btn-primary">Convert to Julian</button>
-              </div>
+            <label for="gregorianDate">Enter Gregorian Date (MM/DD/YYYY):</label>
+            <input type="date" id="gregorianDate" />
 
-              <div class="divider"></div>
+            <div class="btn-container">
+              <button type="button" id="btnConvertToJulian" class="btn-primary">Convert to Julian</button>
+            </div>
 
-              <label for="julianDate">Enter Julian Date (YYDDD):</label>
-              <!-- Styles removed, handled by CSS -->
-              <input type="number" id="julianDate" placeholder="YYDDD">
-              
-              <div class="btn-container">
-                  <button type="button" id="btnConvertToGregorian" class="btn-primary">Convert to Grego</button>
-                  <button type="button" id="btnClearJulian" class="btn-secondary">Clear</button>
-              </div>
+            <div class="divider"></div>
 
-              <div class="result-wrapper">
-                <p id="result-julian" class="result-text"></p>
-                <button type="button" id="btnCopyResult" class="btn-icon hidden" title="Copy to Clipboard">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M20 2H10c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2m0 12H10V4h10z"></path>
-                    <path d="M14 20H4V10h2V8H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2v-2h-2z"></path>
-                  </svg>
-                </button>
-              </div>
+            <label for="julianDate">Enter Julian Date (YYDDD):</label>
+            <input type="number" id="julianDate" placeholder="YYDDD" />
+
+            <div class="btn-container">
+              <button type="button" id="btnConvertToGregorian" class="btn-primary">Convert to Grego</button>
+              <button type="button" id="btnClearJulian" class="btn-secondary">Clear</button>
+            </div>
+
+            <div class="result-wrapper">
+              <p id="result-julian" class="result-text"></p>
+              <button type="button" id="btnCopyResult" class="btn-icon hidden" title="Copy to Clipboard">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                  <path
+                    d="M20 2H10c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2m0 12H10V4h10z"></path>
+                  <path d="M14 20H4V10h2V8H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2v-2h-2z"></path>
+                </svg>
+              </button>
+            </div>
           </div>
         </div>
       </section>
 
-      <!-------------- SKILLS -------------->
+      <!-------------- Log Assist -------------->
       <section class="container section section__height" id="log-assist">
         <h2 class="section__title">Log Assist</h2>
 
         <div class="container-dategap">
           <div class="form-label boxdate">
-            
-            <div class="toggle-container">
-              <span class="mode-text">Mode</span>
-              <label class="switch">
-                <input type="checkbox" id="modeToggle" checked>
-                <span class="slider round">
-                  <span id="modeLabel">CIW</span>
-                </span>
-              </label>
-            </div>
-
             <!-- main container box-->
             <div class="log-container">
               <!-- Inputs Row -->
               <div class="inputs-row">
                 <div class="form-group">
                   <label for="req_id">Inquiry No.:</label>
-                  <input type="text" id="req_id" name="req_id">
+                  <input type="text" id="req_id" name="req_id" placeholder="Inquiry No." />
                 </div>
                 <div class="form-group">
                   <label for="arc">ARC Code:</label>
-                  <input type="text" id="arc" name="arc">
+                  <input type="text" id="arc" name="arc" placeholder="ARC Code" />
                 </div>
                 <div class="form-group">
                   <label for="mlh">MLH:</label>
-                  <input type="text" id="mlh" name="mlh" placeholder="MM/DD/YYYY">
+                  <input type="text" id="mlh" name="mlh" placeholder="MM/DD/YYYY" />
                 </div>
               </div>
 
@@ -232,33 +237,67 @@
               </div>
 
               <!-- Output section -->
-               <div class="output-container hidden">
-                  <pre id="outputLog"></pre>
-                  <button type="button" id="btnCopyLog" class="copy-button-log" title="Copy to Clipboard">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M20 2H10c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2m0 12H10V4h10z"></path>
-                      <path d="M14 20H4V10h2V8H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2v-2h-2z"></path>
-                    </svg>
-                  </button>
-                </div>
+              <div class="output-container hidden">
+                <pre id="outputLog"></pre>
+                <button type="button" id="btnCopyLog" class="copy-button-log" title="Copy to Clipboard">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    fill="currentColor"
+                    viewBox="0 0 24 24">
+                    <path
+                      d="M20 2H10c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2m0 12H10V4h10z"></path>
+                    <path d="M14 20H4V10h2V8H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2v-2h-2z"></path>
+                  </svg>
+                </button>
+              </div>
 
               <!-- Buttons -->
               <div class="btn-container">
                 <button id="completeLogButton" class="btn-primary">Complete Log</button>
                 <button id="resetLogButton" class="btn-secondary">Reset</button>
+                <div class="toggle-container">
+                  <label class="switch">
+                    <input type="checkbox" id="modeToggle" checked />
+                    <span class="slider round">
+                      <span id="modeLabel">CIW</span>
+                    </span>
+                  </label>
+                </div>
               </div>
-              
             </div>
           </div>
         </div>
       </section>
 
-      <!-------------- PORTFOLIO -------------->
+      <!-------------- Letter Break -------------->
       <section class="container section section__height" id="letter-break">
         <h2 class="section__title">Letter Break</h2>
+
+        <div class="container-dategap">
+          <div class="boxdate" style="max-width: 800px">
+            <div id="inputContainer">
+              <div class="form-group">
+                <label for="letterBreakInput">Your Content:</label>
+                <textarea id="letterBreakInput" rows="5" placeholder="Please write your verbiage here...."></textarea>
+              </div>
+              <div class="btn-container" style="justify-content: space-between; align-items: center; margin-top: 1rem">
+                <span class="textCounter" id="letterBreakCharCount" style="color: var(--title-color); font-weight: 600"
+                  >Characters: 0</span
+                >
+                <div style="display: flex; gap: 1rem">
+                  <button id="btnDivideText" class="btn-primary">Divide Text</button>
+                  <button id="btnResetLetterBreak" class="btn-secondary">Reset</button>
+                </div>
+              </div>
+            </div>
+            <div id="letterBreakOutput" class="textBoxContainer"></div>
+          </div>
+        </div>
       </section>
 
-      <!-------------- CONTACTME -------------->
+      <!-------------- Todo List -------------->
       <section class="container section section__height" id="todo-list">
         <h2 class="section__title">Todo Note</h2>
 
@@ -266,15 +305,23 @@
           <!-- Controls -->
           <div class="todo-controls">
             <button id="addNoteBtn" class="btn-primary">
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 24 24" style="vertical-align: middle; margin-right: 5px;">
-                <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                fill="currentColor"
+                viewBox="0 0 24 24"
+                style="vertical-align: middle; margin-right: 5px">
+                <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" />
               </svg>
               Create New Sticky
             </button>
             <button id="clearAllNotesBtn" class="btn-secondary">Delete All</button>
           </div>
-          
-          <p class="todo-warning">Note: Content is saved in browser storage. Clearing history/cookies will delete these notes.</p>
+
+          <p class="todo-warning">
+            Note: Content is saved in browser storage. Clearing history/cookies will delete these notes.
+          </p>
 
           <!-- Sticky Notes Grid -->
           <div id="notes-grid" class="notes-grid">
@@ -283,6 +330,25 @@
         </div>
       </section>
     </main>
+
+    <!--==================== FOOTER ====================-->
+    <footer class="footer">
+      <div class="footer__container container">
+        <!-- LEFT: Email Me -->
+        <div class="footer__group">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+            <path
+              d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2m0 2v.51l-8 6.22-8-6.22V6zM4 18V9.04l7.39 5.74c.18.14.4.21.61.21s.43-.07.61-.21L20 9.03v8.96H4Z"></path>
+          </svg>
+          <a href="mailto:nishant.singh@carelon.com" class="footer__link">Email Me</a>
+        </div>
+
+        <!-- RIGHT: Developed By -->
+        <div class="footer__group">
+          <p class="footer__copy">Developed and Coded by <span class="dev-name">Nishant Singh</span> | 2025</p>
+        </div>
+      </div>
+    </footer>
 
     <!--=============== MAIN JS ===============-->
     <script src="assets/js/theme.js"></script>

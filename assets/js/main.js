@@ -53,9 +53,6 @@ window.addEventListener('load', () => {
     }
 });
 
-/*=============== SCROLL SECTIONS ACTIVE LINK (REMOVED) ===============*/
-
-
 /*=============== DATE GAP CALCULATION ===============*/
 const calcBtn = document.getElementById('calcBtn');
 const resetBtn = document.getElementById('resetBtn');
@@ -154,8 +151,7 @@ if (btnConvertToGregorian) {
     const yearShort = parseInt(julianInput.substring(0, 2));
     const days = parseInt(julianInput.substring(2));
     
-    // Assume 2000s for now as per common logic, or 1900s? User code used 2000.
-    // logic: year = 2000 + yearShort
+    // Logic: year = 2000 + yearShort (Assuming 21st century)
     const year = 2000 + yearShort; 
     const gregorianDate = new Date(year, 0, 1); // Jan 1st of that year
     gregorianDate.setDate(gregorianDate.getDate() + days - 1); // Add days
@@ -328,6 +324,173 @@ if (btnCopyLog) {
 
 
 /*=============== COPY RESULT BUTTON ===============*/
+const btnCopyResult = document.getElementById('btnCopyResult');
+if (btnCopyResult) {
+  btnCopyResult.addEventListener('click', () => {
+    // Extract just the value, removing "Julian Date: " or "Gregorian Date: "
+    const fullText = julianResult.innerText;
+    let textToCopy = fullText;
+    
+    if (fullText.includes(": ")) {
+        textToCopy = fullText.split(": ")[1];
+    }
+
+    navigator.clipboard.writeText(textToCopy).then(() => {
+       const originalIcon = btnCopyResult.innerHTML;
+       btnCopyResult.innerHTML = `
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path>
+        </svg>
+       `;
+
+       setTimeout(() => {
+         btnCopyResult.innerHTML = `
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M20 2H10c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2m0 12H10V4h10z"></path>
+                <path d="M14 20H4V10h2V8H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2v-2h-2z"></path>
+            </svg>
+         `;
+       }, 2000);
+    });
+  });
+}
+
+/*=============== LETTER BREAK GEN ===============*/
+const letterBreakInput = document.getElementById('letterBreakInput');
+const letterBreakOutput = document.getElementById('letterBreakOutput');
+const letterBreakCharCount = document.getElementById('letterBreakCharCount');
+const btnDivideText = document.getElementById('btnDivideText');
+const btnResetLetterBreak = document.getElementById('btnResetLetterBreak');
+
+const LB_CHUNK_SIZE = 63;
+let lbOutputBoxCount = 0;
+
+if (letterBreakInput) {
+    letterBreakInput.addEventListener('input', lbCountCharacters);
+}
+
+if (btnDivideText) {
+    btnDivideText.addEventListener('click', lbDivideText);
+}
+
+if (btnResetLetterBreak) {
+    btnResetLetterBreak.addEventListener('click', lbResetText);
+}
+
+function lbDivideText() {
+    const inputText = letterBreakInput.value.trim();
+    if (!letterBreakOutput) return;
+    
+    letterBreakOutput.innerHTML = '';
+    lbOutputBoxCount = 0; 
+
+    if (!inputText) return;
+
+    let start = 0;
+
+    while (start < inputText.length) {
+        let end = start + LB_CHUNK_SIZE;
+
+        if (end >= inputText.length) {
+            end = inputText.length;
+        } else {
+            // Find last space before chunk limit
+            const lastSpaceIndex = inputText.lastIndexOf(' ', end);
+
+            // Only adjust if a valid space exists after start
+            if (lastSpaceIndex > start) {
+                end = lastSpaceIndex;
+            }
+        }
+
+        const chunkText = inputText.substring(start, end).trim();
+        if (chunkText) {
+            lbCreateOutputBox(chunkText);
+        }
+
+        start = end;
+    }
+}
+
+function lbCreateOutputBox(text) {
+    lbOutputBoxCount++;
+
+    const wrapper = document.createElement('div');
+    wrapper.className = 'textBoxWrapper';
+
+    const textBox = document.createElement('textarea');
+    textBox.className = 'textBox';
+    textBox.readOnly = true;
+    textBox.value = text;
+
+    // Red border if box index > 10
+    if (lbOutputBoxCount > 10) {
+        textBox.classList.add('textBox--limit-exceeded');
+    }
+
+    const copyBtn = document.createElement('button');
+    copyBtn.className = 'lb-copy-btn';
+    copyBtn.title = "Copy";
+    copyBtn.innerHTML = `
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M20 2H10c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2m0 12H10V4h10z"></path>
+            <path d="M14 20H4V10h2V8H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2v-2h-2z"></path>
+        </svg>
+    `;
+    
+    copyBtn.addEventListener('click', () => lbCopyText(textBox, copyBtn));
+
+    wrapper.appendChild(textBox);
+    wrapper.appendChild(copyBtn);
+
+    letterBreakOutput.appendChild(wrapper);
+}
+
+function lbCopyText(textElement, btnElement) {
+    textElement.select();
+    textElement.setSelectionRange(0, 99999); // For mobile devices
+    navigator.clipboard.writeText(textElement.value).then(() => {
+        // Change icon to check
+        const originalContent = btnElement.innerHTML;
+        btnElement.innerHTML = `
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path>
+            </svg>
+        `;
+        
+        // Revert back after 2 seconds
+        setTimeout(() => {
+            btnElement.innerHTML = originalContent;
+        }, 2000);
+        
+        lbShowCopiedMessage();
+    });
+}
+
+function lbShowCopiedMessage() {
+    const copiedMessage = document.createElement('div');
+    copiedMessage.className = 'copied-msg';
+    copiedMessage.innerText = 'Copied!';
+
+    document.body.appendChild(copiedMessage);
+
+    setTimeout(() => {
+        copiedMessage.remove();
+    }, 1000);
+}
+
+function lbResetText() {
+    letterBreakInput.value = '';
+    letterBreakOutput.innerHTML = '';
+    lbCountCharacters();
+}
+
+function lbCountCharacters() {
+    if(letterBreakCharCount) {
+        letterBreakCharCount.innerText = 'Characters: ' + letterBreakInput.value.length;
+    }
+}
+
 
 /*=============== TODO NOTE ===============*/
 const addNoteBtn = document.getElementById('addNoteBtn');
@@ -385,21 +548,45 @@ function createNoteElement(note) {
     const div = document.createElement('div');
     div.classList.add('sticky-note');
     
-    // Content Textarea
-    const textarea = document.createElement('textarea');
-    textarea.classList.add('sticky-content');
-    textarea.placeholder = "Type note here...";
-    textarea.value = note.content;
+    // Content Editable Div (Rich Text)
+    const contentDiv = document.createElement('div');
+    contentDiv.classList.add('sticky-content');
+    contentDiv.contentEditable = true;
+    contentDiv.setAttribute('placeholder', 'Type note here...');
+    contentDiv.innerHTML = note.content; // Load HTML content
     
     // Auto-save on input
-    textarea.addEventListener('input', (e) => {
-        note.content = e.target.value;
+    contentDiv.addEventListener('input', () => {
+        note.content = contentDiv.innerHTML;
         saveNotes();
+    });
+
+    // Keyboard Shortcuts (Ctrl+B)
+    contentDiv.addEventListener('keydown', (e) => {
+        if (e.ctrlKey && (e.key === 'b' || e.key === 'B')) {
+            e.preventDefault();
+            document.execCommand('bold');
+        }
     });
 
     // Actions Container
     const actions = document.createElement('div');
     actions.classList.add('sticky-actions');
+
+    /* --- BOLD BUTTON --- */
+    const boldBtn = document.createElement('button');
+    boldBtn.classList.add('sticky-btn');
+    boldBtn.title = "Bold Text";
+    boldBtn.innerHTML = `
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+             <path d="M8.21 13c2.106 0 3.412-1.087 3.412-2.823 0-1.306-.984-2.283-2.324-2.386v-.055a2.176 2.176 0 0 0 1.852-2.14c0-1.51-1.162-2.46-3.014-2.46H3.843V13H8.21zM5.908 4.674h1.696c.963 0 1.517.451 1.517 1.244 0 .834-.629 1.32-1.73 1.32H5.908V4.674zm0 6.788V8.598h1.73c1.217 0 1.88.492 1.88 1.415 0 .943-.643 1.449-1.832 1.449H5.908z"/>
+        </svg>
+    `;
+    // Prevent focus loss when clicking button
+    boldBtn.addEventListener('mousedown', (e) => {
+        e.preventDefault(); // Stop button from taking focus
+        document.execCommand('bold');
+    });
 
     // Copy Button
     const copyBtn = document.createElement('button');
@@ -412,7 +599,9 @@ function createNoteElement(note) {
         </svg>
     `;
     copyBtn.addEventListener('click', () => {
-        navigator.clipboard.writeText(note.content).then(() => {
+        // For rich text, we might want to copy plain text or HTML. 
+        // Clipboard API usually handles plain text. innerText gets text.
+        navigator.clipboard.writeText(contentDiv.innerText).then(() => {
             // Visual feedback
             const originalIcon = copyBtn.innerHTML;
             copyBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z"/></svg>`;
@@ -432,14 +621,14 @@ function createNoteElement(note) {
         </svg>
     `;
     deleteBtn.addEventListener('click', () => {
-        // Delete functionality
         deleteNote(note.id);
     });
 
+    actions.appendChild(boldBtn); // Add Bold Button
     actions.appendChild(copyBtn);
     actions.appendChild(deleteBtn);
     
-    div.appendChild(textarea);
+    div.appendChild(contentDiv);
     div.appendChild(actions);
     
     return div;
