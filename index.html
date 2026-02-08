@@ -91,6 +91,18 @@
               <span class="nav__name"> Todo Note </span>
             </a>
           </li>
+          <!-- SLA Lookup -->
+          <li class="nav__item">
+            <a href="#sla-lookup" class="nav__link">
+              <svg xmlns="http://www.w3.org/2000/svg" class="nav__icon" width="24" height="24" fill="currentColor"
+                viewBox="0 0 24 24">
+                <path
+                  d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z">
+                </path>
+              </svg>
+              <span class="nav__name"> SLA-Lookup </span>
+            </a>
+          </li>
         </ul>
       </div>
       <div class="nav__buttons">
@@ -291,6 +303,66 @@
         </div>
       </div>
     </section>
+
+    <!-------------- SLA Lookup -------------->
+    <section class="container section section__height" id="sla-lookup">
+      <h2 class="section__title">SLA-Lookup</h2>
+
+      <div class="container-dategap">
+        <div class="boxdate sla-container" style="max-width: 700px;">
+
+          <!-- Loading State -->
+          <div id="slaLoading" class="sla-state sla-loading">
+            <p>Loading SLA data...</p>
+          </div>
+
+          <!-- Error State -->
+          <div id="slaError" class="sla-state sla-error hidden">
+            <p>Failed to load SLA data. Please try again.</p>
+          </div>
+
+          <!-- Filter Controls -->
+          <div id="slaFilters" class="sla-filters hidden">
+
+            <!-- State Filter -->
+            <div class="sla-filter-group">
+              <label for="slaState">Select State:</label>
+              <select id="slaState" class="sla-select">
+                <option value="">-- Select State --</option>
+              </select>
+            </div>
+
+            <!-- Category Filter -->
+            <div class="sla-filter-group" id="slaCategoryGroup">
+              <label>Category:</label>
+              <div class="sla-radio-group">
+                <label class="sla-radio-label">
+                  <input type="radio" name="slaCategory" value="iqt"> IQT
+                </label>
+                <label class="sla-radio-label">
+                  <input type="radio" name="slaCategory" value="claim"> Claim
+                </label>
+                <label class="sla-radio-label">
+                  <input type="radio" name="slaCategory" value="correctedClaim"> Corrected Claim
+                </label>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Results Container -->
+          <div id="slaResults" class="sla-results hidden">
+            <!-- Dynamic cards will be rendered here -->
+          </div>
+
+          <!-- Empty State -->
+          <div id="slaEmpty" class="sla-state sla-empty hidden">
+            <p>Select filters above to view SLA timelines.</p>
+          </div>
+
+        </div>
+      </div>
+    </section>
   </main>
 
   <!--==================== FOOTER ====================-->
@@ -316,6 +388,7 @@
   <!--=============== MAIN JS ===============-->
   <script src="assets/js/theme.js"></script>
   <script src="assets/js/main.js"></script>
+  <script src="assets/js/slaLookup.js"></script>
 </body>
 
 </html>

@@ -1000,3 +1000,217 @@ input:checked + .slider #modeLabel {
     padding-bottom: 1rem;
   }
 }
+
+/*=============== SLA LOOKUP ===============*/
+.sla-container {
+  width: 100%;
+}
+
+.sla-state {
+  text-align: center;
+  padding: 2rem;
+  color: var(--text-color);
+}
+
+.sla-loading p {
+  font-style: italic;
+}
+
+.sla-error p {
+  color: var(--danger-color);
+  font-weight: 600;
+}
+
+.sla-empty p {
+  color: var(--text-color);
+  opacity: 0.7;
+}
+
+/* Filters */
+.sla-filters {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.sla-filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.sla-filter-group label {
+  font-weight: 600;
+  color: var(--title-color);
+  font-size: var(--normal-font-size);
+}
+
+.sla-select {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--text-color);
+  border-radius: 0.5rem;
+  background-color: var(--body-color);
+  color: var(--title-color);
+  font-family: var(--body-font);
+  font-size: var(--normal-font-size);
+  outline: none;
+  transition: 0.3s;
+  cursor: pointer;
+}
+
+.sla-select:focus {
+  border-color: var(--first-color);
+}
+
+.sla-radio-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.sla-radio-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--text-color);
+  border-radius: 0.5rem;
+  transition: 0.3s;
+  font-weight: 500;
+  color: var(--title-color);
+}
+
+.sla-radio-label:hover {
+  border-color: var(--first-color);
+  background-color: hsla(var(--hue), var(--sat), 45%, 0.1);
+}
+
+.sla-radio-label:has(input:checked) {
+  border-color: var(--first-color);
+  background-color: var(--first-color);
+  color: #fff;
+}
+
+.sla-radio-label input {
+  display: none;
+}
+
+/* Results */
+.sla-results {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.sla-card {
+  background-color: var(--body-color);
+  border: 1px solid hsla(var(--hue), var(--sat), 45%, 0.3);
+  border-radius: 0.75rem;
+  padding: 1.25rem;
+  box-shadow: 0 2px 8px hsla(var(--hue), var(--sat), 15%, 0.1);
+  transition: 0.3s;
+}
+
+.sla-card:hover {
+  box-shadow: 0 4px 12px hsla(var(--hue), var(--sat), 15%, 0.15);
+  transform: translateY(-2px);
+}
+
+.sla-card__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.sla-card__category {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--first-color);
+  background: hsla(var(--hue), var(--sat), 45%, 0.15);
+  padding: 0.25rem 0.75rem;
+  border-radius: 1rem;
+}
+
+.sla-card__provider {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-color);
+  background: var(--container-color);
+  padding: 0.25rem 0.75rem;
+  border-radius: 1rem;
+  border: 1px solid var(--text-color);
+}
+
+.sla-card__body {
+  margin-bottom: 0.75rem;
+}
+
+.sla-card__label {
+  font-size: 0.875rem;
+  color: var(--text-color);
+  margin-bottom: 0.25rem;
+}
+
+.sla-card__timeline {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--title-color);
+}
+
+.sla-card__footer {
+  border-top: 1px solid hsla(var(--hue), var(--sat), 45%, 0.2);
+  padding-top: 0.75rem;
+}
+
+.sla-card__notes {
+  font-size: 0.875rem;
+  font-style: italic;
+  color: var(--text-color);
+  opacity: 0.85;
+}
+
+/* Not Applicable State */
+.sla-card--na .sla-card__timeline {
+  color: var(--danger-color);
+}
+
+/* Dark Theme Adjustments */
+body.dark-theme .sla-card {
+  background-color: var(--container-color);
+  border-color: hsla(var(--hue), var(--sat), 45%, 0.2);
+}
+
+body.dark-theme .sla-radio-label {
+  border-color: hsla(var(--hue), var(--sat), 45%, 0.3);
+}
+
+body.dark-theme .sla-radio-label:has(input:checked) {
+  background-color: var(--first-color);
+  border-color: var(--first-color);
+}
+
+/* Mobile Responsive */
+@media screen and (max-width: 576px) {
+  .sla-radio-group {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .sla-radio-label {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .sla-card__header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
