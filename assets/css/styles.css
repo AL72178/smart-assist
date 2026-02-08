@@ -6,17 +6,18 @@
   --header-height: 3rem;
 
   /*========== Colors ==========*/
-  --hue: 174;
-  --sat: 63%;
-  --first-color: hsl(var(--hue), var(--sat), 40%);
-  --first-color-alt: hsl(var(--hue), var(--sat), 36%);
-  --title-color: hsl(var(--hue), 12%, 15%);
+  /* Ocean Blue Theme */
+  --hue: 205;
+  --sat: 75%;
+  --first-color: hsl(var(--hue), var(--sat), 45%);
+  --first-color-alt: hsl(var(--hue), var(--sat), 40%);
+  --title-color: hsl(var(--hue), 15%, 15%);
   --text-color: hsl(var(--hue), 8%, 35%);
-  --body-color: hsl(var(--hue), 100%, 99%);
+  --body-color: hsl(var(--hue), 60%, 99%);
   --container-color: #fff;
 
   /*========== Font and typography ==========*/
-  --body-font: "Archivo", sans-serif
+  --body-font: "Archivo", sans-serif;
   --h1-font-size: 1.5rem;
   --normal-font-size: 0.938rem;
   --tiny-font-size: 0.625rem;
@@ -26,22 +27,24 @@
   --z-fixed: 100;
 
   /*========== Specific Colors ==========*/
-  --footer-bg: #2F3032;
-  --sticky-note-bg: #b9fff8;
-  --danger-color: #ff4d4d;
-  --danger-hover: #ff6b6b;
-  --switch-bg-off: var(--first-color-alt);
-  --switch-bg-on: #202122;
+  --footer-bg: hsl(var(--hue), 60%, 8%);
+  --sticky-note-bg: #e0f2fe; /* Light blue note */
+  --danger-color: #ef4444;
+  --danger-hover: #dc2626;
+  --switch-bg-off: #cbd5e1;
+  --switch-bg-on: var(--first-color);
 }
 
 /*========== Dark Theme Variables ==========*/
-/*========== Dark Theme Variables (Windows 11 Style) ==========*/
 body.dark-theme {
-  --first-color-alt: hsl(var(--hue), var(--sat), 30%);
-  --title-color: hsl(220, 8%, 95%);
-  --text-color: hsl(220, 8%, 75%);
-  --body-color: hsl(220, 4%, 13%); /* ~#202124, Soft Dark */
-  --container-color: hsl(220, 4%, 19%); /* ~#2d2f33, Lighter Surface */
+  --first-color-alt: hsl(var(--hue), var(--sat), 40%);
+  --title-color: hsl(var(--hue), 15%, 95%);
+  --text-color: hsl(var(--hue), 8%, 75%);
+  --body-color: hsl(var(--hue), 20%, 10%); 
+  --container-color: hsl(var(--hue), 20%, 15%);
+  --switch-bg-off: #475569;
+  --sticky-note-bg: #1e293b;
+  --footer-bg: hsl(var(--hue), 30%, 6%);
 }
 
 @media screen and (min-width: 968px) {
@@ -707,8 +710,8 @@ input:checked + .slider #modeLabel {
   padding: 0.75rem;
   padding-right: 3rem;
   border-radius: 0.5rem;
-  font-family: var(--body-font);
-  font-size: var(--normal-font-size);
+  font-family: Arial, sans-serif; /* Requested Font */
+  font-size: 12px; /* Requested Size */
   outline: none;
   resize: none;
   min-height: 80px;

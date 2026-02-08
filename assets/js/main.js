@@ -271,7 +271,7 @@ function formatLinesCIW(text, maxLength) {
     });
 
     if (line.trim().length > 0) {
-        line = line.trim().padEnd(maxLength, '_');
+        line = line.trim();
         lines.push(line);
     }
 
@@ -640,3 +640,32 @@ function deleteNote(id) {
     renderNotes();
 }
 
+
+/*=============== KEYBOARD NAVIGATION ===============*/
+document.addEventListener('keydown', (e) => {
+    // 1. Check if user is typing in an input/textarea
+    const activeTag = document.activeElement.tagName.toLowerCase();
+    const isEditable = document.activeElement.isContentEditable;
+    
+    if (activeTag === 'input' || activeTag === 'textarea' || isEditable) {
+        return; // Do nothing if typing
+    }
+
+    // 2. Navigation Logic
+    if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+        const navLinksArr = Array.from(document.querySelectorAll('.nav__link'));
+        const activeIndex = navLinksArr.findIndex(link => link.classList.contains('active-link'));
+        
+        if (activeIndex === -1) return;
+
+        let nextIndex;
+        if (e.key === 'ArrowRight') {
+            nextIndex = (activeIndex + 1) % navLinksArr.length;
+        } else {
+            nextIndex = (activeIndex - 1 + navLinksArr.length) % navLinksArr.length;
+        }
+
+        // Trigger click to switch tab
+        navLinksArr[nextIndex].click();
+    }
+});
