@@ -15,13 +15,15 @@ footer {
   display: flex;
   flex-wrap: wrap;
   align-items: flex-start;
-  justify-content: space-between;
+  justify-content: center; /* Center the columns together */
+  gap: 5rem; /* Add spacing between the centered columns */
 }
 
 .col {
-  flex: 1;
+  flex: 0 1 auto; /* Don't grow automatically, size to content */
   padding: 10px;
-  min-width: 220px; /* Minimum width for columns */
+  min-width: 220px;
+  text-align: left; /* Ensure text inside remains left-aligned */
 }
 
 .logo {
@@ -51,30 +53,31 @@ ul li a {
   text-decoration: none;
 }
 
-.learn-more,
-.suggestion {
-  border: 1px solid #fff;
-  padding: 6px;
-  width: 100%;
+.button-wrapper {
+  border: 1px solid #ccc;
+  padding: 8px 16px;
+  width: fit-content;
+  min-width: 250px;
   text-align: center;
-  display: inline-block;
-  transition: border-color 0.3s;
+  display: block;
+  transition: all 0.3s ease;
+  border-radius: 4px;
 }
 
-.learn-more:hover,
-.suggestion:hover {
-  border-color: transparent;
-  border-bottom-color: #fff;
+.button-wrapper:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-color: #fff;
 }
 
 .learn-more {
-  margin-top: 30px;
+  margin-top: 15px;
 }
 
-.contact-button {
+.contact-button, .learn-more {
   display: inline-block;
   color: #fff;
   text-decoration: none;
+  font-size: 13px;
 }
 
 hr {

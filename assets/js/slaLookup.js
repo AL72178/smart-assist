@@ -216,10 +216,16 @@
         const isNA = !timeline || timeline === 'N/A';
         card.className = `sla-card ${isNA ? 'sla-card--na' : ''}`;
 
+        // Add dynamic classes for UI differentiation
+        const partClass = participation === 'PAR' ? 'provider-par' : 'provider-nonpar';
+        const provClass = provider === 'Professional' ? 'type-pro' : 'type-fac';
+
         card.innerHTML = `
             <div class="sla-card__header">
                 <span class="sla-card__category">${category}</span>
-                <span class="sla-card__provider">${participation} • ${provider}</span>
+                <span class="sla-card__provider ${partClass} ${provClass}">
+                    <span class="provider-badge">${participation}</span> • <span class="type-badge">${provider}</span>
+                </span>
             </div>
             <div class="sla-card__body">
                 <p class="sla-card__label">Timely Filing Deadline</p>

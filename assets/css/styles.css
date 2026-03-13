@@ -886,32 +886,55 @@ input:checked + .slider #modeLabel {
   color: white;
 }
 
+/* Dark Theme Adjustments for Sticky Notes */
+body.dark-theme .sticky-note,
+body.dark-theme .sticky-content {
+  color: var(--title-color);
+}
 
+body.dark-theme .sticky-content:empty:before {
+  color: hsla(0, 0%, 80%, 0.5);
+}
+
+body.dark-theme .sticky-btn {
+  color: var(--title-color);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+body.dark-theme .sticky-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
 
 /*=============== FOOTER ===============*/
 .footer {
   background-color: var(--footer-bg);
-  padding: 1rem 0; /* Reduced height */
+  padding: 1.5rem 0;
   color: #fff;
+  border-top-left-radius: 40px;
+  border-top-right-radius: 40px;
 }
 
 .footer__container {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
+  gap: 1.5rem;
 }
 
 .footer__group {
   display: flex;
   align-items: center;
+  gap: 0.5rem;
 }
 
 .footer__link,
 .footer__copy {
   color: #fff;
-  font-size: 0.813rem; 
+  font-size: 0.875rem; 
   font-weight: 400;
   text-decoration: none;
+  transition: 0.3s;
 }
 
 .dev-name {
@@ -920,8 +943,21 @@ input:checked + .slider #modeLabel {
 }
 
 .footer__link:hover {
-  text-decoration: underline;
-  opacity: 0.8;
+  color: var(--first-color);
+}
+
+/* Sleek legacy button for minimal layout */
+.footer__link.btn-legacy {
+  background: hsla(var(--hue), var(--sat), 45%, 0.15);
+  border: 1px solid var(--first-color);
+  padding: 0.4rem 1.25rem;
+  border-radius: 20px;
+  font-weight: 500;
+}
+
+.footer__link.btn-legacy:hover {
+  background: var(--first-color);
+  color: #fff;
 }
 
 /*=============== MOBILE RESPONSIVENESS ADJUSTMENTS ===============*/
@@ -1142,11 +1178,42 @@ input:checked + .slider #modeLabel {
 .sla-card__provider {
   font-size: 0.75rem;
   font-weight: 600;
-  color: var(--text-color);
-  background: var(--container-color);
-  padding: 0.25rem 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+/* Base styles for the inner badges */
+.provider-badge, .type-badge {
+  padding: 0.25rem 0.6rem;
   border-radius: 1rem;
-  border: 1px solid var(--text-color);
+  border: 1px solid transparent;
+}
+
+/* Distinct PAR vs Non-PAR Styling */
+.provider-par .provider-badge {
+  background: hsla(120, 50%, 45%, 0.15); /* Soft Green */
+  color: hsl(120, 50%, 35%);
+  border-color: hsl(120, 50%, 45%);
+}
+
+.provider-nonpar .provider-badge {
+  background: hsla(0, 70%, 55%, 0.15); /* Soft Red/Orange */
+  color: hsl(0, 70%, 45%);
+  border-color: hsl(0, 70%, 55%);
+}
+
+/* Distinct Professional vs Facility Styling */
+.type-pro .type-badge {
+  background: hsla(280, 50%, 45%, 0.15); /* Soft Purple */
+  color: hsl(280, 50%, 40%);
+  border-color: hsl(280, 50%, 50%);
+}
+
+.type-fac .type-badge {
+  background: hsla(205, 75%, 45%, 0.15); /* Soft Blue (Theme default) */
+  color: hsl(205, 75%, 40%);
+  border-color: hsl(205, 75%, 45%);
 }
 
 .sla-card__body {
