@@ -1,0 +1,204 @@
+@import url(../utility.css);
+
+/*=============== Log Assist CSS ===============*/
+
+.log-label {
+    background-color: var(--container-color);
+    border-radius: var(--border-radius-2);
+    box-shadow: var(--box-shadow);
+    padding: 1.5rem;
+    width: 100%;
+}
+
+.log-container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .toggle-container {
+    display: flex;
+    justify-content: flex-end;
+    width: 80%;
+    margin: 0 auto 10px;
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+    border-radius: 34px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+}
+
+input:checked + .slider {
+    background-color: var(--first-color);
+}
+
+input:checked + .slider:before {
+    transform: translateX(26px);
+}
+
+#modeLabel {
+    margin-left: 10px;
+    font-size: var(--normal-font-size);
+    font-weight: var(--font-semi-bold);
+    align-self: center;
+}
+  
+  /* Left section styles */
+  .left-section {
+    flex: 1;
+    margin-right: 1rem;
+  }
+  
+  .left-section .form-group {
+    margin-bottom: 1rem;
+  }
+  
+  .left-section .form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: var(--font-semi-bold);
+    color: var(--text-color);
+  }
+  
+  .left-section .form-group input {
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid var(--text-color-light);
+    border-radius: var(--border-radius-1);
+    font-size: var(--normal-font-size);
+  }
+  
+  /* Right section styles */
+  .right-section {
+    flex: 1;
+    margin-left: 1rem;
+  }
+  
+  .right-section .form-group {
+    margin-bottom: 1rem;
+  }
+  
+  .right-section .form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: var(--font-semi-bold);
+    color: var(--text-color);
+  }
+  
+  .right-section .form-group textarea {
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid var(--text-color-light);
+    border-radius: var(--border-radius-1);
+    font-size: var(--normal-font-size);
+    resize: vertical;
+  }
+  
+  /* Buttons styles */
+  .button-container {
+    margin-top: 20px;
+    text-align: center;
+  }
+  
+  
+  /*=============== Output Container Styles ===============*/
+
+/* Output Text Box Styles */
+.output-container {
+  display: flex;
+  align-items: center;
+  background-color: transparent; /* Removes container background */
+  padding: 0; /* Removes extra padding */
+  border: 1px solid var(--text-color-light); /* Optional border to outline the text box */
+  border-radius: var(--border-radius-1); /* Smaller radius for a textbox look */
+  color: var(--text-color-dark); /* Make sure text is visible, adjust to your theme */
+  overflow-x: auto;
+}
+
+.output-container pre {
+  background-color: transparent; /* Remove background color from preformatted text */
+  padding: 0.5rem; /* Minimal padding to separate text from border */
+  font-size: var(--normal-font-size);
+  color: var(--text-color); /* Ensures text contrast */
+  white-space: pre-wrap;
+  flex-grow: 1; /* Makes the text area take up remaining space */
+}
+
+/* Adjusted Copy Button for Text Box */
+.copy-button {
+  margin-left: 8px;
+  padding: 6px 12px;
+  background-color: var(--color-primary);
+  color: white;
+  border: none;
+  border-radius: var(--border-radius-1);
+  cursor: pointer;
+  font-size: var(--smaller-font-size);
+}
+
+@media screen and (max-width: 768px) {
+    .log-container {
+        flex-direction: column;
+        width: 90%;
+    }
+
+    .left-section {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+
+    .right-section {
+        width: 100%;
+        padding-left: 0;
+    }
+
+    .toggle-container {
+        width: 100%;
+        justify-content: flex-start;
+    }
+
+    .output-container {
+        width: 100%;
+        padding: 15px;
+        margin: 20px 0;
+    }
+
+    .copy-button {
+        top: 5px;
+        right: 5px;
+        padding: 5px;
+        font-size: var(--smaller-font-size);
+    }
+}
