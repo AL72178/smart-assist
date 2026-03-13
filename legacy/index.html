@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- =============== FAVICON =============== -->
+  <link rel="shortcut icon" href="./assets/img/favicon.svg" type="image/x-icon" />
+
+  <!--=============== BOXICONS ===============-->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css" />
+
+
+  <!--=============== CSS ===============-->
+  <link rel="stylesheet" href="./assets/css/styles.css" />
+
+  <title>Quick Assist</title>
+</head>
+
+<body>
+  <!--=============== HEADER ===============-->
+  <header class="header" id="header">
+    <nav class="nav container">
+      <a href="#" class="nav__logo">Quick Assit</a>
+
+      <div class="nav__menu" id="nav-menu">
+        <ul class="nav__list">
+          <li class="nav__item">
+            <a href="#Date-Gap" class="nav__link active-link">
+              <i class="bx bx-calculator nav__icon"></i>
+              <span class="nav__name">Date Gap</span>
+            </a>
+          </li>
+
+          <li class="nav__item">
+            <a href="#Julian-Convert" class="nav__link">
+              <i class="bx bxs-calendar nav__icon"></i>
+              <span class="nav__name">Julian Convert</span>
+            </a>
+          </li>
+
+          <li class="nav__item">
+            <a href="#Log-Assist" class="nav__link">
+              <i class="bx bx-text nav__icon"></i>
+              <span class="nav__name">Log Assist</span>
+            </a>
+          </li>
+
+          <li class="nav__item">
+            <a href="#Letter-Break" class="nav__link">
+              <i class="bx bx-edit nav__icon"></i>
+              <span class="nav__name">Letter Break</span>
+            </a>
+          </li>
+
+          <!-- 
+            <li class="nav__item">
+              <a href="#Smart-Log" class="nav__link">
+                <i class="bx bx-message-square-detail nav__icon"></i>
+                <span class="nav__name">Smart Log</span>
+              </a>
+            </li>
+            -->
+          <li class="nav__item">
+            <span class="nav__link theme-toggle">
+              <i class='bx bx-sun'></i>
+              <i class='bx bx-moon'></i>
+            </span>
+          </li>
+
+        </ul>
+      </div>
+
+      <img src="./assets/img/logo.png" alt="" class="nav__img" />
+    </nav>
+  </header>
+
+  <main>
+    <!--=============== Date Gap ===============-->
+    <section class="container section section__height" id="Date-Gap">
+      <h2 class="section__title">Date Gap</h2>
+
+      <div class="container-dategap">
+        <div class="form-label boxdate">
+          <form action="javascript:void(0)">
+            <label for="from">From Date (MM-DD-YYYY):</label>
+            <input type="date" id="from" required />
+            <label for="to">To Date (MM-DD-YYYY):</label>
+            <input type="date" id="to" required />
+            <br />
+            <div class="btn-container">
+              <button type="button" onclick="calculate()" class="btn-primary">Calculate</button>
+              <button type="button" onclick="resetCalc()" class="btn-secondary">Reset</button>
+            </div>
+          </form>
+          <p id="result"></p>
+        </div>
+      </div>
+    </section>
+
+
+    <!--=============== Julian Convert ===============-->
+    <section class="container section section__height" id="Julian-Convert">
+      <h2 class="section__title">Julian Convert</h2>
+
+      <div class="container-julianConvert">
+        <div class="form-label box">
+          <label for="gregorianDate">Enter Gregorian Date (MM/DD/YYYY):<label>
+
+
+              <input type="date" id="gregorianDate">
+
+              <button onclick="convertToJulian()" class="btn-primary">Convert to Julian</button>
+
+              <label for="julianDate" class="julian-devision">Enter Julian Date:</label>
+
+
+              <input type="number" id="julianDate" placeholder="YYDDD">
+              <button onclick="convertToGregorian()" class="btn-primary">Convert to Gregorian</button>
+
+              <button onclick="clearFields()" class="btn-secondary">Clear</button>
+
+              <div id="result-julian"></div>
+        </div>
+      </div>
+    </section>
+
+    <!--=============== Log Assist ===============-->
+    <section class="container section section__height" id="Log-Assist">
+      <h2 class="section__title">Log Assist</h2>
+
+      <div class="container-logassist">
+
+        <div class="log-label">
+
+          <div class="toggle-container">
+            <label class="switch">
+              <input type="checkbox" id="modeToggle" checked>
+              <span class="slider round"></span>
+            </label>
+            <span id="modeLabel">WGS</span>
+          </div>
+
+          <!-- main container box-->
+          <div class="log-container">
+            <!-- left section -->
+            <div class="left-section">
+              <div class="form-group">
+                <label for="req_id">Inquiry No.:</label>
+                <input type="text" id="req_id" name="req_id">
+              </div>
+              <div class="form-group">
+                <label for="arc">ARC Code:</label>
+                <input type="text" id="arc" name="arc">
+              </div>
+              <div class="form-group">
+                <label for="mlh">MLH (MM/DD/YYYY):</label>
+                <input type="text" id="mlh" name="mlh">
+              </div>
+            </div>
+
+            <!-- Right section -->
+            <div class="right-section">
+              <div class="form-group adjustment-note">
+                <label for="reason">Adjustment note:</label>
+                <textarea id="reason" name="reason" rows="4">Adjustment made in claim as per </textarea>
+              </div>
+              <div class="form-group partial-log-button">
+                <!-- Partial Log button -->
+                <button class="btn-tertiary" id="partialLogButton">Partial Log</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Output container -->
+          <div class="output-container">
+            <button class="copy-button" onclick="copyToClipboard()">Copy</button>
+            <pre id="output"></pre>
+          </div>
+
+          <!-- Complete Log button -->
+          <div class="button-container">
+            <button id="completeLogButton" class="btn-primary">Complete Log</button>
+            <button id="resetButton" class="btn-secondary">Reset</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!--=============== Letter Break ===============-->
+    <section class="container section section__height" id="Letter-Break">
+      <h2 class="section__title">Letter Break</h2>
+      <div id="inputContainer">
+        <div class="incontainer">
+          <textarea id="inputText" placeholder="Please write your verbiage here...."></textarea>
+          <div class="btncounter">
+            <span class="textCounter" id="charCount">Characters: 0</span> <!-- Added label "Characters: " -->
+            <button id="divideButton" class="btn-primary">Divide Text</button>
+            <button id="resetBtn" class="btn-secondary">Reset</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="outputBoxes" class="textBoxContainer"></div>
+    </section>
+
+    <!--=============== Smart Log ===============-->
+    <!-- <section class="container section section__height" id="Smart-Log">
+        <h2 class="section__title">Smart Log</h2>
+      </section> -->
+  </main>
+
+  <!-- =============== Footer =============== -->
+
+  <footer class="footer">
+    <div class="row">
+      <div class="col">
+        <h3>
+          About
+          <div class="underline"><span></span></div>
+        </h3>
+        <p style="max-width: 300px; line-height: 1.4;">
+          Welcome to Quick Assist,<br> a web application designed to streamline various tasks with specialized tools.
+        </p>
+      </div>
+
+      <div class="col">
+        <h3>
+          Behind the Code
+          <div class="underline"><span></span></div>
+        </h3>
+        <h4>Nishant Singh</h4>
+        <p>Associate Claim - PDR</p>
+        <p>Gurgaon - IND</p>
+        <p class="email-id">nishant.singh@carelon.com</p>
+      </div>
+
+
+
+      <div class="col know-more">
+        <h3>
+          Know More
+          <div class="underline"><span></span></div>
+        </h3>
+        <div class="suggestion button-wrapper">
+          <a href="mailto:nishant.singh@carelon.com?subject=Suggestion/Modification%20-%20Quick%20Assist&body=Purpose:%20Suggestion/Modification%0D%0A%0D%0AExplain:%0D%0A%0D%0A%0D%0A"
+            class="contact-button">Send Suggestion or Feedback <i class="bx bx-right-arrow"></i></a>
+        </div>
+        <a href="../" class="learn-more button-wrapper">Use New Version <i class="bx bx-right-arrow"></i></a>
+      </div>
+    </div>
+    <hr />
+    <p class="copyright">Developed and Coded by @NISH &#9830; 2024</p>
+  </footer>
+
+
+  <!--=============== MAIN JS ===============-->
+  <script src="./assets/js/main.js"></script>
+
+  <!-- =============== Sub JS =============== -->
+  <script src="./assets/js/components/dategap.js"></script>
+  <script src="./assets/js/components/julianconvert.js"></script>
+  <script src="./assets/js/components/letterbreak.js"></script>
+  <script src="./assets/js/components/logassist.js"></script>
+
+</body>
+
+</html>

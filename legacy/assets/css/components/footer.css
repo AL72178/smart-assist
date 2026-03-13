@@ -1,0 +1,144 @@
+footer {
+  width: 100%;
+  background: linear-gradient(to right, #2d3436, #1b1f22);
+  color: #fff;
+  padding: 60px 0 30px;
+  border-top-left-radius: 125px;
+  font-size: 13px;
+  line-height: 20px;
+  position: relative;
+}
+
+.row {
+  width: 85%;
+  margin: auto;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: center; /* Center the columns together */
+  gap: 5rem; /* Add spacing between the centered columns */
+}
+
+.col {
+  flex: 0 1 auto; /* Don't grow automatically, size to content */
+  padding: 10px;
+  min-width: 220px;
+  text-align: left; /* Ensure text inside remains left-aligned */
+}
+
+.logo {
+  width: 60px;
+  margin-bottom: 30px;
+  border-radius: 50px;
+}
+
+.col h3 {
+  width: fit-content;
+  margin-bottom: 40px;
+  position: relative;
+}
+
+.email-id {
+  width: fit-content;
+  border-bottom: 1px solid #ccc;
+  margin: 20px 0;
+}
+
+ul li {
+  margin-bottom: 12px;
+}
+
+ul li a {
+  color: #fff;
+  text-decoration: none;
+}
+
+.button-wrapper {
+  border: 1px solid #ccc;
+  padding: 8px 16px;
+  width: fit-content;
+  min-width: 250px;
+  text-align: center;
+  display: block;
+  transition: all 0.3s ease;
+  border-radius: 4px;
+}
+
+.button-wrapper:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-color: #fff;
+}
+
+.learn-more {
+  margin-top: 15px;
+}
+
+.contact-button, .learn-more {
+  display: inline-block;
+  color: #fff;
+  text-decoration: none;
+  font-size: 13px;
+}
+
+hr {
+  width: 90%;
+  border: 0;
+  border-bottom: 1px solid #ccc;
+  margin: 20px auto;
+}
+
+a {
+  color: #fff;
+  text-decoration: none;
+}
+
+.copyright {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.underline {
+  width: 100%;
+  height: 5px;
+  background: #767676;
+  border-radius: 3px;
+  position: absolute;
+  top: 25px;
+  left: 0;
+  overflow: hidden;
+}
+
+.underline span {
+  width: 15px;
+  height: 100%;
+  background: #fff;
+  border-radius: 3px;
+  position: absolute;
+  top: 0;
+  left: 10px;
+  animation: moving 2s linear infinite;
+}
+
+@keyframes moving {
+  0% { left: -20px; }
+  100% { left: 100%; }
+}
+
+@media (max-width: 768px) {
+  footer {
+      padding: 40px 0 20px;
+  }
+
+  .row {
+      flex-direction: column;
+  }
+
+  .col {
+      flex-basis: 100%;
+      padding: 10px 0;
+  }
+
+  .learn-more, .suggestion {
+      width: 100%;
+  }
+}

@@ -1,0 +1,107 @@
+.container-julianConvert {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+.form-label {
+  display: flex;
+  flex-direction: column;
+  align-items: center; 
+  width: 100%;
+  padding: 40px 40px; 
+  background-color: var(--container-color);
+  border-radius: 2rem;
+  box-shadow: var(--box-shadow);
+}
+
+.julian-devision {
+  margin-top: 50px;
+  margin-bottom: 20px;
+}
+
+.form-label.box input:first-of-type {
+  margin-top: 25px;
+}
+
+label {
+  color: var(--text-color);
+  display: block;
+}
+
+label:nth-of-type(2) {
+  margin-top: 20px;
+}
+
+input {
+  padding: 5px;
+  margin-bottom: 20px;
+  width: 100%;
+  max-width: 150px;
+}
+
+button {
+  padding: 10px 20px;
+  background-color: var(--first-color);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 10px 5px;
+}
+
+#result {
+  color: var(--text-color);
+  font-weight: bold;
+  margin-top: 20px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  h1 {
+    font-size: 1.5rem;
+    margin-bottom: 30px;
+  }
+
+  label {
+    font-size: var(--small-font-size);
+  }
+
+  input {
+    width: 100%;
+    padding: 10px;
+  }
+
+  button {
+    padding: 8px 16px;
+  }
+
+  #result {
+    font-size: var(--normal-font-size);
+  }
+}
+
+@media (max-width: 480px) {
+  h1 {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+  }
+
+  label {
+    font-size: var(--smaller-font-size);
+  }
+
+  input {
+    padding: 8px;
+  }
+
+  button {
+    padding: 8px 12px;
+  }
+
+  #result {
+    font-size: var(--normal-font-size);
+  }
+}
