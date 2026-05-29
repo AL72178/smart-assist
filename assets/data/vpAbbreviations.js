@@ -1,0 +1,134 @@
+window.vpAbbreviations = [
+  {
+    "Term": "AAHP",
+    "Definition": "American Association of Health Plans",
+    "Definition 2": "",
+    "Definition 3": ""
+  },
+  {
+    "Term": "ABH",
+    "Definition": "Anthem Behavioral Health",
+    "Definition 2": "",
+    "Definition 3": ""
+  },
+  {
+    "Term": "ACA",
+    "Definition": "Affordable Care Act",
+    "Definition 2": "",
+    "Definition 3": ""
+  },
+  {
+    "Term": "AHA",
+    "Definition": "American Hospital Association\n",
+    "Definition 2": "",
+    "Definition 3": ""
+  },
+  {
+    "Term": "AHCA",
+    "Definition": "American Health Care Association",
+    "Definition 2": "",
+    "Definition 3": ""
+  },
+  {
+    "Term": "BH",
+    "Definition": "Behavioral Health",
+    "Definition 2": "",
+    "Definition 3": ""
+  },
+  {
+    "Term": "CCOA",
+    "Definition": "Cost Containment and Overpayment Avoidance",
+    "Definition 2": "",
+    "Definition 3": ""
+  },
+  {
+    "Term": "CMS",
+    "Definition": "Centers for Medicare & Medicaid Services",
+    "Definition 2": "Claims Management System",
+    "Definition 3": ""
+  },
+  {
+    "Term": "COPPS",
+    "Definition": "Commercial  Outpatient Prospective Payment System",
+    "Definition 2": "",
+    "Definition 3": ""
+  },
+  {
+    "Term": "DME",
+    "Definition": "Durable Medical Equipment",
+    "Definition 2": "",
+    "Definition 3": ""
+  },
+  {
+    "Term": "DMR",
+    "Definition": "Data Management Reengineering",
+    "Definition 2": "Direct Member Reimbursement",
+    "Definition 3": ""
+  },
+  {
+    "Term": "DOB",
+    "Definition": "Date of Birth",
+    "Definition 2": "",
+    "Definition 3": ""
+  },
+  {
+    "Term": "E/M",
+    "Definition": "Evaluation and Management Code",
+    "Definition 2": "",
+    "Definition 3": ""
+  },
+  {
+    "Term": "EGHP",
+    "Definition": "Employer Group Health Plan",
+    "Definition 2": "",
+    "Definition 3": ""
+  },
+  {
+    "Term": "HCM",
+    "Definition": "Health Care Management",
+    "Definition 2": "",
+    "Definition 3": ""
+  },
+  {
+    "Term": "HMO",
+    "Definition": "Health Maintenance Organization",
+    "Definition 2": "",
+    "Definition 3": ""
+  },
+  {
+    "Term": "PHI",
+    "Definition": "Protected Health Information",
+    "Definition 2": "",
+    "Definition 3": ""
+  },
+  {
+    "Term": "NCCI",
+    "Definition": "National Correct Coding Initiative",
+    "Definition 2": "",
+    "Definition 3": ""
+  },
+  {
+    "Term": "MUE",
+    "Definition": "Medically Unlikely Events",
+    "Definition 2": "",
+    "Definition 3": ""
+  },
+  {
+    "Term": "AMA",
+    "Definition": "American Medical Association",
+    "Definition 2": "",
+    "Definition 3": ""
+  },
+  {
+    "Term": "CRP",
+    "Definition": "Custom Reporting Package",
+    "Definition 2": "",
+    "Definition 3": ""
+  },
+  {
+    "Term": "DOR",
+    "Definition": "Designation of Representative",
+    "Definition 2": "",
+    "Definition 3": ""
+  }
+];

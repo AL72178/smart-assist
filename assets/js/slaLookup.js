@@ -41,11 +41,15 @@
 
     // =============== DATA FETCH ===============
     async function fetchSLAData() {
-        const response = await fetch('assets/data/newSLA.json');
-        if (!response.ok) {
-            throw new Error('Failed to fetch SLA data');
+        if (window.newSLAData) {
+            slaData = window.newSLAData;
+        } else {
+            const response = await fetch('assets/data/newSLA.json');
+            if (!response.ok) {
+                throw new Error('Failed to fetch SLA data');
+            }
+            slaData = await response.json();
         }
-        slaData = await response.json();
         populateStateDropdown();
     }
 

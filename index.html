@@ -67,16 +67,14 @@
               <span class="nav__name"> Log Assist </span>
             </a>
           </li>
-          <!-- Letter Break -->
+          <!-- Verbiage Pro -->
           <li class="nav__item">
-            <a href="#letter-break" class="nav__link">
+            <a href="#verbiage-pro" class="nav__link">
               <svg xmlns="http://www.w3.org/2000/svg" class="nav__icon" width="24" height="24" fill="currentColor"
                 viewBox="0 0 24 24">
-                <path
-                  d="m21.51,5.14l-5-3c-.45-.27-1.02-.15-1.33.27L2.19,20.41c-.26.36-.25.86.03,1.21.19.24.48.38.78.38.13,0,.26-.03.39-.08l9.5-4c.16-.07.3-.17.4-.31l8.5-11c.17-.23.24-.52.19-.8-.05-.28-.22-.53-.47-.67Zm-9.65,11.04l-5.97,2.51,5.84-8.09,3.03,1.82-2.9,3.75Zm4.13-5.35l-3.09-1.85,3.36-4.65,3.25,1.95-3.52,4.56Z">
-                </path>
+                <path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H8V4h12v12z"/>
               </svg>
-              <span class="nav__name"> Letter Break </span>
+              <span class="nav__name"> Verbiage Pro </span>
             </a>
           </li>
           <!-- Todo Note -->
@@ -251,28 +249,95 @@
       </div>
     </section>
 
-    <!-------------- Letter Break -------------->
-    <section class="container section section__height" id="letter-break">
-      <h2 class="section__title">Letter Break</h2>
+    <!-------------- Verbiage Pro -------------->
+    <section class="container section section__height" id="verbiage-pro">
+      <h2 class="section__title">Verbiage Pro</h2>
 
-      <div class="container-dategap">
-        <div class="boxdate" style="max-width: 800px">
-          <div id="inputContainer">
-            <div class="form-group">
-              <label for="letterBreakInput">Your Content:</label>
-              <textarea id="letterBreakInput" rows="5" placeholder="Please write your verbiage here...."></textarea>
-            </div>
-            <div class="btn-container" style="justify-content: space-between; align-items: center; margin-top: 1rem">
-              <span class="textCounter" id="letterBreakCharCount"
-                style="color: var(--title-color); font-weight: 600">Characters: 0</span>
-              <div style="display: flex; gap: 1rem">
-                <button id="btnDivideText" class="btn-primary">Divide Text</button>
-                <button id="btnResetLetterBreak" class="btn-secondary">Reset</button>
-              </div>
+      <!-- Dynamic Tab Categories -->
+      <div class="vp-tabs-container">
+        <nav id="vpDynamicTabs" style="display: flex; width: 100%;"></nav>
+      </div>
+
+      <!-- Search and Filter Row -->
+      <div class="vp-controls">
+        <div class="vp-search-wrapper">
+          <span class="vp-search-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+          </span>
+          <input type="text" id="vpSearchInput" class="vp-search-input" placeholder="Search a product..." />
+          <button type="button" id="vpClearSearch" class="vp-search-clear" aria-label="Clear search">&times;</button>
+        </div>
+
+        <div class="vp-filter-group">
+          <label class="vp-radio-label">
+            <input type="radio" name="vpCodedByFilter" value="all" checked />
+            <span>PDR + Custom Verbiage</span>
+          </label>
+          <label class="vp-radio-label">
+            <input type="radio" name="vpCodedByFilter" value="pdr" />
+            <span>Only PDR Verbiage</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Responsive Table -->
+      <div class="vp-table-container">
+        <table class="vp-table">
+          <thead>
+            <tr>
+              <th style="width: 20%;">Category</th>
+              <th style="width: 25%;">Short Summary</th>
+              <th style="width: 15%;">Decision Code</th>
+              <th style="width: 30%;">Verbiage</th>
+              <th style="width: 10%;">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="vpTableBody">
+            <!-- Dynamically populated -->
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Pagination -->
+      <div class="vp-pagination" id="vpPagination">
+        <a href="#" class="vp-page-link" id="vpPrevBtn" title="Previous">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
+          </svg>
+        </a>
+        <!-- Numbered buttons will be added dynamically -->
+        <a href="#" class="vp-page-link" id="vpNextBtn" title="Next">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
+          </svg>
+        </a>
+      </div>
+
+      <!-- Enhanced Letter Break Section -->
+      <div class="vp-letter-break-container">
+        <h3 class="section__title" style="font-size: 1.25rem; text-align: left; margin-bottom: 1.5rem; color: var(--first-color);">Letter Break & Abbreviations</h3>
+        
+        <div id="vpInputContainer" style="display: flex; flex-direction: column; gap: 1rem;">
+          <div class="vp-abbrev-textarea-wrap" id="vpAbbrevTextareaWrap">
+            <textarea id="vpLetterBreakInput" rows="5" class="vp-output-textarea" style="background: var(--body-color); width: 100%; font-family: var(--body-font); font-size: var(--normal-font-size);" placeholder="Please write your verbiage here...."></textarea>
+          </div>
+
+          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+            <span class="textCounter" id="vpLetterBreakCharCount" style="color: var(--title-color); font-weight: 600;">Characters: 0</span>
+            <div style="display: flex; gap: 1rem;">
+              <button id="vpApplyAbbrevBtn" class="btn-primary">Apply Abbrev</button>
+              <button id="vpDivideTextBtn" class="btn-primary">Divide Text</button>
+              <button id="vpResetLetterBreakBtn" class="btn-secondary">Reset</button>
             </div>
           </div>
-          <div id="letterBreakOutput" class="textBoxContainer"></div>
+          
+          <div id="vpAbbrevStatus" class="vp-abbrev-status hidden" aria-live="polite"></div>
         </div>
+
+        <div id="vpLetterBreakOutput" class="vp-output-boxes"></div>
       </div>
     </section>
 
@@ -378,9 +443,7 @@
         <a href="mailto:nishant.singh@carelon.com" class="footer__link">Email Me</a>
       </div>
 
-      <div class="footer__group">
-        <a href="./legacy/" class="footer__link btn-legacy">Use Legacy Version</a>
-      </div>
+
 
       <!-- RIGHT: Developed By -->
       <div class="footer__group">
@@ -389,10 +452,16 @@
     </div>
   </footer>
 
+  <!--=============== DATA ===============-->
+  <script src="assets/data/newSLA.js"></script>
+  <script src="assets/data/vpData.js"></script>
+  <script src="assets/data/vpAbbreviations.js"></script>
+
   <!--=============== MAIN JS ===============-->
   <script src="assets/js/theme.js"></script>
   <script src="assets/js/main.js"></script>
   <script src="assets/js/slaLookup.js"></script>
+  <script src="assets/js/verbiagePro.js"></script>
 </body>
 
 </html>

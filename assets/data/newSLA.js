@@ -1,4 +1,4 @@
-{
+window.newSLAData = {
   "schemaVersion": 1,
   "states": {
     "California": {
@@ -503,7 +503,7 @@
           "facility": "24 months from the remit date (Explanation of Benefit) of the last processing of the claim."
         }
       },
-      "notes": "Missouri HB 1682 is 180 days for newly contracted providers within existing MO professional provider groups. Refer to the MO HB 1682 Credentialing Health Care Practitioners and Timely Filing Impacts document for additional information"
+      "notes": "Missouri HB 1682 is 180 days for newly contracted providers within existing MO professional provider groups. Refer to the MO HB 1682 Credentialing Health Care Practitioners and Timely Filing Impacts document for additional information"
     },
     "Nevada": {
       "iqt": {
@@ -687,7 +687,7 @@
           "facility": "N/A"
         }
       },
-      "notes": "There is only 1 dispute level.  This applies regardless of the provider market."
+      "notes": "There is only 1 dispute level. This applies regardless of the provider market."
     }
   }
-}
+};
