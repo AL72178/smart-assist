@@ -5,27 +5,27 @@
   const paginationContainer = document.getElementById('vpPagination');
   const searchInput = document.getElementById('vpSearchInput');
   const codedByRadios = document.querySelectorAll("input[name='vpCodedByFilter']");
-  const clearSearchBtn = document.getElementById("vpClearSearch");
+  const clearSearchBtn = document.getElementById('vpClearSearch');
 
-  const prevBtn = document.getElementById("vpPrevBtn");
-  const nextBtn = document.getElementById("vpNextBtn");
+  const prevBtn = document.getElementById('vpPrevBtn');
+  const nextBtn = document.getElementById('vpNextBtn');
 
   const rowsPerPage = 10;
   let allData = [];
   let filteredData = [];
   let currentPage = 1;
-  let selectedRadioValue = "all";
-  let selectedTabCategory = "All";
+  let selectedRadioValue = 'all';
+  let selectedTabCategory = 'All';
 
   // ========== Letter Break & Abbreviation Elements ==========
-  const inputTextElement = document.getElementById("vpLetterBreakInput");
-  const outputBoxesElement = document.getElementById("vpLetterBreakOutput");
-  const charCountElement = document.getElementById("vpLetterBreakCharCount");
-  const applyAbbrevButton = document.getElementById("vpApplyAbbrevBtn");
-  const abbrevTextareaWrapElement = document.getElementById("vpAbbrevTextareaWrap");
-  const abbrevStatusElement = document.getElementById("vpAbbrevStatus");
-  const divideButton = document.getElementById("vpDivideTextBtn");
-  const resetBtn = document.getElementById("vpResetLetterBreakBtn");
+  const inputTextElement = document.getElementById('vpLetterBreakInput');
+  const outputBoxesElement = document.getElementById('vpLetterBreakOutput');
+  const charCountElement = document.getElementById('vpLetterBreakCharCount');
+  const applyAbbrevButton = document.getElementById('vpApplyAbbrevBtn');
+  const abbrevTextareaWrapElement = document.getElementById('vpAbbrevTextareaWrap');
+  const abbrevStatusElement = document.getElementById('vpAbbrevStatus');
+  const divideButton = document.getElementById('vpDivideTextBtn');
+  const resetBtn = document.getElementById('vpResetLetterBreakBtn');
 
   let abbreviationDataPromise = null;
   const selectedAmbiguousDefinitions = new Map();
@@ -40,61 +40,52 @@
   }
 
   function getFilteredByRadio(data, value) {
-    return value === "pdr"
-      ? data.filter((item) => item["Coded By"]?.trim().toLowerCase() === "pdr")
-      : data;
+    return value === 'pdr' ? data.filter((item) => item['Coded By']?.trim().toLowerCase() === 'pdr') : data;
   }
 
   function getSearchFiltered(data, query) {
     return data.filter((item) =>
-      [
-        "Inquiry", 
-        "Secondary Category", 
-        "Scenario", 
-        "Decision Code", 
-        "Short Summary", 
-        "Verbiage"
-      ].some((key) =>
-        item[key]?.toLowerCase().includes(query)
-      )
+      ['Inquiry', 'Secondary Category', 'Scenario', 'Decision Code', 'Short Summary', 'Verbiage'].some((key) =>
+        item[key]?.toLowerCase().includes(query),
+      ),
     );
   }
 
   function setActiveTab(tabText) {
     tabs.forEach((t) => {
       const isActive = t.textContent.trim() === tabText;
-      t.classList.toggle("vp-tab--active", isActive);
+      t.classList.toggle('vp-tab--active', isActive);
       if (isActive) {
-        t.setAttribute("aria-current", "page");
+        t.setAttribute('aria-current', 'page');
       } else {
-        t.removeAttribute("aria-current");
+        t.removeAttribute('aria-current');
       }
     });
   }
 
   // --- Dynamic Tabs Rendering ---
   function renderTabs(data) {
-    const categories = new Set(["All"]);
-    data.forEach(item => {
-      if (item["Inquiry"]) {
-        categories.add(item["Inquiry"].trim());
+    const categories = new Set(['All']);
+    data.forEach((item) => {
+      if (item['Inquiry']) {
+        categories.add(item['Inquiry'].trim());
       }
     });
 
     if (dynamicTabsContainer) {
-      dynamicTabsContainer.innerHTML = "";
+      dynamicTabsContainer.innerHTML = '';
       tabs = [];
 
-      categories.forEach(category => {
-        const a = document.createElement("a");
-        a.href = "#";
-        a.className = category === "All" ? "vp-tab vp-tab--active" : "vp-tab";
-        if (category === "All") {
-          a.setAttribute("aria-current", "page");
+      categories.forEach((category) => {
+        const a = document.createElement('a');
+        a.href = '#';
+        a.className = category === 'All' ? 'vp-tab vp-tab--active' : 'vp-tab';
+        if (category === 'All') {
+          a.setAttribute('aria-current', 'page');
         }
         a.textContent = category;
 
-        a.addEventListener("click", (event) => {
+        a.addEventListener('click', (event) => {
           event.preventDefault();
           selectedTabCategory = event.currentTarget.textContent.trim();
           setActiveTab(selectedTabCategory);
@@ -110,30 +101,30 @@
   // --- Rendering Table ---
   function renderTable(data) {
     if (!tableBody) return;
-    tableBody.innerHTML = "";
+    tableBody.innerHTML = '';
     data.forEach((item) => {
-      const verbiageHTML = item["Verbiage"].replace(
+      const verbiageHTML = item['Verbiage'].replace(
         /([\[\(\{])\*([^{}\[\]\(\)]+?)([\]\)\}])/g,
         (match, open, content, close) => {
           return `${open}<span contenteditable="true" class="editable-bracket">${content}</span>${close}`;
-        }
+        },
       );
 
-      const row = document.createElement("tr");
+      const row = document.createElement('tr');
       row.innerHTML = `
         <td style="font-weight: 600; width: 20%;">
-          <div style="color: var(--title-color); font-weight: 700;">${item["Inquiry"] || 'N/A'}</div>
-          <div style="font-size: 0.75rem; color: var(--text-color); opacity: 0.8; margin-top: 0.25rem;">${item["Secondary Category"] || ''}</div>
+          <div style="color: var(--title-color); font-weight: 700;">${item['Inquiry'] || 'N/A'}</div>
+          <div style="font-size: 0.75rem; color: var(--text-color); opacity: 0.8; margin-top: 0.25rem;">${item['Secondary Category'] || ''}</div>
         </td>
         <td style="width: 25%;">
-          <div style="color: var(--title-color); font-weight: 600;">${item["Scenario"] || ''}</div>
-          <div style="margin-top: 0.25rem; font-size: 0.8rem; opacity: 0.9;">${item["Short Summary"] || ''}</div>
+          <div style="color: var(--title-color); font-weight: 600;">${item['Scenario'] || ''}</div>
+          <div style="margin-top: 0.25rem; font-size: 0.8rem; opacity: 0.9;">${item['Short Summary'] || ''}</div>
         </td>
         <td style="width: 15%;">
           ${
-            item["Coded By"]?.toLowerCase() === "pdr"
-              ? `<span class="vp-pill-badge">${item["Decision Code"]}</span>`
-              : item["Decision Code"] || ''
+            item['Coded By']?.toLowerCase() === 'pdr'
+              ? `<span class="vp-pill-badge">${item['Decision Code']}</span>`
+              : item['Decision Code'] || ''
           }
         </td>
         <td class="vp-verbiage-cell" style="width: 30%; line-height: 1.5;">${verbiageHTML}</td>
@@ -160,10 +151,10 @@
   }
 
   function attachCopyHandlers() {
-    document.querySelectorAll(".vp-copy-button").forEach((btn) => {
-      btn.addEventListener("click", () => {
-        const row = btn.closest("tr");
-        const verbiageCell = row.querySelector(".vp-verbiage-cell");
+    document.querySelectorAll('.vp-copy-button').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const row = btn.closest('tr');
+        const verbiageCell = row.querySelector('.vp-verbiage-cell');
         const textToCopy = verbiageCell.textContent.trim();
 
         navigator.clipboard.writeText(textToCopy).then(() => {
@@ -187,17 +178,17 @@
   function attachEditHandlers() {
     if (!inputTextElement) return;
 
-    document.querySelectorAll(".vp-edit-button").forEach((btn) => {
-      btn.addEventListener("click", () => {
-        const row = btn.closest("tr");
-        const verbiageCell = row.querySelector(".vp-verbiage-cell");
+    document.querySelectorAll('.vp-edit-button').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const row = btn.closest('tr');
+        const verbiageCell = row.querySelector('.vp-verbiage-cell');
         const textToEdit = verbiageCell.textContent.trim();
 
         inputTextElement.value = textToEdit;
         countCharacters();
-        
+
         // Scroll to letter break section
-        const lbSection = document.querySelector(".vp-letter-break-container");
+        const lbSection = document.querySelector('.vp-letter-break-container');
         if (lbSection) {
           lbSection.scrollIntoView({ behavior: 'smooth' });
         }
@@ -207,40 +198,40 @@
 
   function renderPagination(totalPages) {
     if (!paginationContainer) return;
-    paginationContainer.querySelectorAll("a.vp-page-btn").forEach((btn) => btn.remove());
+    paginationContainer.querySelectorAll('a.vp-page-btn').forEach((btn) => btn.remove());
 
     for (let i = 1; i <= totalPages; i++) {
-      const btn = document.createElement("a");
-      btn.href = "#";
+      const btn = document.createElement('a');
+      btn.href = '#';
       btn.textContent = i;
-      btn.className = `vp-page-btn vp-page-link ${i === currentPage ? "vp-page-link--active" : ""}`;
-      
-      btn.addEventListener("click", (e) => {
+      btn.className = `vp-page-btn vp-page-link ${i === currentPage ? 'vp-page-link--active' : ''}`;
+
+      btn.addEventListener('click', (e) => {
         e.preventDefault();
         displayPage(i);
       });
-      
+
       paginationContainer.insertBefore(btn, nextBtn);
     }
 
     if (prevBtn) {
-      prevBtn.classList.toggle("vp-page-link--disabled", currentPage === 1);
+      prevBtn.classList.toggle('vp-page-link--disabled', currentPage === 1);
     }
     if (nextBtn) {
-      nextBtn.classList.toggle("vp-page-link--disabled", currentPage === totalPages || totalPages === 0);
+      nextBtn.classList.toggle('vp-page-link--disabled', currentPage === totalPages || totalPages === 0);
     }
   }
 
   function displayPage(page) {
     const totalPages = Math.ceil(filteredData.length / rowsPerPage);
     currentPage = Math.max(1, Math.min(page, totalPages));
-    
+
     if (filteredData.length === 0) {
       renderTable([]);
       renderPagination(0);
       return;
     }
-    
+
     const start = (currentPage - 1) * rowsPerPage;
     const end = start + rowsPerPage;
     renderTable(filteredData.slice(start, end));
@@ -248,41 +239,33 @@
   }
 
   function applyFilters() {
-    const query = searchInput ? searchInput.value.trim().toLowerCase() : "";
+    const query = searchInput ? searchInput.value.trim().toLowerCase() : '';
     const radioFiltered = getFilteredByRadio(allData, selectedRadioValue);
     const searchFiltered = getSearchFiltered(radioFiltered, query);
 
     const categoryCounts = {};
     searchFiltered.forEach((item) => {
-      const category = item["Inquiry"] || "All";
+      const category = item['Inquiry'] || 'All';
       categoryCounts[category] = (categoryCounts[category] || 0) + 1;
     });
 
     tabs.forEach((tab) => {
       const tabName = tab.textContent.trim();
-      const tabKey = tabName === "All" ? "All" : tabName;
+      const tabKey = tabName === 'All' ? 'All' : tabName;
 
       tab.style.display =
-        tabKey === "All"
-          ? searchFiltered.length > 0
-            ? ""
-            : "none"
-          : categoryCounts[tabKey]
-          ? ""
-          : "none";
+        tabKey === 'All' ? (searchFiltered.length > 0 ? '' : 'none') : categoryCounts[tabKey] ? '' : 'none';
 
-      if (tab.classList.contains("vp-tab--active") && tab.style.display === "none") {
-        selectedTabCategory = "All";
-        setActiveTab("All");
+      if (tab.classList.contains('vp-tab--active') && tab.style.display === 'none') {
+        selectedTabCategory = 'All';
+        setActiveTab('All');
       }
     });
 
     filteredData =
-      selectedTabCategory === "All"
+      selectedTabCategory === 'All'
         ? searchFiltered
-        : searchFiltered.filter(
-            (item) => item["Inquiry"] === selectedTabCategory
-          );
+        : searchFiltered.filter((item) => item['Inquiry'] === selectedTabCategory);
 
     displayPage(1);
   }
@@ -290,35 +273,35 @@
   // --- Search Input Listeners ---
   if (searchInput) {
     searchInput.addEventListener(
-      "input",
+      'input',
       debounce(() => {
         if (clearSearchBtn) {
-          clearSearchBtn.style.display = searchInput.value ? "block" : "none";
+          clearSearchBtn.style.display = searchInput.value ? 'block' : 'none';
         }
         applyFilters();
-      }, 300)
+      }, 300),
     );
   }
 
   if (clearSearchBtn) {
-    clearSearchBtn.addEventListener("click", () => {
+    clearSearchBtn.addEventListener('click', () => {
       if (searchInput) {
-        searchInput.value = "";
+        searchInput.value = '';
       }
-      clearSearchBtn.style.display = "none";
+      clearSearchBtn.style.display = 'none';
       applyFilters();
     });
   }
 
   codedByRadios.forEach((radio) => {
-    radio.addEventListener("change", () => {
+    radio.addEventListener('change', () => {
       selectedRadioValue = radio.value.toLowerCase();
       applyFilters();
     });
   });
 
   if (prevBtn) {
-    prevBtn.addEventListener("click", (e) => {
+    prevBtn.addEventListener('click', (e) => {
       e.preventDefault();
       if (currentPage > 1) {
         displayPage(currentPage - 1);
@@ -327,7 +310,7 @@
   }
 
   if (nextBtn) {
-    nextBtn.addEventListener("click", (e) => {
+    nextBtn.addEventListener('click', (e) => {
       e.preventDefault();
       const totalPages = Math.ceil(filteredData.length / rowsPerPage);
       if (currentPage < totalPages) {
@@ -338,13 +321,15 @@
 
   // ========== LETTER BREAK STUFF ==========
   if (inputTextElement) {
-    inputTextElement.addEventListener("input", handleTextInputChange);
+    inputTextElement.setAttribute('spellcheck', 'true');
+    inputTextElement.spellcheck = true;
+    inputTextElement.addEventListener('input', handleTextInputChange);
   }
   if (divideButton) {
-    divideButton.addEventListener("click", expandText);
+    divideButton.addEventListener('click', expandText);
   }
   if (resetBtn) {
-    resetBtn.addEventListener("click", resetText);
+    resetBtn.addEventListener('click', resetText);
   }
 
   function expandText() {
@@ -352,8 +337,8 @@
     let originalText = inputTextElement.value;
     if (!originalText.trim()) {
       if (abbrevStatusElement) {
-        abbrevStatusElement.classList.remove("hidden");
-        abbrevStatusElement.classList.add("is-visible");
+        abbrevStatusElement.classList.remove('hidden');
+        abbrevStatusElement.classList.add('is-visible');
         abbrevStatusElement.innerHTML = `
           <div class="vp-abbrev-status-title" style="color: var(--danger-color, #ef4444);">No text to expand</div>
           <div class="vp-abbrev-status-text">Please enter or edit verbiage in the box first.</div>
@@ -363,11 +348,16 @@
     }
 
     // Clean any curly braces {{}} from text
-    originalText = originalText.replace(/\{\{reason\}\}/g, "reason").replace(/[\{\}]/g, "");
+    originalText = originalText.replace(/\{\{reason\}\}/g, 'reason').replace(/[\{\}]/g, '');
 
-    const templatePrefix = "We have reviewed the submitted information. After careful evaluation, it is determined that the claim was denied correctly due to reason. ";
+    const templatePrefix =
+      'We have reviewed the submitted information. After careful evaluation, it is determined that the claim was denied correctly due to reason. ';
 
-    if (!originalText.startsWith("We have reviewed the submitted information. After careful evaluation, it is determined that the claim was denied correctly due to ")) {
+    if (
+      !originalText.startsWith(
+        'We have reviewed the submitted information. After careful evaluation, it is determined that the claim was denied correctly due to ',
+      )
+    ) {
       inputTextElement.value = templatePrefix + originalText;
     } else {
       inputTextElement.value = originalText;
@@ -375,7 +365,7 @@
 
     countCharacters();
 
-    const placeholder = "reason";
+    const placeholder = 'reason';
     const pos = inputTextElement.value.indexOf(placeholder);
     if (pos !== -1) {
       inputTextElement.focus();
@@ -384,14 +374,29 @@
   }
 
   function sanitizeOutputText(text) {
-    return text
-      .replace(/\s+([,.;:!?])/g, "$1")
-      .replace(/\(\s*\)/g, "")
-      .replace(/\s{2,}/g, " ");
+    if (typeof text !== 'string') return '';
+
+    let cleaned = text
+      .replace(/\r\n/g, '\n')
+      .replace(/\r/g, '\n')
+      .replace(/\t/g, ' ')
+      .replace(/[ \u00A0]+/g, ' ');
+
+    cleaned = cleaned.replace(/\n[ \t]+/g, '\n');
+    cleaned = cleaned.replace(/[ \t]*\n[ \t]*/g, '\n');
+    cleaned = cleaned.replace(/\n{3,}/g, '\n\n');
+    cleaned = cleaned.replace(/\s+([,.;:!?])/g, '$1');
+    cleaned = cleaned.replace(/\s{2,}/g, ' ');
+    cleaned = cleaned.replace(/,(?=\S)/g, ', ');
+    cleaned = cleaned.replace(/,\s*/g, ', ');
+    cleaned = cleaned.replace(/\.\.+/g, '.');
+    cleaned = cleaned.replace(/\(\s*\)/g, '');
+
+    return cleaned.trim();
   }
 
   function resetText() {
-    if (inputTextElement) inputTextElement.value = "";
+    if (inputTextElement) inputTextElement.value = '';
     clearAbbreviationSelections();
     hideAbbreviationStatus();
     countCharacters();
@@ -399,7 +404,7 @@
 
   function countCharacters() {
     if (charCountElement && inputTextElement) {
-      charCountElement.innerText = "Characters: " + inputTextElement.value.length;
+      charCountElement.innerText = 'Characters: ' + inputTextElement.value.length;
     }
   }
 
@@ -411,11 +416,11 @@
 
   // ========== Abbreviation Processing Logic ==========
   if (applyAbbrevButton) {
-    applyAbbrevButton.addEventListener("click", applyAbbreviations);
+    applyAbbrevButton.addEventListener('click', applyAbbreviations);
   }
 
   if (abbrevStatusElement) {
-    abbrevStatusElement.addEventListener("click", handleAbbreviationChoiceClick);
+    abbrevStatusElement.addEventListener('click', handleAbbreviationChoiceClick);
   }
 
   async function applyAbbreviations() {
@@ -430,8 +435,8 @@
         expandedTerms: [],
         wrappedTerms: new Map(),
         ambiguousTerms: [],
-        title: "No text to process",
-        summary: "Add letter text first, then apply abbreviations.",
+        title: 'No text to process',
+        summary: 'Add letter text first, then apply abbreviations.',
       });
       return;
     }
@@ -447,7 +452,7 @@
       renderAbbreviationStatus(result);
       showAbbreviationCompletionEffect();
     } catch (error) {
-      console.error("Error applying abbreviations:", error);
+      console.error('Error applying abbreviations:', error);
       renderAbbreviationStatus({
         changed: false,
         expandedCount: 0,
@@ -455,8 +460,8 @@
         expandedTerms: [],
         wrappedTerms: new Map(),
         ambiguousTerms: [],
-        title: "Could not apply abbreviations",
-        summary: "The abbreviation list could not be loaded. Please try again.",
+        title: 'Could not apply abbreviations',
+        summary: 'The abbreviation list could not be loaded. Please try again.',
         isError: true,
       });
     } finally {
@@ -468,15 +473,7 @@
     if (window.vpAbbreviations) {
       return window.vpAbbreviations;
     }
-    if (!abbreviationDataPromise) {
-      abbreviationDataPromise = fetch("assets/data/Abbreviation.json").then((response) => {
-        if (!response.ok) {
-          throw new Error("Could not load Abbreviation.json");
-        }
-        return response.json();
-      });
-    }
-    return abbreviationDataPromise;
+    return [];
   }
 
   function processAbbreviationText(text, abbreviations) {
@@ -493,7 +490,7 @@
     };
 
     abbreviations.forEach((abbrObj) => {
-      const term = typeof abbrObj.Term === "string" ? abbrObj.Term.trim() : "";
+      const term = typeof abbrObj.Term === 'string' ? abbrObj.Term.trim() : '';
       const definitions = extractDefinitions(abbrObj);
 
       if (!term || definitions.length === 0) {
@@ -517,22 +514,27 @@
       result.text = applyDefinitionRule(result.text, term, definitions[0], result);
     });
 
-    result.removedEditCount = countStandaloneWordOccurrences(result.text, "edit");
+    result.removedEditCount = countStandaloneWordOccurrences(result.text, 'edit');
     result.text = sanitizeOutputText(result.text);
 
     if (result.removedEditCount > 0) {
       result.changed = true;
     }
 
-    if (result.expandedCount > 0 || result.wrappedCount > 0 || result.normalizedCount > 0 || result.removedEditCount > 0) {
-      result.title = "Abbreviation updates ready";
+    if (
+      result.expandedCount > 0 ||
+      result.wrappedCount > 0 ||
+      result.normalizedCount > 0 ||
+      result.removedEditCount > 0
+    ) {
+      result.title = 'Abbreviation updates ready';
       result.summary = buildResultSummary(result);
     } else if (result.ambiguousTerms.length > 0) {
-      result.title = "Manual review needed";
+      result.title = 'Manual review needed';
       result.summary = buildResultSummary(result);
     } else {
-      result.title = "No abbreviation changes";
-      result.summary = "Your text already follows the abbreviation format in the library.";
+      result.title = 'No abbreviation changes';
+      result.summary = 'Your text already follows the abbreviation format in the library.';
     }
 
     return result;
@@ -594,7 +596,7 @@
     return Object.keys(abbrObj)
       .filter((key) => /^Definition(?: \d+)?$/.test(key))
       .sort(compareDefinitionKeys)
-      .map((key) => (typeof abbrObj[key] === "string" ? abbrObj[key].trim() : ""))
+      .map((key) => (typeof abbrObj[key] === 'string' ? abbrObj[key].trim() : ''))
       .filter(Boolean)
       .filter((value, index, array) => array.indexOf(value) === index);
   }
@@ -604,10 +606,10 @@
   }
 
   function getDefinitionRank(key) {
-    if (key === "Definition") {
+    if (key === 'Definition') {
       return 1;
     }
-    const numericPart = Number.parseInt(key.replace("Definition", "").trim(), 10);
+    const numericPart = Number.parseInt(key.replace('Definition', '').trim(), 10);
     return Number.isNaN(numericPart) ? Number.MAX_SAFE_INTEGER : numericPart;
   }
 
@@ -620,7 +622,7 @@
     return (
       definitions.find((definition) => {
         const escapedDefinition = escapeRegExp(definition);
-        const expandedRegex = new RegExp(`${escapedDefinition}\\s*\\(${termPattern}\\)`, "i");
+        const expandedRegex = new RegExp(`${escapedDefinition}\\s*\\(${termPattern}\\)`, 'i');
         return expandedRegex.test(text);
       }) || null
     );
@@ -628,7 +630,7 @@
 
   function buildOccurrenceRegex(term) {
     const termPattern = buildFlexibleTermPattern(term);
-    return new RegExp(`(^|[^A-Za-z0-9])(?:\\((${termPattern})\\)|(${termPattern}))(?=[^A-Za-z0-9]|$)`, "gi");
+    return new RegExp(`(^|[^A-Za-z0-9])(?:\\((${termPattern})\\)|(${termPattern}))(?=[^A-Za-z0-9]|$)`, 'gi');
   }
 
   function isAlreadyExpandedOccurrence(text, occurrenceStart, definition) {
@@ -646,35 +648,35 @@
       parts.push(`${result.expandedCount} expanded`);
     }
     if (result.wrappedCount > 0) {
-      parts.push(`${result.wrappedCount} repeat${result.wrappedCount === 1 ? "" : "s"} wrapped`);
+      parts.push(`${result.wrappedCount} repeat${result.wrappedCount === 1 ? '' : 's'} wrapped`);
     }
     if (result.normalizedCount > 0) {
       parts.push(`${result.normalizedCount} standardized`);
     }
     if (result.removedEditCount > 0) {
-      parts.push(`${result.removedEditCount} edit word${result.removedEditCount === 1 ? "" : "s"} removed`);
+      parts.push(`${result.removedEditCount} edit word${result.removedEditCount === 1 ? '' : 's'} removed`);
     }
     if (result.ambiguousTerms.length > 0) {
       parts.push(`${result.ambiguousTerms.length} review required`);
     }
-    return parts.join(" | ");
+    return parts.join(' | ');
   }
 
   function setAbbreviationProcessingState(isProcessing) {
     if (abbrevTextareaWrapElement) {
-      abbrevTextareaWrapElement.classList.toggle("is-processing", isProcessing);
+      abbrevTextareaWrapElement.classList.toggle('is-processing', isProcessing);
     }
 
     if (applyAbbrevButton) {
       applyAbbrevButton.disabled = isProcessing;
-      applyAbbrevButton.textContent = isProcessing ? "Applying..." : "Apply Abbrev";
-      applyAbbrevButton.classList.toggle("opacity-70", isProcessing);
-      applyAbbrevButton.classList.toggle("cursor-not-allowed", isProcessing);
+      applyAbbrevButton.textContent = isProcessing ? 'Applying...' : 'Apply Abbrev';
+      applyAbbrevButton.classList.toggle('opacity-70', isProcessing);
+      applyAbbrevButton.classList.toggle('cursor-not-allowed', isProcessing);
     }
 
     if (isProcessing && abbrevStatusElement) {
-      abbrevStatusElement.classList.remove("hidden");
-      abbrevStatusElement.classList.add("is-visible", "is-animated");
+      abbrevStatusElement.classList.remove('hidden');
+      abbrevStatusElement.classList.add('is-visible', 'is-animated');
       abbrevStatusElement.innerHTML = `
         <div class="vp-abbrev-status-title">Scanning abbreviations</div>
         <div class="vp-abbrev-status-text">Checking text against abbreviation library...</div>
@@ -684,12 +686,12 @@
 
   function showAbbreviationCompletionEffect() {
     if (!abbrevTextareaWrapElement) return;
-    abbrevTextareaWrapElement.classList.remove("is-complete");
+    abbrevTextareaWrapElement.classList.remove('is-complete');
     void abbrevTextareaWrapElement.offsetWidth;
-    abbrevTextareaWrapElement.classList.add("is-complete");
+    abbrevTextareaWrapElement.classList.add('is-complete');
 
     window.setTimeout(() => {
-      abbrevTextareaWrapElement.classList.remove("is-complete");
+      abbrevTextareaWrapElement.classList.remove('is-complete');
     }, 900);
   }
 
@@ -703,53 +705,55 @@
     abbrevStatusElement.innerHTML = `
       <div class="vp-abbrev-status-title">${escapeHtml(result.title)}</div>
       <div class="vp-abbrev-status-text">${escapeHtml(result.summary)}</div>
-      ${chipMarkup ? `<div class="vp-abbrev-status-groups">${chipMarkup}</div>` : ""}
+      ${chipMarkup ? `<div class="vp-abbrev-status-groups">${chipMarkup}</div>` : ''}
       ${choiceMarkup}
       ${detailMarkup}
     `;
 
-    abbrevStatusElement.classList.remove("hidden", "is-animated");
-    abbrevStatusElement.classList.add("is-visible");
+    abbrevStatusElement.classList.remove('hidden', 'is-animated');
+    abbrevStatusElement.classList.add('is-visible');
     void abbrevStatusElement.offsetWidth;
-    abbrevStatusElement.classList.add("is-animated");
+    abbrevStatusElement.classList.add('is-animated');
 
     window.setTimeout(() => {
-      abbrevStatusElement.classList.remove("is-animated");
+      abbrevStatusElement.classList.remove('is-animated');
     }, 1000);
   }
 
   function buildStatusChips(result) {
     const chips = [];
     if (result.expandedTerms.length > 0) {
-      const expandedLabels = result.expandedTerms.map(({ term }) => term).join(", ");
-      chips.push(`<span class="vp-abbrev-chip vp-abbrev-chip--expanded">Expanded: ${escapeHtml(expandedLabels)}</span>`);
+      const expandedLabels = result.expandedTerms.map(({ term }) => term).join(', ');
+      chips.push(
+        `<span class="vp-abbrev-chip vp-abbrev-chip--expanded">Expanded: ${escapeHtml(expandedLabels)}</span>`,
+      );
     }
     if (result.wrappedTerms.size > 0) {
       const wrappedLabels = Array.from(result.wrappedTerms.entries())
         .map(([term, count]) => (count > 1 ? `${term} x${count}` : term))
-        .join(", ");
+        .join(', ');
       chips.push(`<span class="vp-abbrev-chip vp-abbrev-chip--wrapped">Wrapped: ${escapeHtml(wrappedLabels)}</span>`);
     }
     if (result.ambiguousTerms.length > 0) {
-      const ambiguousLabels = result.ambiguousTerms.map(({ term }) => term).join(", ");
-      chips.push(`<span class="vp-abbrev-chip vp-abbrev-chip--ambiguous">Review: ${escapeHtml(ambiguousLabels)}</span>`);
+      const ambiguousLabels = result.ambiguousTerms.map(({ term }) => term).join(', ');
+      chips.push(
+        `<span class="vp-abbrev-chip vp-abbrev-chip--ambiguous">Review: ${escapeHtml(ambiguousLabels)}</span>`,
+      );
     }
     if (chips.length === 0) {
       chips.push('<span class="vp-abbrev-chip vp-abbrev-chip--neutral">No changes needed</span>');
     }
-    return chips.join("");
+    return chips.join('');
   }
 
   function buildAmbiguousDetailMarkup(ambiguousTerms) {
-    if (!ambiguousTerms.length) return "";
-    const details = ambiguousTerms
-      .map(({ term, definitions }) => `${term}: ${definitions.join(" / ")}`)
-      .join(" ; ");
+    if (!ambiguousTerms.length) return '';
+    const details = ambiguousTerms.map(({ term, definitions }) => `${term}: ${definitions.join(' / ')}`).join(' ; ');
     return `<div class="vp-abbrev-status-text" style="margin-top: 0.5rem; font-style: italic;">Needs Review: ${escapeHtml(details)}</div>`;
   }
 
   function buildAmbiguousChoiceMarkup(ambiguousTerms) {
-    if (!ambiguousTerms.length) return "";
+    if (!ambiguousTerms.length) return '';
     const groups = ambiguousTerms
       .map(({ term, definitions }) => {
         const buttons = definitions
@@ -763,9 +767,9 @@
               >
                 ${escapeHtml(definition)}
               </button>
-            `
+            `,
           )
-          .join("");
+          .join('');
 
         return `
           <div class="vp-abbrev-choice-group">
@@ -774,13 +778,13 @@
           </div>
         `;
       })
-      .join("");
+      .join('');
 
     return `<div class="vp-abbrev-choice-area">${groups}</div>`;
   }
 
   async function handleAbbreviationChoiceClick(event) {
-    const choiceButton = event.target.closest("[data-abbrev-term][data-abbrev-definition]");
+    const choiceButton = event.target.closest('[data-abbrev-term][data-abbrev-definition]');
     if (!choiceButton || !inputTextElement) return;
 
     const { abbrevTerm, abbrevDefinition } = choiceButton.dataset;
@@ -798,7 +802,7 @@
       renderAbbreviationStatus(result);
       showAbbreviationCompletionEffect();
     } catch (error) {
-      console.error("Error applying selected abbreviation definition:", error);
+      console.error('Error applying selected abbreviation definition:', error);
     } finally {
       setAbbreviationProcessingState(false);
     }
@@ -810,13 +814,13 @@
 
   function hideAbbreviationStatus() {
     if (!abbrevStatusElement) return;
-    abbrevStatusElement.classList.remove("is-visible", "is-animated");
-    abbrevStatusElement.classList.add("hidden");
-    abbrevStatusElement.innerHTML = "";
+    abbrevStatusElement.classList.remove('is-visible', 'is-animated');
+    abbrevStatusElement.classList.add('hidden');
+    abbrevStatusElement.innerHTML = '';
   }
 
   function escapeRegExp(value) {
-    return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
   }
 
   function formatAbbreviationTerm(term) {
@@ -825,36 +829,36 @@
 
   function buildFlexibleTermPattern(term) {
     const trimmedTerm = term.trim();
-    if (!trimmedTerm) return "";
+    if (!trimmedTerm) return '';
     if (!/[\/&-]/.test(trimmedTerm)) {
       return escapeRegExp(trimmedTerm);
     }
-    const compactTerm = trimmedTerm.replace(/[^A-Za-z0-9]/g, "");
+    const compactTerm = trimmedTerm.replace(/[^A-Za-z0-9]/g, '');
     if (compactTerm.length < 2) {
       return escapeRegExp(trimmedTerm);
     }
     return compactTerm
-      .split("")
+      .split('')
       .map((character) => escapeRegExp(character))
-      .join("(?:\\s*(?:[\\/&-])\\s*)?");
+      .join('(?:\\s*(?:[\\/&-])\\s*)?');
   }
 
   function normalizeComparableText(value) {
-    return value.trim().replace(/\s+/g, " ").toLowerCase();
+    return value.trim().replace(/\s+/g, ' ').toLowerCase();
   }
 
   function countStandaloneWordOccurrences(text, word) {
-    const matches = text.match(new RegExp(`\\b${escapeRegExp(word)}\\b`, "gi"));
+    const matches = text.match(new RegExp(`\\b${escapeRegExp(word)}\\b`, 'gi'));
     return matches ? matches.length : 0;
   }
 
   function escapeHtml(value) {
     return value
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;")
-      .replace(/'/g, "&#39;");
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
   }
 
   // --- Load Initial Data ---
@@ -864,16 +868,6 @@
     renderTabs(allData);
     displayPage(1);
   } else {
-    fetch("assets/data/Data.json")
-      .then((response) => response.json())
-      .then((data) => {
-        if (!Array.isArray(data)) throw new Error("Invalid data format");
-        allData = data;
-        filteredData = allData;
-        renderTabs(data);
-        displayPage(1);
-      })
-      .catch((error) => console.error("Error loading Verbiage Pro data:", error));
+    console.warn('Verbiage Pro data is unavailable locally.');
   }
-
 })();
