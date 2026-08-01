@@ -135,9 +135,9 @@
       <div class="container-dategap">
         <div class="form-label boxdate">
           <form action="javascript:void(0)">
-            <label for="from">From Date (MM-DD-YYYY):</label>
+            <label for="from">From Date (MM/DD/YYYY):</label>
             <input type="date" id="from" required />
-            <label for="to">To Date (MM-DD-YYYY):</label>
+            <label for="to">To Date (MM/DD/YYYY):</label>
             <input type="date" id="to" required />
             <br />
             <div class="btn-container">
@@ -322,22 +322,20 @@
         
         <div id="vpInputContainer" style="display: flex; flex-direction: column; gap: 1rem;">
           <div class="vp-abbrev-textarea-wrap" id="vpAbbrevTextareaWrap">
-            <textarea id="vpLetterBreakInput" rows="5" class="vp-output-textarea" style="background: var(--body-color); width: 100%; font-family: var(--body-font); font-size: var(--normal-font-size);" placeholder="Please write your verbiage here...."></textarea>
+            <textarea id="vpLetterBreakInput" rows="5" class="vp-output-textarea" style="background: var(--body-color); width: 100%; font-family: var(--body-font); font-size: var(--normal-font-size);" placeholder="Please write your verbiage here...." spellcheck="true"></textarea>
           </div>
 
           <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
             <span class="textCounter" id="vpLetterBreakCharCount" style="color: var(--title-color); font-weight: 600;">Characters: 0</span>
             <div style="display: flex; gap: 1rem;">
               <button id="vpApplyAbbrevBtn" class="btn-primary">Apply Abbrev</button>
-              <button id="vpDivideTextBtn" class="btn-primary">Divide Text</button>
+              <button id="vpDivideTextBtn" class="btn-primary">Expand Text</button>
               <button id="vpResetLetterBreakBtn" class="btn-secondary">Reset</button>
             </div>
           </div>
           
           <div id="vpAbbrevStatus" class="vp-abbrev-status hidden" aria-live="polite"></div>
         </div>
-
-        <div id="vpLetterBreakOutput" class="vp-output-boxes"></div>
       </div>
     </section>
 

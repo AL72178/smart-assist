@@ -60,20 +60,37 @@ const resultText = document.getElementById('result');
 
 if(calcBtn) {
   calcBtn.addEventListener('click', () => {
-    const fromDate = new Date(document.getElementById('from').value);
-    const toDate = new Date(document.getElementById('to').value);
+    const fromVal = document.getElementById('from').value;
+    const toVal = document.getElementById('to').value;
 
     // Reset classes
     resultText.classList.remove('text-error', 'text-default');
 
-    if (isNaN(fromDate) || isNaN(toDate)) {
+    if (!fromVal || !toVal) {
       resultText.classList.add('text-error');
       resultText.innerText = 'Please select valid dates.';
       return;
     }
 
+    const fromParts = fromVal.split('-');
+    const toParts = toVal.split('-');
 
-    const diffTime = Math.abs(toDate - fromDate);
+    let fromUtc, toUtc;
+    if (fromParts.length === 3 && toParts.length === 3) {
+      fromUtc = Date.UTC(parseInt(fromParts[0], 10), parseInt(fromParts[1], 10) - 1, parseInt(fromParts[2], 10));
+      toUtc = Date.UTC(parseInt(toParts[0], 10), parseInt(toParts[1], 10) - 1, parseInt(toParts[2], 10));
+    } else {
+      fromUtc = new Date(fromVal).getTime();
+      toUtc = new Date(toVal).getTime();
+    }
+
+    if (isNaN(fromUtc) || isNaN(toUtc)) {
+      resultText.classList.add('text-error');
+      resultText.innerText = 'Please select valid dates.';
+      return;
+    }
+
+    const diffTime = Math.abs(toUtc - fromUtc);
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
 
     resultText.classList.add('text-default');
@@ -116,13 +133,31 @@ if (btnConvertToJulian) {
       julianResult.innerText = "Please enter a valid date.";
       return;
     }
-    const gregorianDate = new Date(dateInput);
     
-    const year = gregorianDate.getFullYear();
-    const januaryFirst = new Date(year, 0, 1);
-    const daysDifference = Math.floor((gregorianDate - januaryFirst) / (24 * 60 * 60 * 1000)) + 1;
+    const parts = dateInput.split('-');
+    let year, month, day;
+    if (parts.length === 3) {
+      year = parseInt(parts[0], 10);
+      month = parseInt(parts[1], 10) - 1;
+      day = parseInt(parts[2], 10);
+    } else {
+      const gregorianDate = new Date(dateInput);
+      if (isNaN(gregorianDate)) {
+        julianResult.classList.add('text-error');
+        julianResult.innerText = "Please enter a valid date.";
+        return;
+      }
+      year = gregorianDate.getFullYear();
+      month = gregorianDate.getMonth();
+      day = gregorianDate.getDate();
+    }
+
+    const utcDate = Date.UTC(year, month, day);
+    const utcJan1 = Date.UTC(year, 0, 1);
+    const daysDifference = Math.floor((utcDate - utcJan1) / (24 * 60 * 60 * 1000)) + 1;
+    
     // Format: YYDDD (Last 2 digits of year + 3 digit day of year)
-    const yearShort = year.toString().slice(2);
+    const yearShort = year.toString().slice(-2);
     const julianDate = yearShort + daysDifference.toString().padStart(3, '0');
     
     julianResult.classList.add('text-default');
@@ -148,15 +183,19 @@ if (btnConvertToGregorian) {
       return;
     }
     
-    const yearShort = parseInt(julianInput.substring(0, 2));
-    const days = parseInt(julianInput.substring(2));
+    const yearShort = parseInt(julianInput.substring(0, 2), 10);
+    const days = parseInt(julianInput.substring(2), 10);
     
     // Logic: year = 2000 + yearShort (Assuming 21st century)
     const year = 2000 + yearShort; 
-    const gregorianDate = new Date(year, 0, 1); // Jan 1st of that year
-    gregorianDate.setDate(gregorianDate.getDate() + days - 1); // Add days
+    const utcJan1 = Date.UTC(year, 0, 1);
+    const targetUtc = utcJan1 + (days - 1) * (24 * 60 * 60 * 1000);
+    const gregorianDate = new Date(targetUtc);
     
-    const result = `${(gregorianDate.getMonth() + 1).toString().padStart(2, '0')}/${gregorianDate.getDate().toString().padStart(2, '0')}/${gregorianDate.getFullYear()}`;
+    const month = (gregorianDate.getUTCMonth() + 1).toString().padStart(2, '0');
+    const day = gregorianDate.getUTCDate().toString().padStart(2, '0');
+    const fullYear = gregorianDate.getUTCFullYear();
+    const result = `${month}/${day}/${fullYear}`;
     
     julianResult.classList.add('text-default');
     julianResult.innerText = `Gregorian Date: ${result}`;
@@ -284,16 +323,37 @@ function displayOutput(text) {
     if(logOutputContainer) logOutputContainer.classList.remove('hidden');
 }
 
-function gregorianToJulianDate(gregorianDate) {
-    // Basic date parser for MM/DD/YYYY or similar
-    const date = new Date(gregorianDate);
-    if (isNaN(date)) return gregorianDate; // Return original if invalid date
+function gregorianToJulianDate(gregorianDateStr) {
+    if (!gregorianDateStr) return gregorianDateStr;
+    const str = gregorianDateStr.trim();
 
-    const year = date.getFullYear();
-    const januaryFirst = new Date(year, 0, 1);
-    const dayOfYear = Math.floor((date - januaryFirst) / (24 * 60 * 60 * 1000)) + 1;
+    let month, day, year;
+    const mdYMatch = str.match(/^(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{2,4})$/);
+    const yMDMatch = str.match(/^(\d{4})[\/\-](\d{1,2})[\/\-](\d{1,2})$/);
+
+    if (mdYMatch) {
+        month = parseInt(mdYMatch[1], 10) - 1;
+        day = parseInt(mdYMatch[2], 10);
+        let y = parseInt(mdYMatch[3], 10);
+        if (y < 100) y += 2000;
+        year = y;
+    } else if (yMDMatch) {
+        year = parseInt(yMDMatch[1], 10);
+        month = parseInt(yMDMatch[2], 10) - 1;
+        day = parseInt(yMDMatch[3], 10);
+    } else {
+        const d = new Date(str);
+        if (isNaN(d.getTime())) return gregorianDateStr;
+        year = d.getFullYear();
+        month = d.getMonth();
+        day = d.getDate();
+    }
+
+    const utcDate = Date.UTC(year, month, day);
+    const utcJan1 = Date.UTC(year, 0, 1);
+    const dayOfYear = Math.floor((utcDate - utcJan1) / (24 * 60 * 60 * 1000)) + 1;
     
-    const yearShort = year.toString().slice(2);
+    const yearShort = year.toString().slice(-2);
     return yearShort + dayOfYear.toString().padStart(3, '0');
 }
 

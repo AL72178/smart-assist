@@ -480,6 +480,14 @@ body.dark-theme .header.scroll-header {
 }
 
 /*=============== LOG ASSIST STYLES ===============*/
+#log-assist .boxdate {
+  max-width: 640px;
+}
+
+#log-assist .inputs-row input {
+  padding: 0.75rem 0.6rem;
+}
+
 .btn-container {
   display: flex;
   align-items: center;

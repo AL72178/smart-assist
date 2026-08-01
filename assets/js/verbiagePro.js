@@ -139,9 +139,9 @@
         <td class="vp-verbiage-cell" style="width: 30%; line-height: 1.5;">${verbiageHTML}</td>
         <td style="width: 10%;">
           <div class="vp-action-btn-group">
-            <button class="vp-action-btn vp-action-btn--break vp-break-button" title="Break Letter">
+            <button class="vp-action-btn vp-action-btn--edit vp-edit-button" title="Edit">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M6 2c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h4l4 4v-4h4c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2H6zm0 2h12v10h-6l-2 2v-2H6V4zm2 2v2h8V6H8zm0 3v2h5V9H8z"/>
+                <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
               </svg>
             </button>
             <button class="vp-action-btn vp-action-btn--copy vp-copy-button" title="Copy Verbiage">
@@ -156,7 +156,7 @@
     });
 
     attachCopyHandlers();
-    attachBreakHandlers();
+    attachEditHandlers();
   }
 
   function attachCopyHandlers() {
@@ -184,18 +184,17 @@
     });
   }
 
-  function attachBreakHandlers() {
+  function attachEditHandlers() {
     if (!inputTextElement) return;
 
-    document.querySelectorAll(".vp-break-button").forEach((btn) => {
+    document.querySelectorAll(".vp-edit-button").forEach((btn) => {
       btn.addEventListener("click", () => {
         const row = btn.closest("tr");
         const verbiageCell = row.querySelector(".vp-verbiage-cell");
-        const textToBreak = verbiageCell.textContent.trim();
+        const textToEdit = verbiageCell.textContent.trim();
 
-        inputTextElement.value = textToBreak;
+        inputTextElement.value = textToEdit;
         countCharacters();
-        divideText();
         
         // Scroll to letter break section
         const lbSection = document.querySelector(".vp-letter-break-container");
@@ -342,113 +341,57 @@
     inputTextElement.addEventListener("input", handleTextInputChange);
   }
   if (divideButton) {
-    divideButton.addEventListener("click", divideText);
+    divideButton.addEventListener("click", expandText);
   }
   if (resetBtn) {
     resetBtn.addEventListener("click", resetText);
   }
 
-  function divideText() {
-    if (!inputTextElement || !outputBoxesElement) return;
-    const inputText = sanitizeOutputText(inputTextElement.value).trim().replace(/\s+/g, " ");
-    outputBoxesElement.innerHTML = "";
-    const CHUNK_SIZE = 63;
-    let start = 0;
-    let boxIndex = 0;
-
-    while (start < inputText.length) {
-      let end = start + CHUNK_SIZE;
-
-      if (
-        end < inputText.length &&
-        inputText.charAt(end) !== " " &&
-        inputText.charAt(end) !== "\n"
-      ) {
-        while (
-          end > start &&
-          inputText.charAt(end) !== " " &&
-          inputText.charAt(end) !== "\n"
-        ) {
-          end--;
-        }
-      }
-
-      if (end === start) end = start + CHUNK_SIZE;
-
-      let chunk = inputText.substring(start, end).trim();
-      if (chunk) {
-        boxIndex++;
-        const box = document.createElement("div");
-        box.className = "vp-output-box-row";
-
-        const textBox = document.createElement("textarea");
-        textBox.className = "vp-output-textarea";
-        if (boxIndex > 10) {
-          textBox.classList.add("vp-output-textarea--limit-exceeded");
-        }
-        textBox.setAttribute("readonly", true);
-        textBox.value = chunk;
-
-        const button = document.createElement("button");
-        button.className = "vp-action-btn vp-action-btn--copy";
-        button.title = "Copy";
-        button.style.marginTop = "0.25rem";
-        button.innerHTML = `
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
-          </svg>
+  function expandText() {
+    if (!inputTextElement) return;
+    let originalText = inputTextElement.value;
+    if (!originalText.trim()) {
+      if (abbrevStatusElement) {
+        abbrevStatusElement.classList.remove("hidden");
+        abbrevStatusElement.classList.add("is-visible");
+        abbrevStatusElement.innerHTML = `
+          <div class="vp-abbrev-status-title" style="color: var(--danger-color, #ef4444);">No text to expand</div>
+          <div class="vp-abbrev-status-text">Please enter or edit verbiage in the box first.</div>
         `;
-        button.addEventListener("click", () => copyText(textBox, button));
-
-        box.appendChild(textBox);
-        box.appendChild(button);
-        outputBoxesElement.appendChild(box);
       }
-      start = end;
+      return;
     }
-  }
 
-  function copyText(textElement, btnElement) {
-    textElement.select();
-    textElement.setSelectionRange(0, 99999);
-    navigator.clipboard.writeText(textElement.value).then(() => {
-      const originalIcon = btnElement.innerHTML;
-      btnElement.innerHTML = `
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
-          <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
-        </svg>
-      `;
-      setTimeout(() => {
-        btnElement.innerHTML = originalIcon;
-      }, 1500);
+    // Clean any curly braces {{}} from text
+    originalText = originalText.replace(/\{\{reason\}\}/g, "reason").replace(/[\{\}]/g, "");
 
-      lbShowCopiedMessage();
-    });
+    const templatePrefix = "We have reviewed the submitted information. After careful evaluation, it is determined that the claim was denied correctly due to reason. ";
+
+    if (!originalText.startsWith("We have reviewed the submitted information. After careful evaluation, it is determined that the claim was denied correctly due to ")) {
+      inputTextElement.value = templatePrefix + originalText;
+    } else {
+      inputTextElement.value = originalText;
+    }
+
+    countCharacters();
+
+    const placeholder = "reason";
+    const pos = inputTextElement.value.indexOf(placeholder);
+    if (pos !== -1) {
+      inputTextElement.focus();
+      inputTextElement.setSelectionRange(pos, pos + placeholder.length);
+    }
   }
 
   function sanitizeOutputText(text) {
     return text
-      .replace(/\bedit\b/gi, " ")
       .replace(/\s+([,.;:!?])/g, "$1")
       .replace(/\(\s*\)/g, "")
       .replace(/\s{2,}/g, " ");
   }
 
-  function lbShowCopiedMessage() {
-    const copiedMessage = document.createElement('div');
-    copiedMessage.className = 'copied-msg';
-    copiedMessage.innerText = 'Copied!';
-
-    document.body.appendChild(copiedMessage);
-
-    setTimeout(() => {
-      copiedMessage.remove();
-    }, 1000);
-  }
-
   function resetText() {
     if (inputTextElement) inputTextElement.value = "";
-    if (outputBoxesElement) outputBoxesElement.innerHTML = "";
     clearAbbreviationSelections();
     hideAbbreviationStatus();
     countCharacters();
