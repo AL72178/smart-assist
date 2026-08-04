@@ -538,7 +538,8 @@
       result.text = applyDefinitionRule(result.text, term, definitions[0], result);
     });
 
-    result.removedEditCount = countStandaloneWordOccurrences(result.text, 'edit');
+    result.removedEditCount =
+      countStandaloneWordOccurrences(result.text, 'edit') + countStandaloneWordOccurrences(result.text, 'edits');
     result.text = sanitizeOutputText(result.text);
 
     if (result.removedEditCount > 0) {
