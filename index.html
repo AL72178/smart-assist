@@ -1,465 +1,519 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="./assets/favicon.svg" type="image/x-icon" />
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="shortcut icon" href="./assets/favicon.svg" type="image/x-icon" />
+    <!--=============== CSS ===============-->
+    <link rel="stylesheet" href="assets/css/styles.css" />
 
+    <title>Smart Assist</title>
+  </head>
 
-  <!--=============== CSS ===============-->
-  <link rel="stylesheet" href="assets/css/styles.css" />
-
-  <title>Smart Assist</title>
-</head>
-
-<body>
-  <!--=============== NAVBAR ===============-->
-  <header class="header" id="header">
-    <nav class="nav container">
-      <a href="#" class="nav__logo">Smart Assist</a>
-      <div class="nav__menu" id="nav-menu">
-        <!-- MENU-SECTIONS -->
-        <ul class="nav__list">
-          <!-- Date Gap -->
-          <li class="nav__item">
-            <a href="#date-gap" class="nav__link active-link">
-              <svg xmlns="http://www.w3.org/2000/svg" class="nav__icon" width="24" height="24" fill="currentColor"
-                viewBox="0 0 24 24">
-                <path
-                  d="m19,2H5c-1.1,0-2,.9-2,2v16c0,1.1.9,2,2,2h14c1.1,0,2-.9,2-2V4c0-1.1-.9-2-2-2ZM5,20V4h14v16s-14,0-14,0Z">
-                </path>
-                <path d="M7 12H9V14H7z"></path>
-                <path d="M7 16H9V18H7z"></path>
-                <path d="M11 12H13V14H11z"></path>
-                <path d="M7 6H17V10H7z"></path>
-                <path d="M11 16H13V18H11z"></path>
-                <path d="M15 12H17V18H15z"></path>
-              </svg>
-              <span class="nav__name"> Date Gap </span>
-            </a>
-          </li>
-          <!-- Julian Convert -->
-          <li class="nav__item">
-            <a href="#julian-convert" class="nav__link">
-              <svg xmlns="http://www.w3.org/2000/svg" class="nav__icon" width="24" height="24" fill="currentColor"
-                viewBox="0 0 24 24">
-                <path
-                  d="m19,4h-2v-2h-2v2h-6v-2h-2v2h-2c-1.1,0-2,.9-2,2v14c0,1.1.9,2,2,2h14c1.1,0,2-.9,2-2V6c0-1.1-.9-2-2-2ZM5,20v-12h14v-2,14s-14,0-14,0Z">
-                </path>
-                <path
-                  d="m15.67,12.36l-.42-.73c-.18-.31-.57-.41-.88-.23l-.34.2c-.29-.25-.62-.44-.97-.57v-.39c0-.35-.29-.64-.64-.64h-.84c-.35,0-.64.29-.64.64v.39c-.35.13-.68.32-.97.57l-.34-.2c-.31-.18-.7-.07-.88.23l-.42.73c-.18.31-.07.7.23.88l.33.19c-.04.19-.05.38-.05.57s.02.38.05.57l-.33.19c-.31.18-.41.57-.23.88l.42.73c.18.3.57.41.88.23l.34-.2c.29.25.62.44.97.57v.39c0,.35.29.64.64.64h.84c.35,0,.64-.29.64-.64v-.39c.35-.13.68-.32.97-.57l.34.2c.31.18.7.07.88-.23l.42-.73c.18-.31.07-.7-.23-.88l-.33-.19c.04-.19.05-.38.05-.57s-.02-.38-.05-.57l.33-.19c.31-.18.41-.57.23-.88Zm-3.67,3.18c-.84,0-1.55-.71-1.55-1.55s.71-1.55,1.55-1.55,1.55.71,1.55,1.55-.71,1.55-1.55,1.55Z">
-                </path>
-              </svg>
-              <span class="nav__name"> Julian Convert </span>
-            </a>
-          </li>
-          <!-- Log Assist -->
-          <li class="nav__item">
-            <a href="#log-assist" class="nav__link">
-              <svg xmlns="http://www.w3.org/2000/svg" class="nav__icon" width="24" height="24" fill="currentColor"
-                viewBox="0 0 24 24">
-                <path d="M5 21h14c1.1 0 2-.9 2-2v-7h-2v7H5V5h7V3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2"></path>
-                <path
-                  d="M7 13v3c0 .55.45 1 1 1h3c.27 0 .52-.11.71-.29l9-9a.996.996 0 0 0 0-1.41l-3-3a.996.996 0 0 0-1.41 0l-9.01 8.99A1 1 0 0 0 7 13m10-7.59L18.59 7 17.5 8.09 15.91 6.5zm-8 8 5.5-5.5 1.59 1.59-5.5 5.5H9z">
-                </path>
-              </svg>
-              <span class="nav__name"> Log Assist </span>
-            </a>
-          </li>
-          <!-- Verbiage Pro -->
-          <li class="nav__item">
-            <a href="#verbiage-pro" class="nav__link">
-              <svg xmlns="http://www.w3.org/2000/svg" class="nav__icon" width="24" height="24" fill="currentColor"
-                viewBox="0 0 24 24">
-                <path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H8V4h12v12z"/>
-              </svg>
-              <span class="nav__name"> Verbiage Pro </span>
-            </a>
-          </li>
-          <!-- Todo Note -->
-          <li class="nav__item">
-            <a href="#todo-list" class="nav__link">
-              <svg xmlns="http://www.w3.org/2000/svg" class="nav__icon" width="24" height="24" fill="currentColor"
-                viewBox="0 0 24 24">
-                <path
-                  d="m19,3H5c-1.1,0-2,.9-2,2v14c0,1.1.9,2,2,2h8c.13,0,.26-.03.38-.08.12-.05.23-.12.33-.22l7-7c.09-.09.15-.19.2-.29.01-.03.02-.06.03-.09.03-.08.05-.17.05-.26,0-.02.01-.04.01-.06V5c0-1.1-.9-2-2-2Zm-14,2h14v7h-6c-.55,0-1,.45-1,1v6h-7V5Z">
-                </path>
-              </svg>
-              <span class="nav__name"> Todo Note </span>
-            </a>
-          </li>
-          <!-- SLA Lookup -->
-          <li class="nav__item">
-            <a href="#sla-lookup" class="nav__link">
-              <svg xmlns="http://www.w3.org/2000/svg" class="nav__icon" width="24" height="24" fill="currentColor"
-                viewBox="0 0 24 24">
-                <path
-                  d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z">
-                </path>
-              </svg>
-              <span class="nav__name"> SLA-Lookup </span>
-            </a>
-          </li>
-        </ul>
-      </div>
-      <div class="nav__buttons">
-        <!-- Theme Button -->
-        <div class="change-theme" id="theme-button">
-          <!-- Moon Icon (Visible by default in light mode) -->
-          <svg xmlns="http://www.w3.org/2000/svg" class="nav__icon theme-icon-moon" width="24" height="24"
-            viewBox="0 0 24 24" fill="currentColor">
-            <path
-              d="m12.2,22c4.53,0,8.45-2.91,9.76-7.24.11-.35.01-.74-.25-1-.26-.26-.64-.36-1-.25-.78.23-1.58.35-2.38.35-4.52,0-8.2-3.68-8.2-8.2,0-.8.12-1.6.35-2.38.11-.35.01-.74-.25-1s-.64-.36-1-.25C4.91,3.35,2,7.28,2,11.8c0,5.62,4.57,10.2,10.2,10.2ZM8.18,4.65c-.03.34-.05.68-.05,1.02,0,5.62,4.57,10.2,10.2,10.2.34,0,.68-.02,1.02-.05-1.42,2.56-4.12,4.18-7.15,4.18-4.52,0-8.2-3.68-8.2-8.2,0-3.03,1.63-5.73,4.18-7.15Z">
-            </path>
-          </svg>
-          <!-- Sun Icon (Hidden by default in light mode) -->
-          <svg xmlns="http://www.w3.org/2000/svg" class="nav__icon theme-icon-sun" width="24" height="24"
-            viewBox="0 0 24 24" fill="currentColor" style="display: none">
-            <path
-              d="M12 17.01c2.76 0 5.01-2.25 5.01-5.01S14.76 6.99 12 6.99 6.99 9.24 6.99 12s2.25 5.01 5.01 5.01M12 9c1.66 0 3.01 1.35 3.01 3.01s-1.35 3.01-3.01 3.01-3.01-1.35-3.01-3.01S10.34 9 12 9M13 19h-2v3h2v-3M13 2h-2v3h2V2M2 11h3v2H2zM19 11h3v2h-3zM4.22 18.36l.71.71.71.71 1.06-1.06 1.06-1.06-.71-.71-.71-.71-1.06 1.06zM19.78 5.64l-.71-.71-.71-.71-1.06 1.06-1.06 1.06.71.71.71.71 1.06-1.06zM7.76 6.34 6.7 5.28 5.64 4.22l-.71.71-.71.71L5.28 6.7l1.06 1.06.71-.71zM16.24 17.66l1.06 1.06 1.06 1.06.71-.71.71-.71-1.06-1.06-1.06-1.06-.71.71z">
-            </path>
-          </svg>
+  <body>
+    <!--=============== NAVBAR ===============-->
+    <header class="header" id="header">
+      <nav class="nav container">
+        <a href="#" class="nav__logo">Smart Assist</a>
+        <div class="nav__menu" id="nav-menu">
+          <!-- MENU-SECTIONS -->
+          <ul class="nav__list">
+            <!-- Date Gap -->
+            <li class="nav__item">
+              <a href="#date-gap" class="nav__link active-link">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="nav__icon"
+                  width="24"
+                  height="24"
+                  fill="currentColor"
+                  viewBox="0 0 24 24">
+                  <path
+                    d="m19,2H5c-1.1,0-2,.9-2,2v16c0,1.1.9,2,2,2h14c1.1,0,2-.9,2-2V4c0-1.1-.9-2-2-2ZM5,20V4h14v16s-14,0-14,0Z"></path>
+                  <path d="M7 12H9V14H7z"></path>
+                  <path d="M7 16H9V18H7z"></path>
+                  <path d="M11 12H13V14H11z"></path>
+                  <path d="M7 6H17V10H7z"></path>
+                  <path d="M11 16H13V18H11z"></path>
+                  <path d="M15 12H17V18H15z"></path>
+                </svg>
+                <span class="nav__name"> Date Gap </span>
+              </a>
+            </li>
+            <!-- Julian Convert -->
+            <li class="nav__item">
+              <a href="#julian-convert" class="nav__link">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="nav__icon"
+                  width="24"
+                  height="24"
+                  fill="currentColor"
+                  viewBox="0 0 24 24">
+                  <path
+                    d="m19,4h-2v-2h-2v2h-6v-2h-2v2h-2c-1.1,0-2,.9-2,2v14c0,1.1.9,2,2,2h14c1.1,0,2-.9,2-2V6c0-1.1-.9-2-2-2ZM5,20v-12h14v-2,14s-14,0-14,0Z"></path>
+                  <path
+                    d="m15.67,12.36l-.42-.73c-.18-.31-.57-.41-.88-.23l-.34.2c-.29-.25-.62-.44-.97-.57v-.39c0-.35-.29-.64-.64-.64h-.84c-.35,0-.64.29-.64.64v.39c-.35.13-.68.32-.97.57l-.34-.2c-.31-.18-.7-.07-.88.23l-.42.73c-.18.31-.07.7.23.88l.33.19c-.04.19-.05.38-.05.57s.02.38.05.57l-.33.19c-.31.18-.41.57-.23.88l.42.73c.18.3.57.41.88.23l.34-.2c.29.25.62.44.97.57v.39c0,.35.29.64.64.64h.84c.35,0,.64-.29.64-.64v-.39c.35-.13.68-.32.97-.57l.34.2c.31.18.7.07.88-.23l.42-.73c.18-.31.07-.7-.23-.88l-.33-.19c.04-.19.05-.38.05-.57s-.02-.38-.05-.57l.33-.19c.31-.18.41-.57.23-.88Zm-3.67,3.18c-.84,0-1.55-.71-1.55-1.55s.71-1.55,1.55-1.55,1.55.71,1.55,1.55-.71,1.55-1.55,1.55Z"></path>
+                </svg>
+                <span class="nav__name"> Julian Convert </span>
+              </a>
+            </li>
+            <!-- Log Assist -->
+            <li class="nav__item">
+              <a href="#log-assist" class="nav__link">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="nav__icon"
+                  width="24"
+                  height="24"
+                  fill="currentColor"
+                  viewBox="0 0 24 24">
+                  <path d="M5 21h14c1.1 0 2-.9 2-2v-7h-2v7H5V5h7V3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2"></path>
+                  <path
+                    d="M7 13v3c0 .55.45 1 1 1h3c.27 0 .52-.11.71-.29l9-9a.996.996 0 0 0 0-1.41l-3-3a.996.996 0 0 0-1.41 0l-9.01 8.99A1 1 0 0 0 7 13m10-7.59L18.59 7 17.5 8.09 15.91 6.5zm-8 8 5.5-5.5 1.59 1.59-5.5 5.5H9z"></path>
+                </svg>
+                <span class="nav__name"> Log Assist </span>
+              </a>
+            </li>
+            <!-- Verbiage Pro -->
+            <li class="nav__item">
+              <a href="#verbiage-pro" class="nav__link">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="nav__icon"
+                  width="24"
+                  height="24"
+                  fill="currentColor"
+                  viewBox="0 0 24 24">
+                  <path
+                    d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H8V4h12v12z" />
+                </svg>
+                <span class="nav__name"> Verbiage Pro </span>
+              </a>
+            </li>
+            <!-- Todo Note -->
+            <li class="nav__item">
+              <a href="#todo-list" class="nav__link">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="nav__icon"
+                  width="24"
+                  height="24"
+                  fill="currentColor"
+                  viewBox="0 0 24 24">
+                  <path
+                    d="m19,3H5c-1.1,0-2,.9-2,2v14c0,1.1.9,2,2,2h8c.13,0,.26-.03.38-.08.12-.05.23-.12.33-.22l7-7c.09-.09.15-.19.2-.29.01-.03.02-.06.03-.09.03-.08.05-.17.05-.26,0-.02.01-.04.01-.06V5c0-1.1-.9-2-2-2Zm-14,2h14v7h-6c-.55,0-1,.45-1,1v6h-7V5Z"></path>
+                </svg>
+                <span class="nav__name"> Todo Note </span>
+              </a>
+            </li>
+            <!-- SLA Lookup -->
+            <li class="nav__item">
+              <a href="#sla-lookup" class="nav__link">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="nav__icon"
+                  width="24"
+                  height="24"
+                  fill="currentColor"
+                  viewBox="0 0 24 24">
+                  <path
+                    d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
+                </svg>
+                <span class="nav__name"> SLA-Lookup </span>
+              </a>
+            </li>
+          </ul>
         </div>
-      </div>
-    </nav>
-  </header>
+        <div class="nav__buttons">
+          <!-- Theme Button -->
+          <div class="change-theme" id="theme-button">
+            <!-- Moon Icon (Visible by default in light mode) -->
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="nav__icon theme-icon-moon"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="currentColor">
+              <path
+                d="m12.2,22c4.53,0,8.45-2.91,9.76-7.24.11-.35.01-.74-.25-1-.26-.26-.64-.36-1-.25-.78.23-1.58.35-2.38.35-4.52,0-8.2-3.68-8.2-8.2,0-.8.12-1.6.35-2.38.11-.35.01-.74-.25-1s-.64-.36-1-.25C4.91,3.35,2,7.28,2,11.8c0,5.62,4.57,10.2,10.2,10.2ZM8.18,4.65c-.03.34-.05.68-.05,1.02,0,5.62,4.57,10.2,10.2,10.2.34,0,.68-.02,1.02-.05-1.42,2.56-4.12,4.18-7.15,4.18-4.52,0-8.2-3.68-8.2-8.2,0-3.03,1.63-5.73,4.18-7.15Z"></path>
+            </svg>
+            <!-- Sun Icon (Hidden by default in light mode) -->
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="nav__icon theme-icon-sun"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              style="display: none">
+              <path
+                d="M12 17.01c2.76 0 5.01-2.25 5.01-5.01S14.76 6.99 12 6.99 6.99 9.24 6.99 12s2.25 5.01 5.01 5.01M12 9c1.66 0 3.01 1.35 3.01 3.01s-1.35 3.01-3.01 3.01-3.01-1.35-3.01-3.01S10.34 9 12 9M13 19h-2v3h2v-3M13 2h-2v3h2V2M2 11h3v2H2zM19 11h3v2h-3zM4.22 18.36l.71.71.71.71 1.06-1.06 1.06-1.06-.71-.71-.71-.71-1.06 1.06zM19.78 5.64l-.71-.71-.71-.71-1.06 1.06-1.06 1.06.71.71.71.71 1.06-1.06zM7.76 6.34 6.7 5.28 5.64 4.22l-.71.71-.71.71L5.28 6.7l1.06 1.06.71-.71zM16.24 17.66l1.06 1.06 1.06 1.06.71-.71.71-.71-1.06-1.06-1.06-1.06-.71.71z"></path>
+            </svg>
+          </div>
+        </div>
+      </nav>
+    </header>
 
-  <!--=============== MAIN ===============-->
+    <!--=============== MAIN ===============-->
 
-  <main>
-    <!-------------- Date Gap -------------->
-    <section class="container section section__height active-section" id="date-gap">
-      <h2 class="section__title">Date Gap</h2>
+    <main>
+      <!-------------- Date Gap -------------->
+      <section class="container section section__height active-section" id="date-gap">
+        <h2 class="section__title">Date Gap</h2>
 
-      <div class="container-dategap">
-        <div class="form-label boxdate">
-          <form action="javascript:void(0)">
-            <label for="from">From Date (MM/DD/YYYY):</label>
-            <input type="date" id="from" required />
-            <label for="to">To Date (MM/DD/YYYY):</label>
-            <input type="date" id="to" required />
-            <br />
+        <div class="container-dategap">
+          <div class="form-label boxdate">
+            <form action="javascript:void(0)">
+              <label for="from">From Date (MM/DD/YYYY):</label>
+              <input type="date" id="from" required />
+              <label for="to">To Date (MM/DD/YYYY):</label>
+              <input type="date" id="to" required />
+              <br />
+              <div class="btn-container">
+                <button type="button" id="calcBtn" class="btn-primary">Calculate</button>
+                <button type="button" id="resetBtn" class="btn-secondary">Reset</button>
+              </div>
+            </form>
+            <p id="result" class="result-text"></p>
+          </div>
+        </div>
+      </section>
+
+      <!-------------- Julian Convert -------------->
+      <section class="container section section__height" id="julian-convert">
+        <h2 class="section__title">Julian Convert</h2>
+
+        <div class="container-dategap">
+          <div class="form-label boxdate">
+            <label for="gregorianDate">Enter Gregorian Date (MM/DD/YYYY):</label>
+            <input type="date" id="gregorianDate" />
+
             <div class="btn-container">
-              <button type="button" id="calcBtn" class="btn-primary">Calculate</button>
-              <button type="button" id="resetBtn" class="btn-secondary">Reset</button>
-            </div>
-          </form>
-          <p id="result" class="result-text"></p>
-        </div>
-      </div>
-    </section>
-
-    <!-------------- Julian Convert -------------->
-    <section class="container section section__height" id="julian-convert">
-      <h2 class="section__title">Julian Convert</h2>
-
-      <div class="container-dategap">
-        <div class="form-label boxdate">
-          <label for="gregorianDate">Enter Gregorian Date (MM/DD/YYYY):</label>
-          <input type="date" id="gregorianDate" />
-
-          <div class="btn-container">
-            <button type="button" id="btnConvertToJulian" class="btn-primary">Convert to Julian</button>
-          </div>
-
-          <div class="divider"></div>
-
-          <label for="julianDate">Enter Julian Date (YYDDD):</label>
-          <input type="number" id="julianDate" placeholder="YYDDD" />
-
-          <div class="btn-container">
-            <button type="button" id="btnConvertToGregorian" class="btn-primary">Convert to Grego</button>
-            <button type="button" id="btnClearJulian" class="btn-secondary">Clear</button>
-          </div>
-
-          <div class="result-wrapper">
-            <p id="result-julian" class="result-text"></p>
-            <button type="button" id="btnCopyResult" class="btn-icon hidden" title="Copy to Clipboard">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M20 2H10c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2m0 12H10V4h10z">
-                </path>
-                <path d="M14 20H4V10h2V8H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2v-2h-2z"></path>
-              </svg>
-            </button>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-------------- Log Assist -------------->
-    <section class="container section section__height" id="log-assist">
-      <h2 class="section__title">Log Assist</h2>
-
-      <div class="container-dategap">
-        <div class="form-label boxdate">
-          <!-- main container box-->
-          <div class="log-container">
-            <!-- Inputs Row -->
-            <div class="inputs-row">
-              <div class="form-group">
-                <label for="req_id">Inquiry No.:</label>
-                <input type="text" id="req_id" name="req_id" placeholder="Inquiry No." />
-              </div>
-              <div class="form-group">
-                <label for="arc">ARC Code:</label>
-                <input type="text" id="arc" name="arc" placeholder="ARC Code" />
-              </div>
-              <div class="form-group">
-                <label for="mlh">MLH:</label>
-                <input type="text" id="mlh" name="mlh" placeholder="MM/DD/YYYY" />
-              </div>
+              <button type="button" id="btnConvertToJulian" class="btn-primary">Convert to Julian</button>
             </div>
 
-            <!-- Note Section -->
-            <div class="note-section">
-              <div class="form-group adjustment-note">
-                <label for="reason">Adjustment note:</label>
-                <textarea id="reason" name="reason" rows="4">Adjustment made in claim as per </textarea>
-              </div>
+            <div class="divider"></div>
+
+            <label for="julianDate">Enter Julian Date (YYDDD):</label>
+            <input type="number" id="julianDate" placeholder="YYDDD" />
+
+            <div class="btn-container">
+              <button type="button" id="btnConvertToGregorian" class="btn-primary">Convert to Grego</button>
+              <button type="button" id="btnClearJulian" class="btn-secondary">Clear</button>
             </div>
 
-            <!-- Output section -->
-            <div class="output-container hidden">
-              <pre id="outputLog"></pre>
-              <button type="button" id="btnCopyLog" class="copy-button-log" title="Copy to Clipboard">
+            <div class="result-wrapper">
+              <p id="result-julian" class="result-text"></p>
+              <button type="button" id="btnCopyResult" class="btn-icon hidden" title="Copy to Clipboard">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M20 2H10c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2m0 12H10V4h10z">
-                  </path>
+                  <path
+                    d="M20 2H10c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2m0 12H10V4h10z"></path>
                   <path d="M14 20H4V10h2V8H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2v-2h-2z"></path>
                 </svg>
               </button>
             </div>
+          </div>
+        </div>
+      </section>
 
-            <!-- Buttons -->
-            <div class="btn-container">
-              <button id="completeLogButton" class="btn-primary">Complete Log</button>
-              <button id="resetLogButton" class="btn-secondary">Reset</button>
-              <div class="toggle-container">
-                <label class="switch">
-                  <input type="checkbox" id="modeToggle" checked />
-                  <span class="slider round">
-                    <span id="modeLabel">CIW</span>
-                  </span>
-                </label>
+      <!-------------- Log Assist -------------->
+      <section class="container section section__height" id="log-assist">
+        <h2 class="section__title">Log Assist</h2>
+
+        <div class="container-dategap">
+          <div class="form-label boxdate">
+            <!-- main container box-->
+            <div class="log-container">
+              <!-- Inputs Row -->
+              <div class="inputs-row">
+                <div class="form-group">
+                  <label for="req_id">Inquiry No.:</label>
+                  <input type="text" id="req_id" name="req_id" placeholder="Inquiry No." />
+                </div>
+                <div class="form-group">
+                  <label for="arc">ARC Code:</label>
+                  <input type="text" id="arc" name="arc" placeholder="ARC Code" />
+                </div>
+                <div class="form-group">
+                  <label for="mlh">MLH:</label>
+                  <input type="text" id="mlh" name="mlh" placeholder="MM/DD/YYYY" />
+                </div>
+              </div>
+
+              <!-- Note Section -->
+              <div class="note-section">
+                <div class="form-group adjustment-note">
+                  <label for="reason">Adjustment note:</label>
+                  <textarea id="reason" name="reason" rows="4">Adjustment made in claim as per </textarea>
+                </div>
+              </div>
+
+              <!-- Output section -->
+              <div class="output-container hidden">
+                <pre id="outputLog"></pre>
+                <button type="button" id="btnCopyLog" class="copy-button-log" title="Copy to Clipboard">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    fill="currentColor"
+                    viewBox="0 0 24 24">
+                    <path
+                      d="M20 2H10c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2m0 12H10V4h10z"></path>
+                    <path d="M14 20H4V10h2V8H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2v-2h-2z"></path>
+                  </svg>
+                </button>
+              </div>
+
+              <!-- Buttons -->
+              <div class="btn-container">
+                <button id="completeLogButton" class="btn-primary">Complete Log</button>
+                <button id="resetLogButton" class="btn-secondary">Reset</button>
+                <div class="toggle-container">
+                  <label class="switch">
+                    <input type="checkbox" id="modeToggle" checked />
+                    <span class="slider round">
+                      <span id="modeLabel">CIW</span>
+                    </span>
+                  </label>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <!-------------- Verbiage Pro -------------->
-    <section class="container section section__height" id="verbiage-pro">
-      <h2 class="section__title">Verbiage Pro</h2>
+      <!-------------- Verbiage Pro -------------->
+      <section class="container section section__height" id="verbiage-pro">
+        <h2 class="section__title">Verbiage Pro</h2>
 
-      <!-- Dynamic Tab Categories -->
-      <div class="vp-tabs-container">
-        <nav id="vpDynamicTabs" style="display: flex; width: 100%;"></nav>
-      </div>
+        <!-- Dynamic Tab Categories -->
+        <div class="vp-tabs-container">
+          <nav id="vpDynamicTabs" style="display: flex; width: 100%"></nav>
+        </div>
 
-      <!-- Search and Filter Row -->
-      <div class="vp-controls">
-        <div class="vp-search-wrapper">
-          <span class="vp-search-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-              <circle cx="11" cy="11" r="8"></circle>
-              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        <!-- Search and Filter Row -->
+        <div class="vp-controls">
+          <div class="vp-search-wrapper">
+            <span class="vp-search-icon">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="18"
+                height="18"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                viewBox="0 0 24 24">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
+            </span>
+            <input type="text" id="vpSearchInput" class="vp-search-input" placeholder="Search a product..." />
+            <button type="button" id="vpClearSearch" class="vp-search-clear" aria-label="Clear search">&times;</button>
+          </div>
+
+          <div class="vp-filter-group">
+            <label class="vp-radio-label">
+              <input type="radio" name="vpCodedByFilter" value="all" checked />
+              <span>PDR + Custom Verbiage</span>
+            </label>
+            <label class="vp-radio-label">
+              <input type="radio" name="vpCodedByFilter" value="pdr" />
+              <span>Only PDR Verbiage</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Responsive Table -->
+        <div class="vp-table-container">
+          <table class="vp-table">
+            <thead>
+              <tr>
+                <th style="width: 20%">Category</th>
+                <th style="width: 25%">Short Summary</th>
+                <th style="width: 15%">Decision Code</th>
+                <th style="width: 30%">Verbiage</th>
+                <th style="width: 10%">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="vpTableBody">
+              <!-- Dynamically populated -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Pagination -->
+        <div class="vp-pagination" id="vpPagination">
+          <a href="#" class="vp-page-link" id="vpPrevBtn" title="Previous">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z" />
             </svg>
-          </span>
-          <input type="text" id="vpSearchInput" class="vp-search-input" placeholder="Search a product..." />
-          <button type="button" id="vpClearSearch" class="vp-search-clear" aria-label="Clear search">&times;</button>
-        </div>
-
-        <div class="vp-filter-group">
-          <label class="vp-radio-label">
-            <input type="radio" name="vpCodedByFilter" value="all" checked />
-            <span>PDR + Custom Verbiage</span>
-          </label>
-          <label class="vp-radio-label">
-            <input type="radio" name="vpCodedByFilter" value="pdr" />
-            <span>Only PDR Verbiage</span>
-          </label>
-        </div>
-      </div>
-
-      <!-- Responsive Table -->
-      <div class="vp-table-container">
-        <table class="vp-table">
-          <thead>
-            <tr>
-              <th style="width: 20%;">Category</th>
-              <th style="width: 25%;">Short Summary</th>
-              <th style="width: 15%;">Decision Code</th>
-              <th style="width: 30%;">Verbiage</th>
-              <th style="width: 10%;">Actions</th>
-            </tr>
-          </thead>
-          <tbody id="vpTableBody">
-            <!-- Dynamically populated -->
-          </tbody>
-        </table>
-      </div>
-
-      <!-- Pagination -->
-      <div class="vp-pagination" id="vpPagination">
-        <a href="#" class="vp-page-link" id="vpPrevBtn" title="Previous">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
-          </svg>
-        </a>
-        <!-- Numbered buttons will be added dynamically -->
-        <a href="#" class="vp-page-link" id="vpNextBtn" title="Next">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
-          </svg>
-        </a>
-      </div>
-
-      <!-- Enhanced Letter Break Section -->
-      <div class="vp-letter-break-container">
-        <h3 class="section__title" style="font-size: 1.25rem; text-align: left; margin-bottom: 1.5rem; color: var(--first-color);">Letter Break & Abbreviations</h3>
-        
-        <div id="vpInputContainer" style="display: flex; flex-direction: column; gap: 1rem;">
-          <div class="vp-abbrev-textarea-wrap" id="vpAbbrevTextareaWrap">
-            <textarea id="vpLetterBreakInput" rows="5" class="vp-output-textarea" style="background: var(--body-color); width: 100%; font-family: var(--body-font); font-size: var(--normal-font-size);" placeholder="Please write your verbiage here...." spellcheck="true"></textarea>
-          </div>
-
-          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
-            <span class="textCounter" id="vpLetterBreakCharCount" style="color: var(--title-color); font-weight: 600;">Characters: 0</span>
-            <div style="display: flex; gap: 1rem;">
-              <button id="vpApplyAbbrevBtn" class="btn-primary">Apply Abbrev</button>
-              <button id="vpDivideTextBtn" class="btn-primary">Expand Text</button>
-              <button id="vpResetLetterBreakBtn" class="btn-secondary">Reset</button>
-            </div>
-          </div>
-          
-          <div id="vpAbbrevStatus" class="vp-abbrev-status hidden" aria-live="polite"></div>
-        </div>
-      </div>
-    </section>
-
-    <!-------------- Todo List -------------->
-    <section class="container section section__height" id="todo-list">
-      <h2 class="section__title">Todo Note</h2>
-
-      <div class="todo-container">
-        <!-- Controls -->
-        <div class="todo-controls">
-          <button id="addNoteBtn" class="btn-primary">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 24 24"
-              style="vertical-align: middle; margin-right: 5px">
-              <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" />
+          </a>
+          <!-- Numbered buttons will be added dynamically -->
+          <a href="#" class="vp-page-link" id="vpNextBtn" title="Next">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z" />
             </svg>
-            Create New Sticky
-          </button>
-          <button id="clearAllNotesBtn" class="btn-secondary">Delete All</button>
+          </a>
         </div>
 
-        <p class="todo-warning">
-          Note: Content is saved in browser storage. Clearing history/cookies will delete these notes.
-        </p>
+        <!-- Enhanced Letter Break Section -->
+        <div class="vp-letter-break-container">
+          <h3
+            class="section__title"
+            style="font-size: 1.25rem; text-align: left; margin-bottom: 1.5rem; color: var(--first-color)">
+            Letter Break & Abbreviations
+          </h3>
 
-        <!-- Sticky Notes Grid -->
-        <div id="notes-grid" class="notes-grid">
-          <!-- Dynamic Notes will appear here -->
-        </div>
-      </div>
-    </section>
-
-    <!-------------- SLA Lookup -------------->
-    <section class="container section section__height" id="sla-lookup">
-      <h2 class="section__title">SLA-Lookup</h2>
-
-      <div class="container-dategap">
-        <div class="boxdate sla-container" style="max-width: 700px;">
-
-          <!-- Loading State -->
-          <div id="slaLoading" class="sla-state sla-loading">
-            <p>Loading SLA data...</p>
-          </div>
-
-          <!-- Error State -->
-          <div id="slaError" class="sla-state sla-error hidden">
-            <p>Failed to load SLA data. Please try again.</p>
-          </div>
-
-          <!-- Filter Controls -->
-          <div id="slaFilters" class="sla-filters hidden">
-
-            <!-- State Filter -->
-            <div class="sla-filter-group">
-              <label for="slaState">Select State:</label>
-              <select id="slaState" class="sla-select">
-                <option value="">-- Select State --</option>
-              </select>
+          <div id="vpInputContainer" style="display: flex; flex-direction: column; gap: 1rem">
+            <div class="vp-abbrev-textarea-wrap" id="vpAbbrevTextareaWrap">
+              <textarea
+                id="vpLetterBreakInput"
+                rows="5"
+                class="vp-output-textarea"
+                style="
+                  background: var(--body-color);
+                  width: 100%;
+                  font-family: var(--body-font);
+                  font-size: var(--normal-font-size);
+                "
+                placeholder="Please write your verbiage here...."
+                spellcheck="true"></textarea>
             </div>
 
-            <!-- Category Filter -->
-            <div class="sla-filter-group" id="slaCategoryGroup">
-              <label>Category:</label>
-              <div class="sla-radio-group">
-                <label class="sla-radio-label">
-                  <input type="radio" name="slaCategory" value="iqt"> IQT
-                </label>
-                <label class="sla-radio-label">
-                  <input type="radio" name="slaCategory" value="claim"> Claim
-                </label>
-                <label class="sla-radio-label">
-                  <input type="radio" name="slaCategory" value="correctedClaim"> Corrected Claim
-                </label>
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem">
+              <span class="textCounter" id="vpLetterBreakCharCount" style="color: var(--title-color); font-weight: 600"
+                >Characters: 0</span
+              >
+              <div style="display: flex; gap: 1rem">
+                <button id="vpApplyAbbrevBtn" class="btn-primary">Apply Abbrev</button>
+                <button id="vpDivideTextBtn" class="btn-primary">Expand Text</button>
+                <button id="vpResetLetterBreakBtn" class="btn-secondary">Reset</button>
               </div>
             </div>
 
+            <div id="vpAbbrevStatus" class="vp-abbrev-status hidden" aria-live="polite"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-------------- Todo List -------------->
+      <section class="container section section__height" id="todo-list">
+        <h2 class="section__title">Todo Note</h2>
+
+        <div class="todo-container">
+          <!-- Controls -->
+          <div class="todo-controls">
+            <button id="addNoteBtn" class="btn-primary">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                fill="currentColor"
+                viewBox="0 0 24 24"
+                style="vertical-align: middle; margin-right: 5px">
+                <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" />
+              </svg>
+              Create New Sticky
+            </button>
+            <button id="clearAllNotesBtn" class="btn-secondary">Delete All</button>
           </div>
 
-          <!-- Results Container -->
-          <div id="slaResults" class="sla-results hidden">
-            <!-- Dynamic cards will be rendered here -->
-          </div>
+          <p class="todo-warning">
+            Note: Content is saved in browser storage. Clearing history/cookies will delete these notes.
+          </p>
 
-          <!-- Empty State -->
-          <div id="slaEmpty" class="sla-state sla-empty hidden">
-            <p>Select filters above to view SLA timelines.</p>
+          <!-- Sticky Notes Grid -->
+          <div id="notes-grid" class="notes-grid">
+            <!-- Dynamic Notes will appear here -->
           </div>
+        </div>
+      </section>
 
+      <!-------------- SLA Lookup -------------->
+      <section class="container section section__height" id="sla-lookup">
+        <h2 class="section__title">SLA-Lookup</h2>
+
+        <div class="container-dategap">
+          <div class="boxdate sla-container" style="max-width: 700px">
+            <!-- Loading State -->
+            <div id="slaLoading" class="sla-state sla-loading">
+              <p>Loading SLA data...</p>
+            </div>
+
+            <!-- Error State -->
+            <div id="slaError" class="sla-state sla-error hidden">
+              <p>Failed to load SLA data. Please try again.</p>
+            </div>
+
+            <!-- Filter Controls -->
+            <div id="slaFilters" class="sla-filters hidden">
+              <!-- State Filter -->
+              <div class="sla-filter-group">
+                <label for="slaState">Select State:</label>
+                <select id="slaState" class="sla-select">
+                  <option value="">-- Select State --</option>
+                </select>
+              </div>
+
+              <!-- Category Filter -->
+              <div class="sla-filter-group" id="slaCategoryGroup">
+                <label>Category:</label>
+                <div class="sla-radio-group">
+                  <label class="sla-radio-label"> <input type="radio" name="slaCategory" value="iqt" /> IQT </label>
+                  <label class="sla-radio-label"> <input type="radio" name="slaCategory" value="claim" /> Claim </label>
+                  <label class="sla-radio-label">
+                    <input type="radio" name="slaCategory" value="correctedClaim" /> Corrected Claim
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <!-- Results Container -->
+            <div id="slaResults" class="sla-results hidden">
+              <!-- Dynamic cards will be rendered here -->
+            </div>
+
+            <!-- Empty State -->
+            <div id="slaEmpty" class="sla-state sla-empty hidden">
+              <p>Select filters above to view SLA timelines.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!--==================== FOOTER ====================-->
+    <footer class="footer">
+      <div class="footer__container container">
+        <!-- LEFT: Email Me -->
+        <div class="footer__group">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+            <path
+              d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2m0 2v.51l-8 6.22-8-6.22V6zM4 18V9.04l7.39 5.74c.18.14.4.21.61.21s.43-.07.61-.21L20 9.03v8.96H4Z"></path>
+          </svg>
+          <a href="mailto:nishant.singh@carelon.com" class="footer__link">Email Me</a>
+        </div>
+
+        <!-- RIGHT: Developed By -->
+        <div class="footer__group">
+          <p class="footer__copy">Developed and Coded by <span class="dev-name">Nishant Singh</span> | 2024</p>
         </div>
       </div>
-    </section>
-  </main>
+    </footer>
 
-  <!--==================== FOOTER ====================-->
-  <footer class="footer">
-    <div class="footer__container container">
-      <!-- LEFT: Email Me -->
-      <div class="footer__group">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
-          <path
-            d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2m0 2v.51l-8 6.22-8-6.22V6zM4 18V9.04l7.39 5.74c.18.14.4.21.61.21s.43-.07.61-.21L20 9.03v8.96H4Z">
-          </path>
-        </svg>
-        <a href="mailto:nishant.singh@carelon.com" class="footer__link">Email Me</a>
-      </div>
+    <!--=============== DATA ===============-->
+    <script src="assets/data/newSLA.js"></script>
+    <script src="assets/data/vpData.js"></script>
+    <script src="assets/data/vpAbbreviations.js"></script>
 
-
-
-      <!-- RIGHT: Developed By -->
-      <div class="footer__group">
-        <p class="footer__copy">Developed and Coded by <span class="dev-name">Nishant Singh</span> | 2024</p>
-      </div>
-    </div>
-  </footer>
-
-  <!--=============== DATA ===============-->
-  <script src="assets/data/newSLA.js"></script>
-  <script src="assets/data/vpData.js"></script>
-  <script src="assets/data/vpAbbreviations.js"></script>
-
-  <!--=============== MAIN JS ===============-->
-  <script src="assets/js/theme.js"></script>
-  <script src="assets/js/main.js"></script>
-  <script src="assets/js/slaLookup.js"></script>
-  <script src="assets/js/verbiagePro.js"></script>
-</body>
-
+    <!--=============== MAIN JS ===============-->
+    <script src="assets/js/theme.js"></script>
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/slaLookup.js"></script>
+    <script src="assets/js/verbiagePro.js"></script>
+  </body>
 </html>

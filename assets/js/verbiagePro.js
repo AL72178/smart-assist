@@ -29,6 +29,23 @@
 
   let abbreviationDataPromise = null;
   const selectedAmbiguousDefinitions = new Map();
+  const removedPointerCodes = [
+    'D3',
+    'D25',
+    'D117',
+    'D26',
+    'D53',
+    '00H49',
+    'H49',
+    '00H39',
+    '00H39',
+    '00H08',
+    'H08',
+    '00H71',
+    'H71',
+    '00H80',
+    'H80',
+  ];
 
   // --- Utility Functions ---
   function debounce(func, delay) {
@@ -382,15 +399,22 @@
       .replace(/\t/g, ' ')
       .replace(/[ \u00A0]+/g, ' ');
 
+    cleaned = cleaned.replace(/\bedit\b/gi, ' ');
+    cleaned = cleaned.replace(new RegExp(`\\b(?:${removedPointerCodes.map(escapeRegExp).join('|')})\\b`, 'gi'), ' ');
     cleaned = cleaned.replace(/\n[ \t]+/g, '\n');
     cleaned = cleaned.replace(/[ \t]*\n[ \t]*/g, '\n');
     cleaned = cleaned.replace(/\n{3,}/g, '\n\n');
+    cleaned = cleaned.replace(/[\u2000-\u206F\u2E00-\u2E7F\\`~!@#$%^&*+=<>?\[\]{}_";']/g, ' ');
+    cleaned = cleaned.replace(/([,.;:!?])\1+/g, '$1');
     cleaned = cleaned.replace(/\s+([,.;:!?])/g, '$1');
     cleaned = cleaned.replace(/\s{2,}/g, ' ');
     cleaned = cleaned.replace(/,(?=\S)/g, ', ');
     cleaned = cleaned.replace(/,\s*/g, ', ');
     cleaned = cleaned.replace(/\.\.+/g, '.');
     cleaned = cleaned.replace(/\(\s*\)/g, '');
+    cleaned = cleaned.replace(/\(\s+/g, '(');
+    cleaned = cleaned.replace(/\s+\)/g, ')');
+    cleaned = cleaned.replace(/\s{2,}/g, ' ');
 
     return cleaned.trim();
   }
