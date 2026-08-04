@@ -119,12 +119,12 @@
   function renderTable(data) {
     if (!tableBody) return;
     tableBody.innerHTML = '';
+
     data.forEach((item) => {
-      const verbiageHTML = item['Verbiage'].replace(
+      const verbiageText = item['Verbiage'] || '';
+      const verbiageHTML = verbiageText.replace(
         /([\[\(\{])\*([^{}\[\]\(\)]+?)([\]\)\}])/g,
-        (match, open, content, close) => {
-          return `${open}<span contenteditable="true" class="editable-bracket">${content}</span>${close}`;
-        },
+        (match, open, content, close) => `${open}<span contenteditable="true" class="editable-bracket">${content}</span>${close}`,
       );
 
       const row = document.createElement('tr');
@@ -162,55 +162,54 @@
       `;
       tableBody.appendChild(row);
     });
-
-    attachCopyHandlers();
-    attachEditHandlers();
   }
 
-  function attachCopyHandlers() {
-    document.querySelectorAll('.vp-copy-button').forEach((btn) => {
-      btn.addEventListener('click', () => {
-        const row = btn.closest('tr');
-        const verbiageCell = row.querySelector('.vp-verbiage-cell');
-        const textToCopy = verbiageCell.textContent.trim();
+  function handleTableActionClick(event) {
+    const copyButton = event.target.closest('.vp-copy-button');
+    if (copyButton) {
+      const row = copyButton.closest('tr');
+      const verbiageCell = row?.querySelector('.vp-verbiage-cell');
+      const textToCopy = verbiageCell?.textContent.trim() || '';
 
-        navigator.clipboard.writeText(textToCopy).then(() => {
-          btn.innerHTML = `
+      if (!textToCopy) return;
+
+      navigator.clipboard.writeText(textToCopy).then(() => {
+        copyButton.innerHTML = `
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+          </svg>
+        `;
+        window.setTimeout(() => {
+          copyButton.innerHTML = `
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+              <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
             </svg>
           `;
-          setTimeout(() => {
-            btn.innerHTML = `
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
-              </svg>
-            `;
-          }, 1500);
-        });
+        }, 1500);
       });
-    });
+      return;
+    }
+
+    const editButton = event.target.closest('.vp-edit-button');
+    if (!editButton || !inputTextElement) return;
+
+    const row = editButton.closest('tr');
+    const verbiageCell = row?.querySelector('.vp-verbiage-cell');
+    const textToEdit = verbiageCell?.textContent.trim() || '';
+
+    if (!textToEdit) return;
+
+    inputTextElement.value = textToEdit;
+    countCharacters();
+
+    const lbSection = document.querySelector('.vp-letter-break-container');
+    if (lbSection) {
+      lbSection.scrollIntoView({ behavior: 'smooth' });
+    }
   }
 
-  function attachEditHandlers() {
-    if (!inputTextElement) return;
-
-    document.querySelectorAll('.vp-edit-button').forEach((btn) => {
-      btn.addEventListener('click', () => {
-        const row = btn.closest('tr');
-        const verbiageCell = row.querySelector('.vp-verbiage-cell');
-        const textToEdit = verbiageCell.textContent.trim();
-
-        inputTextElement.value = textToEdit;
-        countCharacters();
-
-        // Scroll to letter break section
-        const lbSection = document.querySelector('.vp-letter-break-container');
-        if (lbSection) {
-          lbSection.scrollIntoView({ behavior: 'smooth' });
-        }
-      });
-    });
+  if (tableBody) {
+    tableBody.addEventListener('click', handleTableActionClick);
   }
 
   function renderPagination(totalPages) {
@@ -399,7 +398,7 @@
       .replace(/\t/g, ' ')
       .replace(/[ \u00A0]+/g, ' ');
 
-    cleaned = cleaned.replace(/\bedit\b/gi, ' ');
+    cleaned = cleaned.replace(/\bedits?\b/gi, ' ');
     cleaned = cleaned.replace(new RegExp(`\\b(?:${removedPointerCodes.map(escapeRegExp).join('|')})\\b`, 'gi'), ' ');
     cleaned = cleaned.replace(/\n[ \t]+/g, '\n');
     cleaned = cleaned.replace(/[ \t]*\n[ \t]*/g, '\n');
@@ -538,8 +537,7 @@
       result.text = applyDefinitionRule(result.text, term, definitions[0], result);
     });
 
-    result.removedEditCount =
-      countStandaloneWordOccurrences(result.text, 'edit') + countStandaloneWordOccurrences(result.text, 'edits');
+    result.removedEditCount = countStandaloneWordOccurrences(result.text, 'edit', 'edits');
     result.text = sanitizeOutputText(result.text);
 
     if (result.removedEditCount > 0) {
@@ -872,9 +870,13 @@
     return value.trim().replace(/\s+/g, ' ').toLowerCase();
   }
 
-  function countStandaloneWordOccurrences(text, word) {
-    const matches = text.match(new RegExp(`\\b${escapeRegExp(word)}\\b`, 'gi'));
-    return matches ? matches.length : 0;
+  function countStandaloneWordOccurrences(text, ...words) {
+    const uniqueWords = [...new Set(words.filter(Boolean).map((word) => word.trim().toLowerCase()))];
+
+    return uniqueWords.reduce((total, word) => {
+      const matches = text.match(new RegExp(`\\b${escapeRegExp(word)}\\b`, 'gi'));
+      return total + (matches ? matches.length : 0);
+    }, 0);
   }
 
   function escapeHtml(value) {
