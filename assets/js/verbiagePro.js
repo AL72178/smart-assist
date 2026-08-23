@@ -17,8 +17,13 @@
   let selectedRadioValue = 'all';
   let selectedTabCategory = 'All';
 
-  // ========== Letter Break & Abbreviation Elements ==========
+  // ========================================================================
+  // INPUT BOX: Letter Break & Abbreviation workflow
+  // HTML controls: #vpLetterBreakInput, #vpApplyAbbrevBtn, #vpDivideTextBtn,
+  // #vpResetLetterBreakBtn, and #vpAbbrevStatus.
+  // ========================================================================
   const inputTextElement = document.getElementById('vpLetterBreakInput');
+  const inputHighlightLayerElement = document.getElementById('vpInputHighlightLayer');
   const outputBoxesElement = document.getElementById('vpLetterBreakOutput');
   const charCountElement = document.getElementById('vpLetterBreakCharCount');
   const applyAbbrevButton = document.getElementById('vpApplyAbbrevBtn');
@@ -124,7 +129,8 @@
       const verbiageText = item['Verbiage'] || '';
       const verbiageHTML = verbiageText.replace(
         /([\[\(\{])\*([^{}\[\]\(\)]+?)([\]\)\}])/g,
-        (match, open, content, close) => `${open}<span contenteditable="true" class="editable-bracket">${content}</span>${close}`,
+        (match, open, content, close) =>
+          `${open}<span contenteditable="true" class="editable-bracket">${content}</span>${close}`,
       );
 
       const row = document.createElement('tr');
@@ -335,11 +341,12 @@
     });
   }
 
-  // ========== LETTER BREAK STUFF ==========
+  // ---------- Input box events and text actions ----------
   if (inputTextElement) {
     inputTextElement.setAttribute('spellcheck', 'true');
     inputTextElement.spellcheck = true;
     inputTextElement.addEventListener('input', handleTextInputChange);
+    inputTextElement.addEventListener('scroll', syncInputHighlightScroll);
   }
   if (divideButton) {
     divideButton.addEventListener('click', expandText);
@@ -348,6 +355,9 @@
     resetBtn.addEventListener('click', resetText);
   }
 
+  // Condition: text must exist. If it does not, show "No text to expand".
+  // Otherwise, remove braces, add the denial-letter prefix when needed, and
+  // select the first "reason" placeholder for manual editing.
   function expandText() {
     if (!inputTextElement) return;
     let originalText = inputTextElement.value;
@@ -380,6 +390,7 @@
     }
 
     countCharacters();
+    updateInputHighlights([]);
 
     const placeholder = 'reason';
     const pos = inputTextElement.value.indexOf(placeholder);
@@ -390,54 +401,57 @@
   }
 
   function sanitizeOutputText(text) {
-    if (typeof text !== 'string') return '';
+    if (typeof text !== 'string') {
+      return { text: '', detectedIssues: [] };
+    }
 
-    let cleaned = text
-      .replace(/\r\n/g, '\n')
-      .replace(/\r/g, '\n')
-      .replace(/\t/g, ' ')
-      .replace(/[ \u00A0]+/g, ' ');
+    let cleaned = normalizeWhitespace(text);
+    cleaned = removeStandaloneEditWords(cleaned);
+    cleaned = removePointerCodes(cleaned);
+    cleaned = normalizeSafePunctuation(cleaned);
+    cleaned = normalizeSentenceCapitalization(cleaned);
+    cleaned = normalizeRepeatedAdjacentWords(cleaned);
+    cleaned = normalizeWhitespace(cleaned).trim();
 
-    cleaned = cleaned.replace(/\bedits?\b/gi, ' ');
-    cleaned = cleaned.replace(new RegExp(`\\b(?:${removedPointerCodes.map(escapeRegExp).join('|')})\\b`, 'gi'), ' ');
-    cleaned = cleaned.replace(/\n[ \t]+/g, '\n');
-    cleaned = cleaned.replace(/[ \t]*\n[ \t]*/g, '\n');
-    cleaned = cleaned.replace(/\n{3,}/g, '\n\n');
-    cleaned = cleaned.replace(/[\u2000-\u206F\u2E00-\u2E7F\\`~!@#$%^&*+=<>?\[\]{}_";']/g, ' ');
-    cleaned = cleaned.replace(/([,.;:!?])\1+/g, '$1');
-    cleaned = cleaned.replace(/\s+([,.;:!?])/g, '$1');
-    cleaned = cleaned.replace(/\s{2,}/g, ' ');
-    cleaned = cleaned.replace(/,(?=\S)/g, ', ');
-    cleaned = cleaned.replace(/,\s*/g, ', ');
-    cleaned = cleaned.replace(/\.\.+/g, '.');
-    cleaned = cleaned.replace(/\(\s*\)/g, '');
-    cleaned = cleaned.replace(/\(\s+/g, '(');
-    cleaned = cleaned.replace(/\s+\)/g, ')');
-    cleaned = cleaned.replace(/\s{2,}/g, ' ');
-
-    return cleaned.trim();
+    return {
+      text: cleaned,
+      detectedIssues: detectUnsafeTextIssues(cleaned),
+    };
   }
 
+  // Reset condition: clear all input, status, selections, and character count.
   function resetText() {
     if (inputTextElement) inputTextElement.value = '';
     clearAbbreviationSelections();
     hideAbbreviationStatus();
     countCharacters();
+    updateInputHighlights([]);
   }
 
+  // Runs after typing, loading table verbiage, expanding, abbreviation
+  // processing, and resetting the input box.
   function countCharacters() {
     if (charCountElement && inputTextElement) {
       charCountElement.innerText = 'Characters: ' + inputTextElement.value.length;
     }
   }
 
+  // Runs whenever the user types: clear old abbreviation choices/status and
+  // refresh the character count because the input text has changed.
   function handleTextInputChange() {
     clearAbbreviationSelections();
     hideAbbreviationStatus();
     countCharacters();
+    updateInputHighlights([]);
   }
 
-  // ========== Abbreviation Processing Logic ==========
+  // ---------- Apply Abbreviations action ----------
+  // Condition: text must exist. Otherwise, show "No text to process".
+  // When text exists, match terms from the local abbreviation library:
+  // - First occurrence: expand to "Definition (TERM)".
+  // - Repeated occurrence: wrap as "(TERM)".
+  // - Multiple definitions: pause for manual meaning selection.
+  // - No match/change: report that no abbreviation update is required.
   if (applyAbbrevButton) {
     applyAbbrevButton.addEventListener('click', applyAbbreviations);
   }
@@ -472,6 +486,7 @@
 
       inputTextElement.value = result.text;
       countCharacters();
+      updateInputHighlights(result.detectedIssues);
       renderAbbreviationStatus(result);
       showAbbreviationCompletionEffect();
     } catch (error) {
@@ -510,6 +525,7 @@
       expandedTerms: [],
       wrappedTerms: new Map(),
       ambiguousTerms: [],
+      detectedIssues: [],
     };
 
     abbreviations.forEach((abbrObj) => {
@@ -538,7 +554,9 @@
     });
 
     result.removedEditCount = countStandaloneWordOccurrences(result.text, 'edit', 'edits');
-    result.text = sanitizeOutputText(result.text);
+    const normalizedOutput = sanitizeOutputText(result.text);
+    result.text = normalizedOutput.text;
+    result.detectedIssues = normalizedOutput.detectedIssues;
 
     if (result.removedEditCount > 0) {
       result.changed = true;
@@ -551,6 +569,9 @@
       result.removedEditCount > 0
     ) {
       result.title = 'Abbreviation updates ready';
+      result.summary = buildResultSummary(result);
+    } else if (result.detectedIssues.length > 0) {
+      result.title = 'Review suggested';
       result.summary = buildResultSummary(result);
     } else if (result.ambiguousTerms.length > 0) {
       result.title = 'Manual review needed';
@@ -570,16 +591,17 @@
 
     return text.replace(occurrenceRegex, (match, prefix, wrappedTerm, rawTerm, offset, fullText) => {
       const matchedTerm = wrappedTerm || rawTerm;
+      const displayTerm = formatMatchedAbbreviationTerm(matchedTerm, canonicalTerm);
       const occurrenceStart = offset + prefix.length;
       const alreadyWrapped = Boolean(wrappedTerm);
 
-      if (isAlreadyExpandedOccurrence(fullText, occurrenceStart, definition)) {
+      if (hasExistingExpandedContext(fullText, occurrenceStart, canonicalTerm, definition)) {
         firstOccurrenceHandled = true;
-        if (matchedTerm !== canonicalTerm) {
+        if (displayTerm !== matchedTerm) {
           result.changed = true;
           result.normalizedCount += 1;
         }
-        return `${prefix}(${canonicalTerm})`;
+        return `${prefix}(${displayTerm})`;
       }
 
       if (!firstOccurrenceHandled) {
@@ -591,17 +613,17 @@
       }
 
       if (alreadyWrapped) {
-        if (matchedTerm !== canonicalTerm) {
+        if (displayTerm !== matchedTerm) {
           result.changed = true;
           result.normalizedCount += 1;
         }
-        return `${prefix}(${canonicalTerm})`;
+        return `${prefix}(${displayTerm})`;
       }
 
       result.changed = true;
       result.wrappedCount += 1;
       incrementTermCount(result.wrappedTerms, term);
-      return `${prefix}(${canonicalTerm})`;
+      return `${prefix}(${displayTerm})`;
     });
   }
 
@@ -656,9 +678,19 @@
     return new RegExp(`(^|[^A-Za-z0-9])(?:\\((${termPattern})\\)|(${termPattern}))(?=[^A-Za-z0-9]|$)`, 'gi');
   }
 
-  function isAlreadyExpandedOccurrence(text, occurrenceStart, definition) {
-    const textBeforeOccurrence = normalizeComparableText(text.slice(0, occurrenceStart));
-    return textBeforeOccurrence.endsWith(normalizeComparableText(definition));
+  function hasExistingExpandedContext(text, occurrenceStart, canonicalTerm, definition) {
+    const beforeOccurrence = text.slice(0, occurrenceStart);
+    const expandedPattern = new RegExp(
+      `${escapeRegExp(definition)}\\s*\\(${buildFlexibleTermPattern(canonicalTerm)}\\)\\s*$`,
+      'i',
+    );
+
+    if (expandedPattern.test(beforeOccurrence)) {
+      return true;
+    }
+
+    const normalizedBeforeOccurrence = normalizeComparableText(beforeOccurrence);
+    return normalizedBeforeOccurrence.endsWith(normalizeComparableText(definition));
   }
 
   function incrementTermCount(termMap, term) {
@@ -682,6 +714,9 @@
     if (result.ambiguousTerms.length > 0) {
       parts.push(`${result.ambiguousTerms.length} review required`);
     }
+    if (result.detectedIssues.length > 0) {
+      parts.push(`${result.detectedIssues.length} flagged`);
+    }
     return parts.join(' | ');
   }
 
@@ -692,7 +727,7 @@
 
     if (applyAbbrevButton) {
       applyAbbrevButton.disabled = isProcessing;
-      applyAbbrevButton.textContent = isProcessing ? 'Applying...' : 'Apply Abbrev';
+      applyAbbrevButton.textContent = isProcessing ? 'Processing...' : 'Process Text';
       applyAbbrevButton.classList.toggle('opacity-70', isProcessing);
       applyAbbrevButton.classList.toggle('cursor-not-allowed', isProcessing);
     }
@@ -724,6 +759,7 @@
     const chipMarkup = buildStatusChips(result);
     const detailMarkup = buildAmbiguousDetailMarkup(result.ambiguousTerms);
     const choiceMarkup = buildAmbiguousChoiceMarkup(result.ambiguousTerms);
+    const issueMarkup = buildDetectedIssueMarkup(result.detectedIssues);
 
     abbrevStatusElement.innerHTML = `
       <div class="vp-abbrev-status-title">${escapeHtml(result.title)}</div>
@@ -731,6 +767,7 @@
       ${chipMarkup ? `<div class="vp-abbrev-status-groups">${chipMarkup}</div>` : ''}
       ${choiceMarkup}
       ${detailMarkup}
+      ${issueMarkup}
     `;
 
     abbrevStatusElement.classList.remove('hidden', 'is-animated');
@@ -761,6 +798,13 @@
       const ambiguousLabels = result.ambiguousTerms.map(({ term }) => term).join(', ');
       chips.push(
         `<span class="vp-abbrev-chip vp-abbrev-chip--ambiguous">Review: ${escapeHtml(ambiguousLabels)}</span>`,
+      );
+    }
+    if (result.detectedIssues.length > 0) {
+      chips.push(
+        `<span class="vp-abbrev-chip vp-abbrev-chip--warning">Flagged: ${escapeHtml(
+          result.detectedIssues.map(({ token }) => token).join(', '),
+        )}</span>`,
       );
     }
     if (chips.length === 0) {
@@ -806,6 +850,107 @@
     return `<div class="vp-abbrev-choice-area">${groups}</div>`;
   }
 
+  function buildDetectedIssueMarkup(detectedIssues) {
+    if (!detectedIssues.length) return '';
+
+    const issues = detectedIssues
+      .map(
+        ({ token, message }) => `
+          <div class="vp-abbrev-issue-item">
+            <span class="vp-abbrev-issue-token">${escapeHtml(token)}</span>
+            <span>${escapeHtml(message)}</span>
+          </div>
+        `,
+      )
+      .join('');
+
+    return `
+      <div class="vp-abbrev-issue-area">
+        <div class="vp-abbrev-choice-label">Flagged for review:</div>
+        <div class="vp-abbrev-issue-list">${issues}</div>
+      </div>
+    `;
+  }
+
+  function updateInputHighlights(detectedIssues) {
+    if (!inputHighlightLayerElement || !inputTextElement) return;
+
+    const tokensToHighlight = Array.from(
+      new Set(
+        (detectedIssues || [])
+          .map(({ token }) => token?.trim())
+          .filter(Boolean)
+          .sort((first, second) => second.length - first.length),
+      ),
+    );
+
+    if (!inputTextElement.value) {
+      inputHighlightLayerElement.innerHTML = '';
+      syncInputHighlightScroll();
+      return;
+    }
+
+    inputHighlightLayerElement.innerHTML = buildHighlightedTextMarkup(inputTextElement.value, tokensToHighlight);
+    syncInputHighlightScroll();
+  }
+
+  function buildHighlightedTextMarkup(text, tokensToHighlight) {
+    const highlightedRanges = [];
+
+    tokensToHighlight.forEach((token) => {
+      let searchIndex = 0;
+
+      while (searchIndex < text.length) {
+        const matchIndex = text.indexOf(token, searchIndex);
+        if (matchIndex === -1) break;
+
+        highlightedRanges.push({ start: matchIndex, end: matchIndex + token.length });
+        searchIndex = matchIndex + Math.max(token.length, 1);
+      }
+    });
+
+    const mergedRanges = mergeHighlightRanges(highlightedRanges);
+    let highlightedMarkup = '';
+    let currentIndex = 0;
+
+    mergedRanges.forEach(({ start, end }) => {
+      highlightedMarkup += escapeHtml(text.slice(currentIndex, start));
+      highlightedMarkup += `<mark>${escapeHtml(text.slice(start, end))}</mark>`;
+      currentIndex = end;
+    });
+
+    highlightedMarkup += escapeHtml(text.slice(currentIndex));
+    return `${highlightedMarkup}\n`;
+  }
+
+  function mergeHighlightRanges(ranges) {
+    if (!ranges.length) return [];
+
+    const sortedRanges = ranges
+      .map((range) => ({ ...range }))
+      .sort((first, second) => first.start - second.start || first.end - second.end);
+    const mergedRanges = [sortedRanges[0]];
+
+    for (let i = 1; i < sortedRanges.length; i += 1) {
+      const previousRange = mergedRanges[mergedRanges.length - 1];
+      const currentRange = sortedRanges[i];
+
+      if (currentRange.start <= previousRange.end) {
+        previousRange.end = Math.max(previousRange.end, currentRange.end);
+      } else {
+        mergedRanges.push(currentRange);
+      }
+    }
+
+    return mergedRanges;
+  }
+
+  function syncInputHighlightScroll() {
+    if (!inputHighlightLayerElement || !inputTextElement) return;
+    inputHighlightLayerElement.scrollTop = inputTextElement.scrollTop;
+    inputHighlightLayerElement.scrollLeft = inputTextElement.scrollLeft;
+  }
+
   async function handleAbbreviationChoiceClick(event) {
     const choiceButton = event.target.closest('[data-abbrev-term][data-abbrev-definition]');
     if (!choiceButton || !inputTextElement) return;
@@ -822,6 +967,7 @@
 
       inputTextElement.value = result.text;
       countCharacters();
+      updateInputHighlights(result.detectedIssues);
       renderAbbreviationStatus(result);
       showAbbreviationCompletionEffect();
     } catch (error) {
@@ -850,6 +996,21 @@
     return term.trim().toUpperCase();
   }
 
+  function formatMatchedAbbreviationTerm(matchedTerm, canonicalTerm) {
+    const normalizedMatchedTerm = matchedTerm.trim().toUpperCase();
+    if (canonicalTerm === 'E/M' && normalizedMatchedTerm === 'EM') {
+      return 'E&M';
+    }
+    const matchedHasSeparator = /[\/&-]/.test(normalizedMatchedTerm);
+    const canonicalHasSeparator = /[\/&-]/.test(canonicalTerm);
+
+    if (!matchedHasSeparator && canonicalHasSeparator) {
+      return normalizedMatchedTerm;
+    }
+
+    return canonicalTerm;
+  }
+
   function buildFlexibleTermPattern(term) {
     const trimmedTerm = term.trim();
     if (!trimmedTerm) return '';
@@ -868,6 +1029,151 @@
 
   function normalizeComparableText(value) {
     return value.trim().replace(/\s+/g, ' ').toLowerCase();
+  }
+
+  function normalizeWhitespace(text) {
+    return text
+      .replace(/\r\n/g, '\n')
+      .replace(/\r/g, '\n')
+      .replace(/\t/g, ' ')
+      .replace(/[ \u00A0]+/g, ' ')
+      .replace(/\n[ \t]+/g, '\n')
+      .replace(/[ \t]*\n[ \t]*/g, '\n')
+      .replace(/\n{3,}/g, '\n\n')
+      .replace(/ {2,}/g, ' ');
+  }
+
+  function removeStandaloneEditWords(text) {
+    return text.replace(/\bedits?\b/gi, ' ');
+  }
+
+  function removePointerCodes(text) {
+    return text.replace(new RegExp(`\\b(?:${removedPointerCodes.map(escapeRegExp).join('|')})\\b`, 'gi'), ' ');
+  }
+
+  function normalizeSafePunctuation(text) {
+    return text
+      .replace(/,\s*,+/g, ',')
+      .replace(/\s+([,.;:!?])/g, '$1')
+      .replace(/([,;:!?])(?=\S)/g, '$1 ')
+      .replace(/\(\s+/g, '(')
+      .replace(/\s+\)/g, ')')
+      .replace(/\[\s+/g, '[')
+      .replace(/\s+\]/g, ']')
+      .replace(/\{\s+/g, '{')
+      .replace(/\s+\}/g, '}')
+      .replace(/([?!;,])\1{1,}/g, '$1')
+      .replace(/([A-Za-z])-{2,}(?=$|\s|[",.;:!?)\]])/g, '$1')
+      .replace(/\.{2,}(?=\s+[A-Za-z])/g, '.')
+      .replace(/([A-Za-z0-9])\s*\.\s+([A-Za-z])/g, (match, before, after) => `${before}. ${after.toUpperCase()}`);
+  }
+
+  function normalizeSentenceCapitalization(text) {
+    return text.replace(/([.!?]\s+)([a-z])/g, (match, prefix, letter) => `${prefix}${letter.toUpperCase()}`);
+  }
+
+  function normalizeRepeatedAdjacentWords(text) {
+    return text.replace(/\b([A-Za-z][A-Za-z'/.-]*)\s+\1\b/gi, '$1');
+  }
+
+  function detectUnsafeTextIssues(text) {
+    const detectedIssues = [];
+    const seenIssues = new Set();
+    const issuePatterns = [
+      { pattern: /"{2,}/g, message: 'Repeated quotation marks need review.' },
+      { pattern: /'{3,}/g, message: 'Repeated apostrophes need review.' },
+      { pattern: /-{2,}/g, message: 'Repeated hyphen sequence needs review.' },
+      { pattern: /\/{2,}/g, message: 'Repeated slash sequence needs review.' },
+      { pattern: /\\{2,}/g, message: 'Repeated backslash sequence needs review.' },
+      { pattern: /\.{3,}/g, message: 'Repeated period sequence needs review.' },
+      { pattern: /;{2,}/g, message: 'Repeated semicolons need review.' },
+      { pattern: /:{2,}/g, message: 'Repeated colons need review.' },
+      { pattern: /\({2,}/g, message: 'Repeated opening parentheses need review.' },
+      { pattern: /\){2,}/g, message: 'Repeated closing parentheses need review.' },
+      { pattern: /\[{2,}/g, message: 'Repeated opening brackets need review.' },
+      { pattern: /\]{2,}/g, message: 'Repeated closing brackets need review.' },
+      { pattern: /\{{2,}/g, message: 'Repeated opening braces need review.' },
+      { pattern: /\}{2,}/g, message: 'Repeated closing braces need review.' },
+      { pattern: /[^\w\s]{3,}/g, message: 'Irregular symbol sequence needs review.' },
+    ];
+
+    issuePatterns.slice(0, -1).forEach(({ pattern, message }) => {
+      let match;
+      while ((match = pattern.exec(text)) !== null) {
+        if (isPartOfMixedSymbolSequence(text, match.index, match[0].length)) {
+          continue;
+        }
+        addDetectedIssue(detectedIssues, seenIssues, match[0], message);
+      }
+    });
+
+    const irregularSymbolPattern = issuePatterns[issuePatterns.length - 1];
+    let irregularMatch;
+    while ((irregularMatch = irregularSymbolPattern.pattern.exec(text)) !== null) {
+      const token = irregularMatch[0];
+      const isUniformKnownSequence =
+        new Set(token).size === 1 &&
+        issuePatterns.slice(0, -1).some(({ pattern }) => pattern.source.includes(token[0]));
+
+      if (!isUniformKnownSequence) {
+        addDetectedIssue(detectedIssues, seenIssues, token, irregularSymbolPattern.message);
+      }
+    }
+
+    detectJoinedWordIssues(text, detectedIssues, seenIssues);
+
+    return detectedIssues;
+  }
+
+  function isPartOfMixedSymbolSequence(text, start, length) {
+    const previousCharacter = text[start - 1] || '';
+    const nextCharacter = text[start + length] || '';
+    const isSymbol = (character) => Boolean(character) && /[^\w\s]/.test(character);
+
+    return isSymbol(previousCharacter) || isSymbol(nextCharacter);
+  }
+
+  function detectJoinedWordIssues(text, detectedIssues, seenIssues) {
+    const candidates = text.match(/\b[a-z]{6,}\b/g) || [];
+    const commonWords = [
+      'the',
+      'and',
+      'for',
+      'with',
+      'from',
+      'that',
+      'this',
+      'claim',
+      'code',
+      'review',
+      'provider',
+      'submitted',
+    ];
+
+    candidates.forEach((candidate) => {
+      const joinedWordSuggestion = findJoinedWordSuggestion(candidate, commonWords);
+      if (!joinedWordSuggestion) return;
+      addDetectedIssue(detectedIssues, seenIssues, candidate, `Possible missing space: ${joinedWordSuggestion}`);
+    });
+  }
+
+  function findJoinedWordSuggestion(word, commonWords) {
+    const lowerWord = word.toLowerCase();
+    for (const prefix of commonWords) {
+      if (!lowerWord.startsWith(prefix) || lowerWord === prefix) continue;
+      const suffix = lowerWord.slice(prefix.length);
+      if (commonWords.includes(suffix) || suffix === 'the') {
+        return `${prefix} ${suffix}`;
+      }
+    }
+    return null;
+  }
+
+  function addDetectedIssue(detectedIssues, seenIssues, token, message) {
+    const key = `${token}|${message}`;
+    if (seenIssues.has(key)) return;
+    seenIssues.add(key);
+    detectedIssues.push({ token, message });
   }
 
   function countStandaloneWordOccurrences(text, ...words) {

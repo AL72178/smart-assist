@@ -231,15 +231,33 @@
               <div class="inputs-row">
                 <div class="form-group">
                   <label for="req_id">Inquiry No.:</label>
-                  <input type="text" id="req_id" name="req_id" placeholder="Inquiry No." />
+                  <input
+                    type="text"
+                    id="req_id"
+                    name="req_id"
+                    placeholder="APP-COMM-1234567"
+                    pattern="APP-COMM-[0-9]{7}"
+                    title="Use the format APP-COMM-1234567"
+                    autocomplete="off" />
                 </div>
                 <div class="form-group">
                   <label for="arc">ARC Code:</label>
-                  <input type="text" id="arc" name="arc" placeholder="ARC Code" />
+                  <div class="arc-input-wrapper">
+                    <input
+                      type="text"
+                      id="arc"
+                      name="arc"
+                      placeholder="ABC"
+                      maxlength="3"
+                      pattern="[A-Za-z0-9]{3}"
+                      title="Use exactly 3 letters or numbers"
+                      autocomplete="off" />
+                    <span class="arc-status-indicator" id="arcStatusDot" aria-hidden="true" title="ARC recognized"></span>
+                  </div>
                 </div>
                 <div class="form-group">
-                  <label for="mlh">MLH:</label>
-                  <input type="text" id="mlh" name="mlh" placeholder="MM/DD/YYYY" />
+                  <label for="mlh">LPP Date:</label>
+                  <input type="text" id="mlh" name="mlh" placeholder="MM/DD/YYYY or Aug 6, 2026" autocomplete="off" />
                 </div>
               </div>
 
@@ -247,9 +265,11 @@
               <div class="note-section">
                 <div class="form-group adjustment-note">
                   <label for="reason">Adjustment note:</label>
-                  <textarea id="reason" name="reason" rows="4">Adjustment made in claim as per </textarea>
+                  <textarea id="reason" name="reason" rows="4">Adjustment made in claim as per claim</textarea>
                 </div>
               </div>
+
+              <p id="logAssistError" class="log-assist-error" role="alert" hidden></p>
 
               <!-- Output section -->
               <div class="output-container hidden">
@@ -289,6 +309,46 @@
       <!-------------- Verbiage Pro -------------->
       <section class="container section section__height" id="verbiage-pro">
         <h2 class="section__title">Verbiage Pro</h2>
+
+        <!-- Enhanced Letter Break Section -->
+        <div class="vp-letter-break-container">
+          <h3
+            class="section__title"
+            style="font-size: 1.25rem; text-align: left; margin-bottom: 1.5rem; color: var(--first-color)">
+            Letter Break & Abbreviations
+          </h3>
+
+          <div id="vpInputContainer" style="display: flex; flex-direction: column; gap: 1rem">
+            <div class="vp-abbrev-textarea-wrap" id="vpAbbrevTextareaWrap">
+              <div class="vp-input-highlight-layer" id="vpInputHighlightLayer" aria-hidden="true"></div>
+              <textarea
+                id="vpLetterBreakInput"
+                rows="5"
+                class="vp-output-textarea"
+                style="
+                  background: transparent;
+                  width: 100%;
+                  font-family: var(--body-font);
+                  font-size: var(--normal-font-size);
+                "
+                placeholder="Please write your verbiage here...."
+                spellcheck="true"></textarea>
+            </div>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem">
+              <span class="textCounter" id="vpLetterBreakCharCount" style="color: var(--title-color); font-weight: 600"
+                >Characters: 0</span
+              >
+              <div style="display: flex; gap: 1rem">
+                <button id="vpApplyAbbrevBtn" class="btn-primary">Process Text</button>
+                <button id="vpDivideTextBtn" class="btn-primary">Add Context</button>
+                <button id="vpResetLetterBreakBtn" class="btn-secondary">Reset</button>
+              </div>
+            </div>
+
+            <div id="vpAbbrevStatus" class="vp-abbrev-status hidden" aria-live="polite"></div>
+          </div>
+        </div>
 
         <!-- Dynamic Tab Categories -->
         <div class="vp-tabs-container">
@@ -358,45 +418,6 @@
               <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z" />
             </svg>
           </a>
-        </div>
-
-        <!-- Enhanced Letter Break Section -->
-        <div class="vp-letter-break-container">
-          <h3
-            class="section__title"
-            style="font-size: 1.25rem; text-align: left; margin-bottom: 1.5rem; color: var(--first-color)">
-            Letter Break & Abbreviations
-          </h3>
-
-          <div id="vpInputContainer" style="display: flex; flex-direction: column; gap: 1rem">
-            <div class="vp-abbrev-textarea-wrap" id="vpAbbrevTextareaWrap">
-              <textarea
-                id="vpLetterBreakInput"
-                rows="5"
-                class="vp-output-textarea"
-                style="
-                  background: var(--body-color);
-                  width: 100%;
-                  font-family: var(--body-font);
-                  font-size: var(--normal-font-size);
-                "
-                placeholder="Please write your verbiage here...."
-                spellcheck="true"></textarea>
-            </div>
-
-            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem">
-              <span class="textCounter" id="vpLetterBreakCharCount" style="color: var(--title-color); font-weight: 600"
-                >Characters: 0</span
-              >
-              <div style="display: flex; gap: 1rem">
-                <button id="vpApplyAbbrevBtn" class="btn-primary">Apply Abbrev</button>
-                <button id="vpDivideTextBtn" class="btn-primary">Expand Text</button>
-                <button id="vpResetLetterBreakBtn" class="btn-secondary">Reset</button>
-              </div>
-            </div>
-
-            <div id="vpAbbrevStatus" class="vp-abbrev-status hidden" aria-live="polite"></div>
-          </div>
         </div>
       </section>
 
