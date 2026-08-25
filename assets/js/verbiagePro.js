@@ -1073,7 +1073,40 @@
   }
 
   function normalizeRepeatedAdjacentWords(text) {
-    return text.replace(/\b([A-Za-z][A-Za-z'/.-]*)\s+\1\b/gi, '$1');
+    // Pass 1: remove repeated adjacent multi-word phrases (2–6 words).
+    // e.g. "Evaluation and Management Evaluation and Management Code" → "Evaluation and Management Code"
+    const words = text.split(/(\s+)/); // preserves whitespace tokens between words
+    const wordTokens = words.filter((_, i) => i % 2 === 0); // every other element is a word
+    const spaceTokens = words.filter((_, i) => i % 2 !== 0); // whitespace separators
+
+    let changed = true;
+    while (changed) {
+      changed = false;
+      for (let phraseLen = 6; phraseLen >= 2; phraseLen--) {
+        for (let i = 0; i <= wordTokens.length - phraseLen * 2; i++) {
+          const phraseA = wordTokens.slice(i, i + phraseLen).join(' ');
+          const phraseB = wordTokens.slice(i + phraseLen, i + phraseLen * 2).join(' ');
+          if (phraseA.toLowerCase() === phraseB.toLowerCase()) {
+            // Remove the duplicate phrase (second occurrence) and its leading whitespace
+            wordTokens.splice(i + phraseLen, phraseLen);
+            spaceTokens.splice(i + phraseLen - 1, phraseLen);
+            changed = true;
+            break;
+          }
+        }
+        if (changed) break;
+      }
+    }
+
+    // Reassemble the text from word and space tokens
+    let reassembled = '';
+    for (let i = 0; i < wordTokens.length; i++) {
+      reassembled += wordTokens[i];
+      if (i < spaceTokens.length) reassembled += spaceTokens[i];
+    }
+
+    // Pass 2: single-word adjacent duplicate cleanup (e.g. "the the" → "the")
+    return reassembled.replace(/\b([A-Za-z][A-Za-z'/.-]*)\s+\1\b/gi, '$1');
   }
 
   function detectUnsafeTextIssues(text) {

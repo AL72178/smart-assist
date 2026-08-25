@@ -73,7 +73,7 @@ window.vpAbbreviations = [
   },
   {
     "Term": "E/M",
-    "Definition": "Evaluation and Management Code",
+    "Definition": "Evaluation and Management",
     "Definition 2": "",
     "Definition 3": ""
   },
